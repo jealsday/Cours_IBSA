@@ -1,0 +1,479 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2cm,headheight=14pt]{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor,tabularx,booktabs,array,enumitem,fancyhdr,amssymb,tikz}
+\usetikzlibrary{arrows.meta,positioning}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small Robotique -- Grade 6 -- Novembre 2026}
+\rhead{\small Leçon 4 : Choisir un matériau adapté}
+\cfoot{\thepage}
+\setlist{itemsep=1pt,topsep=2pt,leftmargin=*}
+\renewcommand{\arraystretch}{1.35}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\cb}{$\square$\,}
+\newcommand{\fl}{$\rightarrow$}
+\newcommand{\lig}{\noindent\rule{\linewidth}{0.3pt}\\[5mm]}
+
+\newtcolorbox{etape}[3]{enhanced,breakable,colback=#1!6,colframe=#1!70!black,
+  coltitle=white,fonttitle=\bfseries,title={#2\hfill #3},boxrule=0.8pt,arc=2mm,
+  before skip=8pt,after skip=8pt}
+\newtcolorbox{astuce}[1][Différenciation et besoins particuliers]{breakable,
+  colback=yellow!12,colframe=yellow!50!black,fonttitle=\bfseries\small,
+  title={#1},boxrule=0.5pt,arc=1mm,before skip=6pt,after skip=6pt}
+\newcommand{\entete}[2]{%
+  \begin{tcolorbox}[colback=#1!10,colframe=#1!70!black,boxrule=0.8pt,arc=2mm]
+  {\Large\bfseries #2}\hfill Nom : \rule{4cm}{0.3pt}\quad Date : \rule{2.2cm}{0.3pt}
+  \end{tcolorbox}}
+
+% Schéma de la démarche de choix (Besoin -> Critères -> Comparaison -> Choix)
+\newcommand{\demarche}{%
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=1.3cm,text width=3cm,align=center,font=\small\bfseries},>={Stealth[length=3mm]},node distance=0.8cm]
+\node[box,fill=orange!20] (a) {1. Besoin\\[-1mm]\footnotesize\mdseries à quoi sert l'objet ?};
+\node[box,fill=blue!15,right=of a] (b) {2. Critères\\[-1mm]\footnotesize\mdseries que faut-il ?};
+\node[box,fill=green!15,right=of b] (c) {3. Comparer\\[-1mm]\footnotesize\mdseries tableau ++ / + / $-$};
+\node[box,fill=violet!15,right=of c] (d) {4. Choisir\\[-1mm]\footnotesize\mdseries et justifier};
+\draw[->,thick] (a)--(b); \draw[->,thick] (b)--(c); \draw[->,thick] (c)--(d);
+\end{tikzpicture}
+\end{center}}
+
+\begin{document}
+
+\begin{tcolorbox}[colback=teal!10,colframe=teal!70!black,arc=2mm,boxrule=1pt]
+\centering
+{\LARGE\bfseries Leçon 4 : Choisir un matériau adapté à un objet technique}\\[2mm]
+{\large Robotique -- Grade 6 -- Plan de cours de 2 heures}\\[1mm]
+Enseignant : Francis Ki \quad|\quad Semaine du 9 au 13 novembre 2026
+\end{tcolorbox}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Leçon 4 : Choisir un matériau adapté à un objet technique\\
+Classe / effectif & Grade 6, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec navigateur web à jour et accès internet.
+ \item Vidéoprojecteur ou tableau interactif pour l'enseignant.
+ \item Diapositives (Google Slides ou LibreOffice Impress) pour la pratique du niveau C ; traitement de texte ou tableur pour les tableaux comparatifs des niveaux A et B.
+ \item Fiches numériques partagées en lecture seule : chaque élève crée sa copie et la renomme avec son prénom.
+ \item Facultatif : trois cartons de vote par élève (vert, rouge) pour l'accroche, ou un sondage en ligne.
+\end{itemize}\\
+Pré-requis &
+Leçon 3 : connaître les quatre familles de matériaux (bois, métal, plastique, verre) et au moins deux propriétés de chacune. Savoir utiliser la phrase modèle \textit{«~La\ldots{} est en\ldots{} car elle est\ldots~»}.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 30 min)]
+\begin{enumerate}
+ \item Préparer les fichiers numériques à partir des annexes B à E (une copie par élève).
+ \item Préparer cinq phrases projetées pour l'accroche (voir étape 1).
+ \item Créer le formulaire de sortie (annexe G) dans Google Forms ou imprimer l'annexe.
+ \item Reconstituer les trois groupes de besoin à partir de l'exit ticket de la leçon 3.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Comparer différents matériaux selon leurs caractéristiques.
+ \item Justifier le choix d'un matériau en fonction d'un besoin.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item d'énoncer le besoin auquel répond un objet et d'en déduire deux ou trois critères\,;
+ \item de comparer deux ou trois matériaux dans un tableau avec les symboles ++, + et $-$\,;
+ \item de rédiger un choix justifié : \textit{«~Je choisis\ldots{} parce que\ldots, même si\ldots~»}.
+\end{itemize}
+\textbf{Compétences numériques\,:} remplir un tableau comparatif, mettre en forme une diapositive, enregistrer et rendre son travail.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.2cm}p{2.6cm}Y p{2.8cm}}
+\toprule
+Minutes & Étape & Contenu & Organisation\\
+\midrule
+0 -- 10 & Accroche & Vrai ou absurde ? & Classe entière, sans écran\\
+10 -- 30 & Mini-leçon & Les quatre temps du choix d'un matériau & Classe entière\\
+30 -- 60 & Pratique guidée & Une gourde collective, puis deux objets en binômes & Collectif puis binômes\\
+60 -- 95 & Pratique autonome & Trois niveaux de besoin & Individuel\\
+95 -- 110 & Mise en commun & Valoriser chaque groupe & Classe entière\\
+110 -- 120 & Exit ticket & Trois questions sur poste & Individuel\\
+\bottomrule
+\end{tabularx}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : vrai ou absurde ?}{0 -- 10 min}
+\textbf{But\,:} faire sentir qu'un matériau ne se choisit pas au hasard.\\
+\textbf{Écrans éteints.} Projeter une phrase à la fois. Les élèves votent par carton vert (c'est logique) ou rouge (c'est absurde), puis un élève justifie.
+\begin{enumerate}
+ \item Une casserole en bois.
+ \item Une fenêtre en métal.
+ \item Un casque de vélo en verre.
+ \item Un pneu en bois.
+ \item Une bouteille d'eau en plastique.
+\end{enumerate}
+Question-problème : \textbf{«~Comment fait-on pour choisir le bon matériau ?~»} Noter trois idées au tableau, qui serviront à construire les critères.
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : la démarche de choix}{10 -- 30 min}
+\textbf{Support\,:} schéma construit au tableau (annexe A). Quatre temps de 5 min.
+
+\demarche
+
+\textbf{Temps 1 : le besoin.} À quoi sert l'objet, où et par qui est-il utilisé ? Exemple : une gourde pour le sport.
+
+\textbf{Temps 2 : les critères.} Un critère est une qualité demandée au matériau. On en retient deux ou trois, par exemple léger, ne casse pas, sans danger pour la santé.
+
+\textbf{Temps 3 : comparer.} Le tableau suivant, qui sert de référence, est projeté puis commenté. Les notes sont des ordres de grandeur.
+
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{4.2cm}Y Y Y Y}
+\toprule
+Critère & Bois & Métal & Plastique & Verre\\
+\midrule
+Léger & ++ & $-$ & ++ & $-$\\
+Résiste aux chocs & + & ++ & + & $-$\\
+Isole (électricité, chaleur) & ++ & $-$ & ++ & +\\
+Transparent & $-$ & $-$ & + & ++\\
+Résiste à l'eau & $-$ & + & ++ & ++\\
+Résiste à la chaleur & $-$ & ++ & $-$ & +\\
+Prix peu élevé & + & $-$ & ++ & +\\
+Facile à recycler & + & ++ & $-$ & ++\\
+\bottomrule
+\end{tabularx}
+\end{center}
+\textit{Légende : ++ très bien, + correct, $-$ peu adapté.}
+
+\textbf{Temps 4 : choisir et justifier.} Compter les ++ qui répondent \emph{aux critères choisis} (et non à tous). Rédiger : \textit{«~Je choisis\ldots{} parce que\ldots, même si\ldots~»}. Un choix est un compromis, il n'y a pas toujours un matériau parfait.
+
+\begin{astuce}
+Garder le schéma des quatre étapes affiché toute la séance. Associer chaque critère à un pictogramme. Pour les élèves lents en lecture, lire le tableau à voix haute et utiliser le lecteur immersif.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B (version numérique : fichier «~L4\_Guidee~»).
+
+\medskip
+\textbf{3a. Exemple collectif sur poste : une gourde de sport (12 min).} Chaque élève suit l'enseignant sur son poste.
+\begin{enumerate}
+ \item Besoin : boire pendant le sport, dans le sac.
+ \item Choisir trois critères parmi la liste du tableau de référence.
+ \item Comparer plastique, métal et verre en recopiant les notes.
+ \item Choisir et rédiger la phrase de justification.
+\end{enumerate}
+
+\textbf{3b. Deux objets en binômes (18 min).} Cas 1 : le manche d'une casserole. Cas 2 : la coque d'un casque de vélo. Alternance des rôles à mi-temps.
+
+\textbf{Étayage progressif de l'aide.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.4cm}Y p{4.6cm}}
+\toprule
+Niveau d'aide & Contenu & Qui intervient\\
+\midrule
+Aide 1 & Tableau de référence (annexe A) & Le binôme seul\\
+Aide 2 & Questions guides : \emph{Quel est le besoin ? Quel matériau serait dangereux ou impossible ? Pourquoi ?} & Le binôme avec la carte\\
+Aide 3 & L'enseignant remplit une ligne avec le binôme, qui termine le tableau & L'enseignant\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{astuce}
+Écrire la phrase à trous au tableau pour les élèves qui ont du mal à rédiger. Accepter un schéma annoté ou une réponse orale en complément de l'écrit.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\textbf{Consigne commune\,:} chaque élève ouvre le fichier de son groupe, le renomme avec son prénom et travaille seul. L'enseignant passe d'abord auprès du groupe A pendant 10 min.
+
+\medskip
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y p{3.2cm}}
+\toprule
+Groupe & Tâche sur poste & Annexe\\
+\midrule
+A : en dessous du niveau &
+Trois objets, avec un matériau et une raison à relier dans une banque de mots. Phrases de justification à trous. Guidage visuel fort. & Annexe C\\
+B : au niveau &
+Trois objets (cuillère à café, fenêtre de serre, banc de jardin) : établir seul le tableau comparatif, choisir et justifier avec «~parce que\ldots{} même si\ldots~». & Annexe D\\
+C : au-dessus du niveau &
+Défi de conception d'une boîte à repas : cahier des charges avec des contraintes qui se contredisent, choix d'un matériau par pièce, diapositive de présentation. & Annexe E\\
+\bottomrule
+\end{tabularx}
+
+\medskip
+\textbf{Plan B si un élève termine tôt\,:} proposer la fiche du niveau supérieur ou le défi \textit{«~Quel objet de la classe aurait pu être fait d'un autre matériau, et qu'est-ce que cela changerait ?~»}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{teal}{5. Mise en commun}{95 -- 110 min}
+\begin{enumerate}
+ \item (2 min) Retour au calme, écrans en veille.
+ \item (9 min) Trois passages courts de 3 min, avec valorisation :
+ \begin{itemize}
+  \item \textbf{Groupe A} : lecture d'un choix justifié. Féliciter l'emploi de «~parce que~».
+  \item \textbf{Groupe B} : présentation d'un tableau comparatif. Valoriser la rigueur de la comparaison.
+  \item \textbf{Groupe C} : présentation de la diapositive de la boîte à repas. Valoriser la gestion du compromis.
+ \end{itemize}
+ \item (4 min) Revenir à la question-problème et compléter ensemble : \textit{On choisit un matériau en partant du besoin, puis des critères.}
+\end{enumerate}
+\end{etape}
+
+\begin{etape}{gray}{6. Clôture : exit ticket}{110 -- 120 min}
+Formulaire en ligne ou papier (annexe G) :
+\begin{enumerate}
+ \item Pourquoi choisit-on du métal pour une casserole ?
+ \item Complète : Je choisis \ldots{} parce que \ldots, même si \ldots
+ \item Auto-évaluation : \emph{Je maîtrise / Je progresse / J'ai besoin d'aide.}
+\end{enumerate}
+\end{etape}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Choisir un matériau adapté}
+
+\demarche
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{Un critère} est une qualité que le matériau doit avoir pour que l'objet fonctionne.\\
+\textbf{Un choix} est souvent un compromis : on garde le matériau qui répond le mieux aux critères les plus importants.
+\end{tcolorbox}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{4.2cm}Y Y Y Y}
+\toprule
+Critère & Bois & Métal & Plastique & Verre\\
+\midrule
+Léger & ++ & $-$ & ++ & $-$\\
+Résiste aux chocs & + & ++ & + & $-$\\
+Isole (électricité, chaleur) & ++ & $-$ & ++ & +\\
+Transparent & $-$ & $-$ & + & ++\\
+Résiste à l'eau & $-$ & + & ++ & ++\\
+Résiste à la chaleur & $-$ & ++ & $-$ & +\\
+Prix peu élevé & + & $-$ & ++ & +\\
+Facile à recycler & + & ++ & $-$ & ++\\
+\bottomrule
+\end{tabularx}
+
+\medskip
+\begin{tcolorbox}[colback=green!8,colframe=green!50!black]
+\textbf{Phrase modèle :} Je choisis \underline{\hspace{2.5cm}} parce que \underline{\hspace{3cm}}, même si \underline{\hspace{3cm}}.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : choisir un matériau}
+
+\subsection*{3a. Exemple collectif : une gourde de sport}
+Besoin : \dotfill\\
+Mes trois critères : \cb léger \quad \cb ne casse pas \quad \cb isolant \quad \cb transparent \quad \cb recyclable
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.8cm}Y Y Y}
+\toprule
+Critère & Plastique & Métal & Verre\\
+\midrule
+ & & & \\ & & & \\ & & & \\
+\bottomrule
+\end{tabularx}
+
+\medskip
+\textbf{Je choisis} \dotfill{} \textbf{parce que} \dotfill, \textbf{même si} \dotfill.
+
+\subsection*{3b. En binôme : deux objets}
+\textbf{Cas 1 : le manche d'une casserole.} Besoin : \dotfill
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.8cm}Y Y Y}
+\toprule
+Critère & Bois & Métal & Plastique\\
+\midrule
+ & & & \\ & & & \\
+\bottomrule
+\end{tabularx}
+Choix et justification : \dotfill
+
+\medskip
+\textbf{Cas 2 : la coque d'un casque de vélo.} Besoin : \dotfill
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.8cm}Y Y Y}
+\toprule
+Critère & Plastique & Métal & Verre\\
+\midrule
+ & & & \\ & & & \\
+\bottomrule
+\end{tabularx}
+Choix et justification : \dotfill
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je choisis avec de l'aide}
+
+\textbf{Banque de mots :} plastique, métal, verre, bois ; léger, transparent, résistant, isole la chaleur, ne casse pas.
+
+\subsection*{Activité 1 : relie chaque objet à son matériau et à sa raison (glisse les étiquettes)}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{4cm}Y Y}
+\toprule
+Objet & Matériau choisi & Raison\\
+\midrule
+Une fenêtre & & \\
+Une poêle (le fond) & & \\
+Une bouteille d'eau à emporter & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Activité 2 : complète les phrases}
+\begin{enumerate}
+ \item Pour la fenêtre, je choisis le \dotfill{} parce qu'il est \dotfill.
+ \item Pour la poêle, je choisis le \dotfill{} parce qu'il résiste à \dotfill.
+ \item Pour la bouteille, je choisis le \dotfill{} parce qu'il est \dotfill{} et qu'il ne \dotfill{} pas.
+\end{enumerate}
+
+\subsection*{Activité 3 : vrai ou faux ? (coche)}
+\begin{enumerate}
+ \item Une casserole en plastique fondrait sur le feu. \quad \cb Vrai \quad \cb Faux
+ \item Un casque de vélo en verre protégerait bien la tête. \quad \cb Vrai \quad \cb Faux
+\end{enumerate}
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : je compare et je justifie}
+
+Pour chaque objet : écris le besoin, choisis trois critères, complète un tableau avec ++, + et $-$ (appuie-toi sur l'annexe A), puis écris ton choix avec «~parce que\ldots{} même si\ldots~».
+
+\subsection*{Objet 1 : une cuillère à café pour boisson chaude}
+Besoin : \dotfill
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.8cm}Y Y Y Y}
+\toprule
+Critère & Bois & Métal & Plastique & Verre\\
+\midrule
+ & & & & \\ & & & & \\ & & & & \\
+\bottomrule
+\end{tabularx}
+Choix : \dotfill
+
+\subsection*{Objet 2 : le toit d'une serre pour plantes}
+Besoin : \dotfill
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.8cm}Y Y Y Y}
+\toprule
+Critère & Bois & Métal & Plastique & Verre\\
+\midrule
+ & & & & \\ & & & & \\ & & & & \\
+\bottomrule
+\end{tabularx}
+Choix : \dotfill
+
+\subsection*{Objet 3 : un banc de jardin}
+Besoin : \dotfill
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.8cm}Y Y Y Y}
+\toprule
+Critère & Bois & Métal & Plastique & Verre\\
+\midrule
+ & & & & \\ & & & & \\ & & & & \\
+\bottomrule
+\end{tabularx}
+Choix : \dotfill
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : défi de conception, la boîte à repas}
+
+\begin{tcolorbox}[colback=violet!6,colframe=violet!60!black]
+\textbf{Cahier des charges de l'école.} Une boîte à repas doit être : \textbf{légère}, \textbf{très résistante aux chocs}, \textbf{peu chère} et \textbf{écologique}. Attention : certaines contraintes se contredisent. À toi de faire un compromis.
+\end{tcolorbox}
+
+\subsection*{Étape 1 : choisis un matériau pour chaque pièce}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y Y}
+\toprule
+Pièce & Matériau choisi & Justification (critères et compromis)\\
+\midrule
+Corps de la boîte & & \\
+Couvercle & & \\
+Fermeture (clips) & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Étape 2 : quelle contrainte a été sacrifiée, et pourquoi ?}
+\lig \lig
+
+\subsection*{Étape 3 : une diapositive pour la classe}
+Crée une diapositive avec : un schéma de la boîte légendé, ton tableau de choix en trois lignes, une phrase de conclusion \textit{«~Je choisis\ldots{} parce que\ldots, même si\ldots~»}.
+
+\textbf{Défi bonus :} change une contrainte (par exemple «~très chaud~» pour un repas chaud) et dis quelles pièces tu changerais.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Accroche}
+1. Absurde (le bois brûle). 2. Absurde (le métal conduit la chaleur et n'est pas transparent). 3. Absurde (le verre se casse). 4. Absurde. 5. Logique.
+
+\subsection*{Annexe B : pratique guidée}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y Y}
+\toprule
+Cas & Choix attendu & Justification\\
+\midrule
+Gourde & Plastique ou métal (inox) & Léger, ne casse pas ; le verre est écarté car fragile\\
+Manche de casserole & Bois ou plastique résistant à la chaleur & Il ne doit pas conduire la chaleur ; le métal est écarté sauf s'il est isolé\\
+Coque de casque & Plastique & Léger, absorbe les chocs ; le verre casse, le métal est trop lourd\\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Annexe C : niveau A}
+Fenêtre : verre, transparent. Poêle : métal, résiste à la chaleur. Bouteille : plastique, léger et ne casse pas. Activité 3 : Vrai, Faux.
+
+\subsection*{Annexe D : niveau B}
+Cuillère à café : métal (résiste à la chaleur) ou bois ou plastique dur selon l'usage. Toit de serre : verre (transparent, résiste à l'eau), ou plastique plus léger et moins cher. Banc : bois ou métal (résistant) ; plastique possible, le verre est à écarter.\\
+\textbf{Critères de réussite :} besoin énoncé, trois critères pertinents, tableau cohérent avec l'annexe A, choix justifié avec «~même si~».
+
+\subsection*{Annexe E : niveau C}
+Exemple : corps en plastique (léger, peu cher), couvercle en plastique, fermeture en plastique ou métal si recyclage important. Sacrifié : écologique (le plastique est difficile à recycler) ou résistance.\\
+\textbf{Critères de réussite :} un choix par pièce, une contrainte sacrifiée expliquée, une diapositive lisible.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : choisir un matériau}
+
+\begin{enumerate}
+ \item Pourquoi choisit-on du métal pour une casserole ?\\ \lig
+ \item Complète : Je choisis \dotfill{} parce que \dotfill, même si \dotfill.
+ \item Je me sens : \cb Je maîtrise \quad \cb Je progresse \quad \cb J'ai besoin d'aide
+\end{enumerate}
+
+\textbf{Attendus :} 1. Il résiste à la chaleur et la conduit. 2. Phrase complète avec un choix, une raison et un inconvénient.
+
+\bigskip
+\subsection*{Grille d'observation (enseignant)}
+\begin{tabularx}{\linewidth}{Y p{2.4cm} p{2.4cm} p{2.4cm} Y}
+\toprule
+Élève & Besoin et critères & Comparaison & Justification & Groupe suivant\\
+\midrule
+ & & & & \\ & & & & \\ & & & & \\ & & & & \\ & & & & \\
+\bottomrule
+\end{tabularx}
+
+\end{document}

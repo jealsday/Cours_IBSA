@@ -1,0 +1,323 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 11}
+\newcommand{\leconhdr}{Analyse d'un système automatisé}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Analyse d'un système automatisé}{Semaine du 2 au 6 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Analyse d'un système automatisé\\
+Classe / effectif & Grade 11, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec navigateur web.
+ \item Un outil de schéma en ligne : \textbf{diagrams.net} (draw.io, gratuit, sans compte) ou Google Slides.
+ \item Vidéoprojecteur ou tableau interactif.
+ \item Courtes vidéos ou photos de systèmes automatisés (barrière de parking, porte de supermarché, distributeur de gel, portail) à préparer à l'avance.
+ \item Dossier partagé avec les fichiers de départ des trois niveaux.
+\end{itemize}\\
+Pré-requis &
+Systèmes automatisés, chaîne d'information et chaîne d'énergie vus en G8 (révision rapide dans l'accroche). Cours de septembre sur l'IA : utilisation responsable.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 45 min)]
+\begin{enumerate}
+ \item Sélectionner trois systèmes (un par niveau) et préparer pour chacun une photo légendée ou une vidéo de 30 secondes.
+ \item Préparer un diagramme modèle dans draw.io avec les blocs vides (capteur, traitement, actionneur).
+ \item Préparer les fichiers des annexes C à E et le formulaire de sortie (annexe G).
+ \item Rappeler aux élèves qu'une réponse générée par IA doit être vérifiée et reformulée : l'analyse du système doit rester personnelle.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Identifier les fonctions d'un système.
+ \item Décrire les flux d'information.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item d'énoncer la fonction globale d'un système (ce qu'il fait, sur quoi, pour qui)\,;
+ \item de distinguer capteurs, unité de traitement, préactionneurs et actionneurs\,;
+ \item de représenter sur un schéma les flux d'information et d'énergie d'un système automatisé.
+\end{itemize}
+\textbf{Compétences numériques\,:} réaliser un schéma de blocs, nommer et organiser ses fichiers, sourcer une illustration.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Que se passe-t-il quand la voiture arrive devant la barrière ?}{Fonction globale, capteurs, traitement, actionneurs}{Le portail automatique en collectif, puis le distributeur de gel en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : la barrière de parking}{0 -- 10 min}
+\begin{enumerate}
+ \item (5 min) Projeter la vidéo d'une barrière de parking qui s'ouvre quand une voiture arrive. \emph{Que perçoit la barrière ? Qui «~décide~» ? Qu'est-ce qui bouge ?}
+ \item (5 min) Recueillir les mots au tableau en trois colonnes : \emph{ce qu'elle perçoit}, \emph{ce qui décide}, \emph{ce qui agit}. Question-problème : \textbf{«~Comment décrire un système automatisé de façon organisée ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : la structure d'un système automatisé}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : la fonction globale.} Une phrase : \emph{le système fait quoi, sur quoi, pour qui}. Exemple : la barrière laisse passer ou arrête les véhicules (sur les véhicules) pour les usagers du parking.
+
+\textbf{Temps 2 : la partie commande et la partie opérative.}
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=1.1cm,text width=2.7cm,align=center,font=\small},>={Stealth[length=3mm]},node distance=0.8cm]
+\node[box,fill=orange!20] (a) {\textbf{Capteurs}\\ détectent};
+\node[box,fill=blue!15,right=of a] (b) {\textbf{Traitement}\\ décide};
+\node[box,fill=green!15,right=of b] (c) {\textbf{Préactionneur}\\ distribue};
+\node[box,fill=violet!15,right=of c] (d) {\textbf{Actionneur}\\ agit};
+\draw[->,thick] (a)--(b); \draw[->,thick] (b)--(c); \draw[->,thick] (c)--(d);
+\node[above=0.1cm of b,font=\scriptsize\itshape] {chaîne d'information};
+\node[above=0.1cm of c,xshift=1.7cm,font=\scriptsize\itshape] {chaîne d'énergie};
+\end{tikzpicture}
+\end{center}
+
+\textbf{Temps 3 : le vocabulaire.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Élément & Rôle & Exemple (barrière)\\
+\midrule
+Capteur & Transforme une grandeur physique en information & Boucle magnétique ou cellule\\
+Unité de traitement & Compare, décide, envoie des ordres & Microcontrôleur ou automate\\
+Préactionneur & Distribue l'énergie à l'actionneur & Contacteur, relais\\
+Actionneur & Convertit l'énergie en action & Moteur de la barrière\\
+Interface homme-machine & Permet à l'humain de commander ou de voir & Télécommande, bouton\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 4 : les flux.} Le flux d'\emph{information} circule du capteur vers le traitement puis vers les ordres. Le flux d'\emph{énergie} alimente l'actionneur. Savoir les distinguer permet de comprendre pourquoi un petit signal peut commander un gros moteur.
+
+\begin{astuce}
+Utiliser une couleur par rôle (capteur, traitement, actionneur) dans tous les schémas. Fournir un schéma pré-rempli à trous pour les élèves qui ont besoin d'un appui visuel fort. Autoriser une description orale enregistrée.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B. Les élèves travaillent en binômes devant leur poste.
+
+\textbf{3a. Le portail automatique en collectif (12 min).} Compléter ensemble le tableau d'analyse (fonction globale, capteurs, traitement, préactionneur, actionneur, interface) à partir de la photo ou de la vidéo, puis tracer le schéma dans draw.io en projetant le fichier de l'enseignant.
+
+\textbf{3b. Le distributeur de gel automatique en binômes (18 min).} Réaliser le même travail sur un système neuf : tableau et schéma de blocs. Alternance des rôles (rédacteur, dessinateur).
+
+\aides{Le tableau du portail rempli à l'écran et le schéma modèle}{Questions guides : \emph{Qu'est-ce qui détecte ? Qu'est-ce qui décide ? Qu'est-ce qui agit ? D'où vient l'énergie ?}}{L'enseignant remplit une ligne du tableau avec le binôme, qui poursuit}
+
+\begin{astuce}
+Faire commencer toujours par la fonction globale en une phrase. Accepter un croquis à la main photographié si le dessin sur poste ralentit l'élève.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Barrière de parking : tableau d'analyse à compléter avec une banque de mots (boucle magnétique, microcontrôleur, relais, moteur, bouton, tickets) et schéma de blocs à légender avec des étiquettes mobiles.}{Analyse complète de la porte automatique d'un supermarché : fonction globale, tableau, schéma de blocs (flux d'information et d'énergie) et trois scénarios de fonctionnement (une personne approche, personne ne passe, personne dans l'embrasure).}{Rétro-conception d'une serre automatisée (température, humidité, arrosage) : fonction globale, schéma de blocs, justification du choix de chaque capteur et proposition d'une amélioration (par exemple alerte par message) avec un schéma modifié.}
+
+\medskip
+\textbf{Plan B si un élève termine tôt\,:} analyser un système de la maison (lave-linge, réfrigérateur) avec le même tableau.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève présente son tableau complété et lit la fonction globale. Valoriser la précision du vocabulaire.}{un binôme projette son schéma et suit le flux d'information avec le doigt. Valoriser la clarté du schéma.}{un élève présente son analyse de la serre et son amélioration. Valoriser le raisonnement technique.}{\textit{tout système automatisé se décrit par sa fonction globale, une chaîne d'information (capter, traiter, ordonner) et une chaîne d'énergie.}}
+
+\cloture{Donne la fonction globale d'une porte automatique en une phrase.}{Quelle est la différence entre un capteur et un actionneur ? Donne un exemple de chaque.}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Analyse d'un système automatisé}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{Fonction globale} : le système fait \emph{quoi}, \emph{sur quoi}, \emph{pour qui}.
+\end{tcolorbox}
+
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=1.1cm,text width=2.7cm,align=center,font=\small},>={Stealth[length=3mm]},node distance=0.8cm]
+\node[box,fill=orange!20] (a) {Capteurs};
+\node[box,fill=blue!15,right=of a] (b) {Traitement};
+\node[box,fill=green!15,right=of b] (c) {Préactionneur};
+\node[box,fill=violet!15,right=of c] (d) {Actionneur};
+\draw[->,thick] (a)--(b); \draw[->,thick] (b)--(c); \draw[->,thick] (c)--(d);
+\end{tikzpicture}
+\end{center}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y}
+\toprule
+Élément & Rôle\\
+\midrule
+Capteur & Mesure ou détecte, produit une information\\
+Unité de traitement & Décide selon un programme\\
+Préactionneur & Distribue l'énergie (relais, contacteur)\\
+Actionneur & Agit (moteur, lampe, vérin)\\
+Interface homme-machine & Commande ou affichage\\
+\bottomrule
+\end{tabularx}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : analyser un système}
+
+\subsection*{3a. Le portail automatique (collectif)}
+Fonction globale : \dotfill
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Élément & Dans le portail & Rôle\\
+\midrule
+Capteur(s) & & \\
+Traitement & & \\
+Préactionneur & & \\
+Actionneur & & \\
+Interface homme-machine & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{3b. Le distributeur de gel (binôme)}
+Fonction globale : \dotfill
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Élément & Dans le distributeur & Flux (information ou énergie) \\
+\midrule
+Capteur(s) & & \\
+Traitement & & \\
+Actionneur & & \\
+Alimentation & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le tableau du portail et le schéma de l'annexe A.\\
+\textbf{Aide 2 :} Qu'est-ce qui détecte ? Qu'est-ce qui décide ? Qu'est-ce qui agit ? D'où vient l'énergie ?\\
+\textbf{Aide 3 :} demande à l'enseignant de remplir une ligne avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : la barrière de parking}
+
+\textbf{Banque de mots :} boucle magnétique, microcontrôleur, relais, moteur, bouton, ticket.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y}
+\toprule
+Rôle & Élément de la barrière\\
+\midrule
+Détecte la voiture & \\
+Décide d'ouvrir & \\
+Distribue l'énergie & \\
+Fait lever la barrière & \\
+Commande par l'usager & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Légende le schéma (glisse les étiquettes)}
+Capteur \fl{} \dotfill{} \fl{} \dotfill{} \fl{} \dotfill
+
+\subsection*{Vrai ou faux ?}
+1. Le moteur est un capteur. \cb Vrai \cb Faux\\
+2. Le microcontrôleur décide. \cb Vrai \cb Faux
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : la porte du supermarché}
+
+\subsection*{1. Fonction globale}
+\lig
+
+\subsection*{2. Tableau d'analyse}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Élément & Dans la porte & Grandeur ou énergie concernée\\
+\midrule
+Capteur(s) & & \\
+Traitement & & \\
+Préactionneur & & \\
+Actionneur & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{3. Trois scénarios}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Scénario & Ce que détecte le capteur & Ce que fait la porte\\
+\midrule
+Une personne approche & & \\
+Personne ne passe & & \\
+Personne dans l'embrasure & & \\
+\bottomrule
+\end{tabularx}
+
+Dessine ensuite le schéma de blocs sur une diapositive ou dans draw.io.
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : rétro-conception d'une serre automatisée}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Fonction & Capteur ou actionneur choisi & Pourquoi ce choix ?\\
+\midrule
+Mesurer la température & & \\
+Mesurer l'humidité du sol & & \\
+Arroser & & \\
+Aérer & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Amélioration}
+Propose une amélioration (par exemple une alerte par message quand la température est trop haute) et indique ce qui change dans le schéma.\\
+\lig \lig
+
+\textbf{Défi bonus :} identifie un risque de panne (capteur défectueux) et propose une solution de sécurité.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+Portail : fonction globale : ouvrir ou fermer l'accès à un lieu pour les personnes ou véhicules autorisés. Capteurs : cellule photoélectrique, récepteur de télécommande. Traitement : carte de commande. Préactionneur : relais ou variateur. Actionneur : moteur. IHM : télécommande. Distributeur de gel : capteur de présence infrarouge, microcontrôleur, pompe (actionneur), alimentation par piles.
+
+\subsection*{Annexe C}
+Boucle magnétique ; microcontrôleur ; relais ; moteur ; bouton ou ticket. Schéma : capteur \fl{} microcontrôleur \fl{} relais \fl{} moteur. Faux, Vrai.
+
+\subsection*{Annexe D}
+Fonction globale : permettre ou interdire le passage des personnes à l'entrée du magasin. Capteurs : radar ou cellule infrarouge. Traitement : carte de commande. Actionneur : moteur et rail. Scénarios : approche, ouverture ; personne : fermeture après temporisation ; embrasure : porte maintenue ouverte (sécurité).
+
+\subsection*{Annexe E}
+Température : sonde de température ; humidité du sol : capteur d'humidité ; arrosage : électrovanne ; aération : moteur de fenêtre ou ventilateur. Amélioration : module Wi-Fi qui envoie un message. Risque : capteur en panne, d'où un second capteur ou une valeur par défaut sécurisée.\\
+\textbf{Critères de réussite :} vocabulaire correct, flux d'information et d'énergie distingués, amélioration cohérente.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : analyse d'un système}
+
+\begin{enumerate}
+ \item Donne la fonction globale d'une porte automatique en une phrase.\\ \lig
+ \item Quelle est la différence entre un capteur et un actionneur ? Donne un exemple de chaque.\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. Permettre ou interdire le passage des personnes. 2. Le capteur détecte une grandeur et produit une information (par exemple un radar) ; l'actionneur convertit l'énergie en action (par exemple un moteur).
+
+\bigskip
+\grille{Fonction globale}{Éléments classés}{Flux représentés}
+
+\end{document}

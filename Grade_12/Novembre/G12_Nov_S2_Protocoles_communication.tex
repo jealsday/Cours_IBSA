@@ -1,0 +1,310 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 12}
+\newcommand{\leconhdr}{Protocoles de communication}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Protocoles de communication}{Semaine du 9 au 13 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Protocoles de communication : TCP/IP, HTTP, MQTT\\
+Classe / effectif & Grade 12, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec navigateur web (outils de développement : onglet Réseau, touche F12).
+ \item Un client MQTT web gratuit (par exemple le client WebSocket de HiveMQ), à tester avant la séance.
+ \item \textbf{diagrams.net} (draw.io) ou Google Slides pour les schémas de couches.
+ \item Vidéoprojecteur ou tableau interactif.
+\end{itemize}\\
+Pré-requis &
+Séance précédente : architecture d'un objet connecté. G10 : adresse IP, DNS, architecture d'Internet.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 45 min)]
+\begin{enumerate}
+ \item Tester sur un poste élève les outils de développement du navigateur et un client MQTT web ; vérifier que le réseau de l'école autorise les connexions WebSocket vers le courtier public.
+ \item Choisir un préfixe de sujet commun, par exemple \texttt{ibsa/g12/}, suivi du prénom de l'élève. \textbf{Aucune donnée personnelle ne doit circuler sur un courtier public}, car tout le monde peut lire les messages.
+ \item Préparer les fichiers des annexes C à E et le formulaire de sortie.
+ \item Préparer le plan B : tableau des échanges HTTP et MQTT imprimé.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Identifier TCP/IP, HTTP, MQTT.
+ \item Comprendre leur rôle dans les échanges de données.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item de situer TCP/IP, HTTP et MQTT dans un modèle en couches simplifié\,;
+ \item de décrire un échange HTTP (requête, réponse, code de statut) et un échange MQTT (publication, abonnement, sujet)\,;
+ \item de choisir un protocole pour un objet connecté en justifiant selon la direction des échanges, l'énergie et le nombre de messages.
+\end{itemize}
+\textbf{Compétences numériques\,:} observer le trafic réseau avec les outils du navigateur, publier et s'abonner à un sujet, protéger ses données.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{La lettre, l'enveloppe et le facteur}{Couches et protocoles : TCP/IP, HTTP, MQTT}{Une requête HTTP observée en collectif, puis une publication MQTT en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : la lettre et l'enveloppe}{0 -- 10 min}
+\begin{enumerate}
+ \item (5 min) Jeu : un élève écrit un message, le met dans une enveloppe avec une adresse, qui passe par plusieurs «~facteurs~» avant d'arriver. \emph{Que doit-on connaître pour que la lettre arrive ? Que se passe-t-il si une lettre est perdue ?}
+ \item (5 min) Question-problème : \textbf{«~Comment deux machines qui ne se connaissent pas se mettent-elles d'accord pour s'échanger des données ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : couches et protocoles}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : un protocole est un ensemble de règles.} Il dit comment s'adresser, comment découper, comment vérifier.
+
+\textbf{Temps 2 : un modèle en couches simplifié.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Couche & Rôle & Exemples\\
+\midrule
+Application & Le sens du message & HTTP, MQTT, DNS\\
+Transport & Livraison fiable des morceaux & TCP (ou UDP)\\
+Réseau & Adressage et acheminement & IP\\
+Accès réseau & Transport sur le support & Wi-Fi, Ethernet\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 3 : HTTP et MQTT.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.2cm}Y Y}
+\toprule
+ & HTTP & MQTT\\
+\midrule
+Modèle & Requête et réponse (client, serveur) & Publication et abonnement via un courtier\\
+Initiative & Le client demande & N'importe quel client publie\\
+Message & Texte volumineux (en-têtes) & Très léger\\
+Usage typique & Pages web, API & Capteurs, objets connectés\\
+Exemple & \texttt{GET /index.html} $\rightarrow$ \texttt{200 OK} & \texttt{publier ibsa/g12/awa/temp : 24}\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 4 : trois codes HTTP à connaître.} \texttt{200} (succès), \texttt{404} (introuvable), \texttt{500} (erreur du serveur). Pour MQTT, un \emph{sujet} (topic) ressemble à un chemin : \texttt{ibsa/g12/awa/temp}.
+
+\begin{astuce}
+Garder la comparaison HTTP et MQTT affichée. Utiliser la métaphore de la lettre (HTTP) et de l'abonnement au journal (MQTT). Fournir les termes en deux langues (requête / request, sujet / topic) pour les élèves qui rencontreront la documentation en anglais.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B. Les élèves travaillent en binômes devant leur poste.
+
+\textbf{3a. Une requête HTTP observée en collectif (12 min).} Ouvrir une page simple, activer l'onglet Réseau (F12), recharger. Repérer ensemble la méthode, l'adresse, le code de statut et le type de contenu d'une requête.
+
+\textbf{3b. Une publication MQTT en binômes (18 min).} Dans le client MQTT web, un élève s'abonne au sujet \texttt{ibsa/g12/prenom/message} et l'autre y publie «~bonjour~». Inverser les rôles. Noter ce qui est reçu.
+
+\aides{Le tableau d'observation HTTP rempli pour une ligne}{Questions guides : \emph{Qui envoie la requête ? Qui répond ? Qui est abonné ? Qui publie ?}}{L'enseignant montre le premier abonnement avec le binôme, qui poursuit}
+
+\begin{astuce}
+Faire noter les valeurs à voix haute. En cas de difficulté de connexion MQTT, utiliser l'onglet de navigateur de l'enseignant en démonstration et revenir au tableau imprimé.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Appariement protocole, rôle et exemple (banque de mots : TCP, IP, HTTP, MQTT, Wi-Fi) et vrai ou faux guidés. Placer les quatre couches dans l'ordre avec des étiquettes mobiles.}{Tableau comparatif HTTP et MQTT complété seul, puis choix du protocole pour trois scénarios (capteur de température toutes les minutes, page de configuration d'un objet, commande d'une lampe depuis un téléphone) avec justification.}{Tracer le chemin complet d'un message de température (de l'ESP32 à l'application) à travers les couches, comparer l'envoi par HTTP et par MQTT (nombre d'octets, énergie, direction des échanges) et recommander un protocole pour un capteur sur batterie.}
+
+\medskip
+\textbf{Plan B si la connexion à un courtier public est bloquée\,:} simuler le courtier avec deux élèves (l'un publie sur papier, l'autre est abonné).
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève présente ses couches dans l'ordre. Valoriser l'ordre correct.}{un binôme présente son choix de protocole pour la lampe et le justifie. Valoriser l'argument.}{un élève présente son tracé du message et sa recommandation. Valoriser la profondeur de l'analyse.}{\textit{les protocoles organisent les échanges en couches ; HTTP convient aux échanges de type question et réponse, MQTT aux petits messages fréquents entre objets.}}
+
+\cloture{Quel protocole est le plus adapté à un capteur sur piles qui envoie une petite mesure toutes les minutes ? Pourquoi ?}{Que signifie le code HTTP 404 ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Protocoles de communication}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+Un \textbf{protocole} est un ensemble de règles d'échange. Les protocoles se placent en \textbf{couches} : application, transport, réseau, accès réseau.
+\end{tcolorbox}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y}
+\toprule
+Couche & Exemples\\
+\midrule
+Application & HTTP, MQTT, DNS\\
+Transport & TCP, UDP\\
+Réseau & IP\\
+Accès réseau & Wi-Fi, Ethernet\\
+\bottomrule
+\end{tabularx}
+
+\medskip
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.2cm}Y Y}
+\toprule
+ & HTTP & MQTT\\
+\midrule
+Modèle & Requête, réponse & Publication, abonnement\\
+Usage & Pages web, API & Objets connectés\\
+Poids du message & Plus lourd & Très léger\\
+\bottomrule
+\end{tabularx}
+
+\medskip
+\textbf{Codes HTTP :} 200 succès ; 404 introuvable ; 500 erreur serveur.\\
+\textbf{Exemple de sujet MQTT :} \texttt{ibsa/g12/prenom/temp}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : observer HTTP et MQTT}
+
+\subsection*{3a. Une requête HTTP}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y}
+\toprule
+Élément & Ce que j'observe\\
+\midrule
+Méthode (GET, POST) & \\
+Adresse demandée & \\
+Code de statut & \\
+Type de contenu & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{3b. Une publication MQTT}
+Mon sujet : \dotfill\\
+Message publié par moi : \dotfill\\
+Message reçu : \dotfill\\
+Qui est l'abonné ? \dotfill\quad Qui est l'éditeur (publisher) ? \dotfill
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le tableau d'observation rempli pour une ligne.\\
+\textbf{Aide 2 :} Qui envoie la requête ? Qui répond ? Qui est abonné ? Qui publie ?\\
+\textbf{Aide 3 :} demande à l'enseignant de faire l'abonnement avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je relie les protocoles}
+
+\textbf{Banque :} TCP, IP, HTTP, MQTT, Wi-Fi.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y}
+\toprule
+Rôle & Protocole\\
+\midrule
+Adresse les machines & \\
+Livre les morceaux de façon fiable & \\
+Échange les pages web & \\
+Échange de petits messages entre objets & \\
+Transporte les données sans fil & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Place les couches dans l'ordre (du haut vers le bas)}
+1 \dotfill\quad 2 \dotfill\quad 3 \dotfill\quad 4 \dotfill
+
+\subsection*{Vrai ou faux ?}
+1. Le code 404 veut dire «~succès~». \cb Vrai \cb Faux\\
+2. Avec MQTT, on s'abonne à un sujet. \cb Vrai \cb Faux
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : choisir le bon protocole}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{4.2cm}Y Y}
+\toprule
+Scénario & Protocole choisi & Justification\\
+\midrule
+Capteur de température qui envoie une mesure par minute & & \\
+Page de configuration d'un objet dans le navigateur & & \\
+Commande d'une lampe depuis un téléphone & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Questions}
+\begin{enumerate}
+ \item Qui initie l'échange en HTTP ? Et en MQTT ? \dotfill
+ \item Pourquoi MQTT est-il adapté à un objet sur batterie ? \dotfill
+\end{enumerate}
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : le chemin d'un message}
+
+\textbf{Message :} «~température = 24~».
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.2cm}Y Y}
+\toprule
+Couche & Ce qu'elle ajoute ou fait & Exemple\\
+\midrule
+Application & & \\ Transport & & \\ Réseau & & \\ Accès réseau & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Comparaison HTTP et MQTT pour ce message}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Critère & HTTP & MQTT\\
+\midrule
+Taille du message & & \\ Direction & & \\ Énergie consommée & & \\ Sécurité à ajouter & & \\
+\bottomrule
+\end{tabularx}
+
+Ma recommandation pour un capteur sur batterie : \lig \lig
+
+\textbf{Défi bonus :} pourquoi un courtier public sans chiffrement est-il dangereux pour des données personnelles ?
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+HTTP : méthode GET ; code 200 pour une page trouvée. MQTT : l'éditeur publie, l'abonné reçoit le message publié sur le sujet.
+
+\subsection*{Annexe C}
+IP ; TCP ; HTTP ; MQTT ; Wi-Fi. Couches : application, transport, réseau, accès réseau. Faux (404 = introuvable), Vrai.
+
+\subsection*{Annexe D}
+Capteur : MQTT (léger, publication régulière). Page de configuration : HTTP. Commande de la lampe : MQTT (le téléphone publie, la lampe est abonnée). HTTP : le client initie ; MQTT : tout client connecté au courtier peut publier. Léger donc peu d'énergie.
+
+\subsection*{Annexe E}
+Application : HTTP ou MQTT ; transport : TCP découpe et numérote ; réseau : IP ajoute les adresses ; accès réseau : Wi-Fi envoie les trames. HTTP : message plus lourd (en-têtes), MQTT très léger. Recommandation : MQTT. Courtier public : tout le monde peut lire les messages.\\
+\textbf{Critères de réussite :} couches correctes, comparaison argumentée.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : protocoles}
+
+\begin{enumerate}
+ \item Quel protocole est le plus adapté à un capteur sur piles qui envoie une petite mesure toutes les minutes ? Pourquoi ?\\ \lig
+ \item Que signifie le code HTTP 404 ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. MQTT : message très léger, publication simple. 2. Page ou ressource introuvable.
+
+\bigskip
+\grille{Couches}{HTTP observé}{MQTT compris}
+
+\end{document}

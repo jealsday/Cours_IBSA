@@ -1,0 +1,290 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 8}
+\newcommand{\leconhdr}{Déplacements simples}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Déplacements simples}{Semaine du 9 au 13 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Déplacements simples du mBot\\
+Classe / effectif & Grade 8, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec mBlock 5 (connexion robot opérationnelle depuis la séance précédente).
+ \item Un robot mBot par binôme, chargé.
+ \item Un mètre ruban ou une règle de 1 m par binôme, du ruban de masquage pour marquer le départ.
+ \item Un tableur (Google Sheets ou LibreOffice Calc) pour le niveau C.
+\end{itemize}\\
+Pré-requis &
+Séance 1 : connexion du mBot, LED, buzzer, bouton. Savoir mesurer une longueur en centimètres.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 40 min)]
+\begin{enumerate}
+ \item Tracer une piste de 2 m au sol avec une graduation tous les 10 cm (ruban).
+ \item Tester les robots : certains peuvent dévier légèrement vers un côté. Noter les robots à problème.
+ \item Préparer les fichiers de départ (annexes C à E) et le formulaire de sortie.
+ \item Vérifier le niveau des batteries : une batterie faible fausse les mesures.
+\end{enumerate}
+\end{astuce}
+
+\begin{astuce}[Sécurité]
+Les mesures se font au sol, pas sur la table. Pas d'élève devant un robot en marche. Toujours un bloc \texttt{arrêter} en fin de programme.
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Programmer un déplacement rectiligne.
+ \item Contrôler la vitesse et la durée.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item d'écrire un programme \texttt{avancer, attendre, arrêter}\,;
+ \item d'expliquer l'effet de la puissance et de la durée sur la distance parcourue\,;
+ \item de calibrer le robot par essais pour atteindre une distance donnée.
+\end{itemize}
+\textbf{Compétences numériques\,:} mesurer, relever des valeurs dans un tableau, ajuster un programme par essais.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Course de robots humains}{Puissance, durée et distance}{Un essai mesuré en collectif, puis le tableau puissance et durée en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : course de robots humains}{0 -- 10 min}
+\begin{enumerate}
+ \item (6 min) Trois élèves jouent des robots : l'un marche lentement, l'autre vite, le troisième vite mais seulement 2 secondes. Chronométrer et mesurer la distance parcourue. Qui va le plus loin ?
+ \item (4 min) Question-problème : \textbf{«~Comment faire avancer un robot exactement de 1 mètre ?~»} Noter les idées (vitesse, temps).
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : puissance, durée, distance}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : le programme de base.}
+\begin{code}[Programme de déplacement]
+avancer à la puissance 50 \%\\
+attendre 2 secondes\\
+arrêter les moteurs
+\end{code}
+Sans le bloc \emph{arrêter}, le robot continue d'avancer. Les noms exacts des blocs dépendent de la version de mBlock.
+
+\textbf{Temps 2 : deux variables de réglage.} La \textbf{puissance} (en pourcentage) règle la vitesse. La \textbf{durée} règle le temps de marche.
+
+\textbf{Temps 3 : la relation.} Plus la puissance et la durée sont grandes, plus le robot va loin. La relation n'est pas parfaitement proportionnelle (démarrage, batterie, sol). Il faut donc \emph{mesurer}.
+
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=1cm,text width=2.8cm,align=center,font=\small},>={Stealth[length=3mm]},node distance=0.8cm]
+\node[box,fill=orange!20] (a) {Puissance};
+\node[box,fill=blue!15,right=of a] (b) {Durée};
+\node[box,fill=green!15,right=of b] (c) {Distance parcourue};
+\draw[->,thick] (a)--(c); \draw[->,thick] (b)--(c);
+\end{tikzpicture}
+\end{center}
+
+\textbf{Temps 4 : la démarche d'essais.} Mesurer, comparer à la cible, corriger la durée, recommencer. Écrire chaque essai dans un tableau.
+
+\begin{astuce}
+Fournir un tableau d'essais pré-imprimé. Autoriser la calculatrice. Faire répéter la démarche : mesurer, comparer, corriger.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B.
+
+\textbf{3a. Un essai mesuré en collectif (12 min).} Un robot (celui de l'enseignant, projeté par caméra ou en démonstration) : puissance 50 \%, durée 2 s. Mesurer la distance sur la piste. Chaque binôme note la valeur.
+
+\textbf{3b. Le tableau puissance et durée en binômes (18 min).} Chaque binôme réalise six essais (puissances 30, 50 et 70 \%, durées 1 et 2 s) et remplit le tableau B2. Alternance des rôles : un pilote, un mesureur.
+
+\aides{Le programme du 3a et le tableau d'essais à moitié rempli}{Questions guides : \emph{Que change-t-on ? Qu'est-ce qui reste identique ? Que se passe-t-il quand la durée double ?}}{L'enseignant réalise un essai avec le binôme, qui continue}
+
+\begin{astuce}
+Attribuer un rôle précis à chaque élève du binôme (pilote, mesureur, enregistreur) et les faire tourner. Accepter des mesures approchées à 2 cm près.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+Chaque élève prépare son programme seul sur son poste. Les essais se font par binôme sur la piste, à tour de rôle.
+
+\medskip
+\groupes{Programme donné : avancer à 50 \% pendant 2 s puis arrêter. Mesurer la distance, puis changer \emph{uniquement} la durée pour atteindre environ 50 cm, avec une banque de durées (1, 1,5, 2, 3).}{Faire avancer le robot de 1 mètre (à 10 cm près) en choisissant puissance et durée par essais. Tenir un tableau d'essais.}{Programmer un aller-retour : avancer de 80 cm, s'arrêter, reculer pour revenir au départ à 5 cm près. Reporter les mesures dans un tableur et tracer la distance en fonction de la durée.}
+
+\medskip
+\textbf{Plan B si un robot dévie\,:} corriger en réglant légèrement les puissances des deux moteurs (par exemple 52 \% et 50 \%) ou changer de robot.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève montre son tableau d'essais et lit son meilleur résultat. Valoriser la démarche plus que le résultat.}{un binôme montre comment il a atteint 1 mètre en deux ou trois essais. Valoriser la correction méthodique.}{un élève présente son graphique et explique ce qu'il remarque. Valoriser l'analyse.}{\textit{pour atteindre une distance, on règle la puissance et la durée et on corrige par essais.}}
+
+\cloture{Quel bloc faut-il toujours mettre à la fin d'un déplacement ?}{Si ton robot va trop près de la cible, que modifies-tu ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Déplacements simples}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{Distance parcourue} dépend de la \textbf{puissance} (vitesse) et de la \textbf{durée}. Il faut \textbf{mesurer} puis \textbf{corriger}.
+\end{tcolorbox}
+
+\begin{code}[Programme de base]
+avancer à la puissance 50 \%\\
+attendre 2 secondes\\
+arrêter les moteurs
+\end{code}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.2cm}Y}
+\toprule
+Étape & Ce que je fais\\
+\midrule
+1 & Je prévois une valeur\\
+2 & Je mesure la distance\\
+3 & Je compare à la cible\\
+4 & Je corrige la durée ou la puissance\\
+\bottomrule
+\end{tabularx}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : puissance, durée et distance}
+
+\subsection*{3a. Essai collectif}
+Puissance : \dotfill\quad Durée : \dotfill\quad Distance mesurée : \dotfill
+
+\subsection*{3b. Tableau d'essais (en binôme)}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y Y Y}
+\toprule
+Essai & Puissance (\%) & Durée (s) & Distance (cm)\\
+\midrule
+1 & 30 & 1 & \\
+2 & 30 & 2 & \\
+3 & 50 & 1 & \\
+4 & 50 & 2 & \\
+5 & 70 & 1 & \\
+6 & 70 & 2 & \\
+\bottomrule
+\end{tabularx}
+
+Ce que je remarque : \dotfill
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le programme et le tableau à moitié rempli.\\
+\textbf{Aide 2 :} Que change-t-on ? Qu'est-ce qui reste identique ? Que se passe-t-il quand la durée double ?\\
+\textbf{Aide 3 :} demande à l'enseignant de faire un essai avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : j'ajuste la durée}
+
+\textbf{Banque de durées :} 1 s, 1,5 s, 2 s, 3 s.
+
+\subsection*{Activité 1 : essai de départ}
+Puissance 50 \%, durée 2 s. Distance : \dotfill{} cm.
+
+\subsection*{Activité 2 : cible de 50 cm}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.4cm}Y Y Y}
+\toprule
+Essai & Durée choisie & Distance mesurée & Trop court / trop long ?\\
+\midrule
+1 & & & \\
+2 & & & \\
+3 & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Activité 3 : complète}
+Si le robot va trop loin, je \dotfill{} la durée. S'il ne va pas assez loin, je \dotfill{} la durée.
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : atteindre 1 mètre}
+
+\textbf{Cible :} 100 cm à 10 cm près.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2cm}Y Y Y Y}
+\toprule
+Essai & Puissance (\%) & Durée (s) & Distance (cm) & Écart à la cible\\
+\midrule
+1 & & & & \\ 2 & & & & \\ 3 & & & & \\ 4 & & & & \\ 5 & & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Questions}
+\begin{enumerate}
+ \item Combien d'essais as-tu eu besoin ? \dotfill
+ \item Pourquoi deux robots avec le même programme ne vont-ils pas exactement aussi loin ? \dotfill
+\end{enumerate}
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : aller-retour précis}
+
+\textbf{Mission :} avancer de 80 cm, s'arrêter, reculer et revenir au point de départ à 5 cm près.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2cm}Y Y Y Y}
+\toprule
+Essai & Durée avant (s) & Durée arrière (s) & Écart au départ (cm) & Remarque\\
+\midrule
+1 & & & & \\ 2 & & & & \\ 3 & & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Graphique}
+Dans le tableur, saisis la durée (en abscisse) et la distance (en ordonnée) pour une même puissance, puis trace le nuage de points.\\
+Que remarques-tu ? \lig
+
+\textbf{Défi bonus :} compare deux puissances sur le même graphique.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+Plus la puissance et la durée augmentent, plus la distance augmente. Quand la durée double, la distance double à peu près (pas exactement). Les valeurs dépendent du robot et du sol.
+
+\subsection*{Annexe C}
+Activité 3 : \textbf{diminuer} puis \textbf{augmenter}.
+
+\subsection*{Annexe D}
+Méthode attendue : essai, mesure, écart, correction proportionnelle (si 50 cm pour 2 s, alors environ 4 s pour 100 cm). Les robots diffèrent à cause des moteurs, du sol, de la batterie.
+
+\subsection*{Annexe E}
+Le nuage de points est à peu près aligné : la distance augmente avec la durée. L'écart de retour vient des frottements et d'un démarrage non instantané.\\
+\textbf{Critères de réussite :} tableau d'essais complet, correction argumentée, graphique correct.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : déplacements simples}
+
+\begin{enumerate}
+ \item Quel bloc faut-il toujours mettre à la fin d'un déplacement ?\\ \lig
+ \item Si ton robot va trop près de la cible, que modifies-tu ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. \texttt{arrêter les moteurs}. 2. Augmenter la durée (ou la puissance).
+
+\bigskip
+\grille{Programme complet}{Tableau d'essais}{Correction argumentée}
+
+\end{document}

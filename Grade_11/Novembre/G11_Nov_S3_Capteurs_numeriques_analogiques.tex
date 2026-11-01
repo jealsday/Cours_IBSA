@@ -1,0 +1,298 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 11}
+\newcommand{\leconhdr}{Capteurs numériques et analogiques}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Les capteurs numériques et analogiques}{Semaine du 16 au 20 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Les capteurs numériques et analogiques\\
+Classe / effectif & Grade 11, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec navigateur web.
+ \item \textbf{Wokwi} (wokwi.com, gratuit) : projet ESP32 modèle avec un bouton poussoir (GPIO 4) et un potentiomètre (GPIO 34), moniteur série. Le code est fourni et les élèves modifient seulement des valeurs.
+ \item Un tableur (Google Sheets ou LibreOffice Calc).
+ \item Vidéoprojecteur ou tableau interactif.
+\end{itemize}\\
+Pré-requis &
+Séance précédente : chaîne d'information (acquérir, traiter, communiquer). Notion de grandeur physique.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 45 min)]
+\begin{enumerate}
+ \item Créer le projet Wokwi (ESP32, bouton sur GPIO 4, potentiomètre sur GPIO 34) et coller le code de l'annexe A. Tester le lien de partage.
+ \item Préparer le tableur modèle (annexe B) pour relever les valeurs.
+ \item Préparer les fichiers des annexes C à E et le formulaire de sortie.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Distinguer capteur analogique et numérique.
+ \item Comprendre le principe d'acquisition.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item de classer des capteurs courants en analogique ou numérique, avec une justification\,;
+ \item d'expliquer qu'un signal analogique varie de façon continue alors qu'un signal numérique prend deux valeurs (0 ou 1)\,;
+ \item de relever et d'interpréter les valeurs d'un capteur analogique et d'un capteur numérique dans un simulateur.
+\end{itemize}
+\textbf{Compétences numériques\,:} relever des mesures, utiliser un moniteur série, remplir un tableur.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Interrupteur ou variateur de lumière ?}{Signal analogique, signal numérique, acquisition}{Bouton et potentiomètre en collectif, puis relevé de valeurs en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : interrupteur ou variateur ?}{0 -- 10 min}
+\begin{enumerate}
+ \item (5 min) Deux lampes : l'une avec un interrupteur (allumée ou éteinte), l'autre avec un variateur (toutes les intensités). Les élèves mettent en commun ce qu'on peut «~dire~» à chaque lampe.
+ \item (5 min) Question-problème : \textbf{«~Comment un ordinateur lit-il un interrupteur ? Et un variateur ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : analogique et numérique}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : le signal numérique.} Deux états seulement : 0 (bas, environ 0~V) ou 1 (haut, environ 3,3~V sur ESP32). Exemple : bouton, détecteur de présence, fin de course.
+
+\textbf{Temps 2 : le signal analogique.} Il prend une infinité de valeurs entre un minimum et un maximum. Exemple : potentiomètre, capteur de lumière, sonde de température.
+
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+ & Numérique & Analogique\\
+\midrule
+Valeurs & 0 ou 1 & Toutes les valeurs d'une plage\\
+Exemple de capteur & Bouton, détecteur de présence & Potentiomètre, thermistance\\
+Lecture avec ESP32 & \texttt{digitalRead(broche)} & \texttt{analogRead(broche)}\\
+Résultat & 0 ou 1 & 0 à 4095\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 3 : l'acquisition.} Pour lire un signal analogique, le microcontrôleur utilise un convertisseur analogique-numérique (CAN) qui transforme la tension en un nombre. Sur ESP32, le CAN a 12 bits : la tension de 0 à 3,3~V devient une valeur de 0 à 4095.
+
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=1cm,text width=2.5cm,align=center,font=\small},>={Stealth[length=3mm]},node distance=0.7cm]
+\node[box,fill=orange!20] (a) {Grandeur physique};
+\node[box,fill=blue!15,right=of a] (b) {Capteur\\ tension};
+\node[box,fill=green!15,right=of b] (c) {CAN\\ nombre};
+\node[box,fill=violet!15,right=of c] (d) {Programme};
+\draw[->,thick] (a)--(b); \draw[->,thick] (b)--(c); \draw[->,thick] (c)--(d);
+\end{tikzpicture}
+\end{center}
+
+\textbf{Temps 4 : comment choisir ?} Une information du type oui ou non demande un capteur numérique. Une mesure continue (température, distance, lumière) demande un capteur analogique.
+
+\begin{astuce}
+Garder les deux exemples (interrupteur, variateur) affichés. Faire manipuler physiquement un potentiomètre si possible. Lire les tableaux à voix haute.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B. Les élèves travaillent en binômes devant leur poste.
+
+\textbf{3a. Bouton et potentiomètre en collectif (12 min).} Ouvrir le projet Wokwi. Appuyer sur le bouton et lire dans le moniteur série les valeurs 0 et 1. Tourner le potentiomètre et observer les valeurs entre 0 et 4095.
+
+\textbf{3b. Relevé de valeurs en binômes (18 min).} Relever dans un tableur la valeur du potentiomètre pour cinq positions (0 \%, 25 \%, 50 \%, 75 \%, 100 \%) et calculer la tension correspondante : $U = \text{valeur} \times 3{,}3 \div 4095$.
+
+\aides{Le tableur modèle avec une ligne déjà remplie}{Questions guides : \emph{Quelle est la valeur minimale ? Quelle est la valeur maximale ? La valeur augmente-t-elle de façon régulière ?}}{L'enseignant remplit une ligne avec le binôme, qui poursuit}
+
+\begin{astuce}
+Fournir le tableur avec la formule déjà posée pour les élèves qui ont des difficultés avec les calculs. Autoriser la calculatrice. Faire lire à voix haute les valeurs lues dans le moniteur.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Classer dix capteurs en analogique ou numérique avec une banque de mots (bouton, thermistance, détecteur de présence, potentiomètre, capteur de lumière, fin de course\ldots) et associer chacun à ce qu'il mesure. Pictogrammes en appui.}{Relever les valeurs du potentiomètre pour sept positions, calculer les tensions dans le tableur, tracer le graphique valeur en fonction de la position et interpréter (la relation est-elle linéaire ?).}{Comparer deux capteurs dans Wokwi (potentiomètre et capteur de lumière ou de température fourni), proposer un seuil pour un éclairage automatique, et expliquer pourquoi un capteur numérique de type «~nuit ou jour~» est parfois suffisant.}
+
+\medskip
+\textbf{Plan B si Wokwi est indisponible\,:} utiliser les valeurs relevées par l'enseignant (tableau imprimé) pour le tableur.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève présente son classement et justifie deux choix. Valoriser l'argument.}{un binôme présente son graphique et explique la forme de la courbe. Valoriser l'interprétation.}{un élève présente son seuil et sa comparaison de capteurs. Valoriser l'esprit critique.}{\textit{un capteur numérique donne 0 ou 1, un capteur analogique donne une valeur qui varie ; le CAN convertit la tension en nombre.}}
+
+\cloture{Un détecteur de présence est-il analogique ou numérique ? Pourquoi ?}{Que vaut la tension si \texttt{analogRead} renvoie 2048 sur un ESP32 (3,3~V, 12 bits) ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Capteurs numériques et analogiques}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{Numérique} : 0 ou 1. \textbf{Analogique} : toutes les valeurs d'une plage. Le \textbf{CAN} transforme une tension en nombre. ESP32 : 12 bits, de 0 à 4095 pour 0 à 3,3~V.
+\end{tcolorbox}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+ & Numérique & Analogique\\
+\midrule
+Valeurs & 0 ou 1 & 0 à 4095\\
+Exemples & Bouton, présence & Potentiomètre, lumière\\
+Instruction & \texttt{digitalRead} & \texttt{analogRead}\\
+\bottomrule
+\end{tabularx}
+
+\begin{arduino}[Code fourni (Wokwi)]
+void setup() {
+  Serial.begin(115200);
+  pinMode(4, INPUT_PULLUP);       // bouton
+}
+
+void loop() {
+  int bouton = digitalRead(4);    // numerique : 0 ou 1
+  int pot = analogRead(34);       // analogique : 0 a 4095
+  Serial.print("bouton = ");
+  Serial.print(bouton);
+  Serial.print("   pot = ");
+  Serial.println(pot);
+  delay(300);
+}
+\end{arduino}
+
+\textbf{Remarque :} avec \texttt{INPUT\_PULLUP}, le bouton relâché donne 1 et le bouton appuyé donne 0.
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : lire deux capteurs}
+
+\subsection*{3a. Observations}
+Bouton relâché : \dotfill\quad Bouton appuyé : \dotfill\\
+Valeur minimale du potentiomètre : \dotfill\quad Valeur maximale : \dotfill
+
+\subsection*{3b. Relevé de valeurs}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Position du potentiomètre & Valeur lue & Tension $U = \text{valeur} \times 3{,}3 \div 4095$ (V)\\
+\midrule
+0 \% & & \\ 25 \% & & \\ 50 \% & & \\ 75 \% & & \\ 100 \% & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le tableau de l'annexe A et la ligne déjà remplie du tableur.\\
+\textbf{Aide 2 :} Quelle est la valeur minimale ? Quelle est la valeur maximale ? La valeur augmente-t-elle de façon régulière ?\\
+\textbf{Aide 3 :} demande à l'enseignant de remplir une ligne avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : numérique ou analogique ?}
+
+\textbf{Banque :} bouton, thermistance, détecteur de présence, potentiomètre, capteur de lumière, fin de course.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{4cm}c c Y}
+\toprule
+Capteur & Numérique & Analogique & Ce qu'il mesure\\
+\midrule
+Bouton & \cb & \cb & \\
+Thermistance & \cb & \cb & \\
+Détecteur de présence & \cb & \cb & \\
+Potentiomètre & \cb & \cb & \\
+Capteur de lumière & \cb & \cb & \\
+Fin de course & \cb & \cb & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Vrai ou faux ?}
+1. Un signal numérique prend deux valeurs. \cb Vrai \cb Faux\\
+2. \texttt{analogRead} renvoie 0 ou 1. \cb Vrai \cb Faux
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : relevé et graphique}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y Y}
+\toprule
+Position & Valeur lue & Tension (V)\\
+\midrule
+0 \% & & \\ 20 \% & & \\ 40 \% & & \\ 50 \% & & \\ 60 \% & & \\ 80 \% & & \\ 100 \% & & \\
+\bottomrule
+\end{tabularx}
+
+Trace dans le tableur un graphique en nuage de points (position en abscisse, valeur en ordonnée).
+
+\subsection*{Questions}
+\begin{enumerate}
+ \item La relation est-elle proche d'une droite ? \dotfill
+ \item Quelle tension correspond à la valeur 1024 ? \dotfill
+\end{enumerate}
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : choisir le bon capteur}
+
+\textbf{Situation :} un éclairage de couloir doit s'allumer la nuit et seulement si quelqu'un passe.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y Y}
+\toprule
+Besoin & Capteur choisi & Numérique ou analogique ? & Justification\\
+\midrule
+Détecter une personne & & & \\
+Savoir s'il fait nuit & & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{enumerate}
+ \item Propose un seuil pour la valeur du capteur de lumière (0 à 4095) et justifie : \lig
+ \item Pourquoi un capteur numérique «~nuit ou jour~» peut-il suffire ? Quel avantage et quelle limite ? \lig \lig
+\end{enumerate}
+
+\textbf{Défi bonus :} explique ce que l'on perd quand on convertit une mesure analogique en 12 bits (résolution).
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+Bouton relâché : 1 ; appuyé : 0 (INPUT\_PULLUP). Potentiomètre : minimum 0, maximum 4095. Tensions : 0 ; environ 0,8 ; 1,65 ; 2,5 ; 3,3 V.
+
+\subsection*{Annexe C}
+Numériques : bouton, détecteur de présence, fin de course. Analogiques : thermistance (température), potentiomètre (position), capteur de lumière (luminosité). Vrai, Faux.
+
+\subsection*{Annexe D}
+Relation à peu près linéaire. Tension pour 1024 : $1024 \times 3{,}3 \div 4095 \approx 0{,}83$~V.
+
+\subsection*{Annexe E}
+Présence : capteur infrarouge passif (numérique). Nuit : capteur de lumière (analogique avec seuil, par exemple 1000) ou capteur crépusculaire (numérique). Un capteur numérique est plus simple mais ne permet pas de régler finement le seuil. Résolution : 4096 niveaux, soit environ 0,8 mV par pas.\\
+\textbf{Critères de réussite :} classement juste, calcul de tension correct, seuil justifié.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : capteurs}
+
+\begin{enumerate}
+ \item Un détecteur de présence est-il analogique ou numérique ? Pourquoi ?\\ \lig
+ \item Que vaut la tension si \texttt{analogRead} renvoie 2048 sur un ESP32 (3,3~V, 12 bits) ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. Numérique : il donne deux états (présence ou non). 2. Environ 1,65~V (la moitié de 3,3~V).
+
+\bigskip
+\grille{Classement correct}{Tension calculée}{Interprétation}
+
+\end{document}

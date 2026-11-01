@@ -1,0 +1,7 @@
+import random
+secret = random.randint(1, 100)
+essais = 0
+trouve = False
+while not trouve and essais < 7:
+    # a toi de jouer : demander, comparer, compter
+    pass

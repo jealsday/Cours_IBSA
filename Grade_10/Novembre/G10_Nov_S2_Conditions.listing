@@ -1,0 +1,6 @@
+import random
+choix = ["pierre", "feuille", "ciseaux"]
+joueur = input("pierre, feuille ou ciseaux ? ")
+ordi = random.choice(choix)
+print("L'ordinateur a joue :", ordi)
+# a toi de decider qui gagne

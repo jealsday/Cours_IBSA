@@ -1,0 +1,311 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 10}
+\newcommand{\leconhdr}{Boucles et répétitions}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Boucles et répétitions (Python)}{Semaine du 16 au 20 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Boucles \texttt{for} et \texttt{while}\\
+Classe / effectif & Grade 10, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec l'éditeur \textbf{Mu} en mode \emph{Python 3} (bouton Arrêter pour interrompre une boucle infinie, Débogueur pour suivre l'exécution).
+ \item Vidéoprojecteur ou tableau interactif avec Mu projeté.
+ \item Un dossier partagé contenant les fichiers de départ \texttt{.py} des trois niveaux.
+ \item Inspiration : unité «~Round and round~» du cours TeachComputing (binômes, codage en direct, exemples commentés, idées fausses courantes).
+\end{itemize}\\
+Pré-requis &
+Séances précédentes : variables, types, saisie, conditions \texttt{if / elif / else} et indentation.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 40 min)]
+\begin{enumerate}
+ \item Préparer les fichiers de départ : \texttt{niveauA.py} (boucle for à compléter), \texttt{niveauB.py} (vide avec consignes), \texttt{niveauC.py} (début du jeu «~devine le nombre~»).
+ \item Tester le bouton Arrêter de Mu avec une boucle infinie volontaire.
+ \item Créer le formulaire de sortie (annexe G) ou imprimer l'annexe.
+\end{enumerate}
+\end{astuce}
+
+\begin{astuce}[Prévenir la boucle infinie]
+Montrer dès la mini-leçon ce qui se passe avec \texttt{while True} sans arrêt, et comment arrêter l'exécution dans Mu. Cela évite la panique en classe et sert de leçon sur l'erreur de logique.
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Utiliser les boucles \texttt{for} et \texttt{while}.
+ \item Automatiser des traitements répétitifs.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item d'écrire une boucle \texttt{for} avec \texttt{range} et de prévoir les valeurs parcourues\,;
+ \item d'écrire une boucle \texttt{while} avec une condition d'arrêt et un compteur\,;
+ \item de choisir entre \texttt{for} (nombre de tours connu) et \texttt{while} (jusqu'à une condition).
+\end{itemize}
+\textbf{Compétences numériques\,:} suivre l'exécution avec une table de trace, utiliser le débogueur, interrompre un programme.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{«~Je ne bavarderai plus~» cent fois}{\texttt{for}, \texttt{range}, \texttt{while}}{Une table de multiplication en collectif, puis un mot de passe en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : cent lignes de punition}{0 -- 10 min}
+\begin{enumerate}
+ \item (5 min) \emph{Un enseignant demande d'écrire cent fois «~Je ne bavarderai plus~». Comment un ordinateur le ferait-il sans que vous écriviez cent lignes ?} Les élèves proposent des idées.
+ \item (5 min) Écrire deux versions au tableau : cent \texttt{print} recopiés, ou une ligne qui répète. Question-problème : \textbf{«~Comment dire à l'ordinateur de répéter une action ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : for et while}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Codage en direct. Quatre temps de 5 min.
+
+\textbf{Temps 1 : for et range.}
+\begin{python}[Boucle for]
+for i in range(5):
+    print("Tour numero", i)
+\end{python}
+\texttt{range(5)} donne 0, 1, 2, 3, 4 (cinq valeurs, on commence à 0). \texttt{range(1, 6)} donne 1 à 5. \texttt{range(0, 10, 2)} donne 0, 2, 4, 6, 8.
+
+\textbf{Temps 2 : while.}
+\begin{python}[Boucle while]
+n = 3
+while n > 0:
+    print(n)
+    n = n - 1
+print("Decollage !")
+\end{python}
+La boucle se répète \emph{tant que} la condition est vraie. Il faut modifier la variable pour que la condition devienne fausse.
+
+\textbf{Temps 3 : la table de trace.}
+\begin{center}
+\begin{tabularx}{0.8\linewidth}{>{\bfseries}c c c}
+\toprule
+Tour & Valeur de \texttt{n} avant & Affichage\\
+\midrule
+1 & 3 & 3\\
+2 & 2 & 2\\
+3 & 1 & 1\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 4 : choisir.} \texttt{for} quand on connaît le nombre de tours, \texttt{while} quand on répète jusqu'à ce qu'une condition change (mot de passe, saisie valide, jeu).
+
+\begin{astuce}
+Faire suivre la table de trace avec un doigt ou un stylo. Utiliser le débogueur de Mu pour voir la variable changer ligne après ligne. Rappeler le piège classique : \texttt{range(5)} ne donne pas 5.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B. Programmation en binômes (pilote et navigateur, rôles échangés à mi-temps).
+
+\textbf{3a. Table de multiplication en collectif (12 min).} Écrire en codage en direct un programme qui demande un nombre puis affiche sa table de 1 à 10 avec une boucle \texttt{for}.
+
+\textbf{3b. Mot de passe en binômes (18 min).} Écrire un programme qui redemande un mot de passe tant que la réponse est fausse (\texttt{while}), puis affiche «~Acces autorise~».
+
+\aides{Le programme du 3a et l'annexe A avec la table de trace}{Questions guides : \emph{Combien de fois la boucle se répète-t-elle ? Quelle variable change à chaque tour ? Quand la condition devient-elle fausse ?}}{L'enseignant écrit la ligne \texttt{while} avec le binôme, qui continue}
+
+\begin{astuce}
+Écrire d'abord le programme en français («~tant que le mot de passe est faux, redemander~»), puis le traduire en Python. Si la boucle ne s'arrête pas, cliquer sur Arrêter et chercher la ligne qui devrait modifier la variable.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Fichier \texttt{niveauA.py} à compléter : boucle \texttt{for} qui affiche les nombres de 1 à 10, puis table de trace à remplir, avec une banque de mots (\texttt{for}, \texttt{in}, \texttt{range}, \texttt{print}).}{Écrire trois programmes : table de multiplication choisie par l'utilisateur, somme des nombres de 1 à $n$ avec \texttt{for}, mot de passe à trois essais avec \texttt{while}. Tester chacun avec deux jeux d'essais.}{Réaliser le jeu «~devine le nombre~» : l'ordinateur choisit un nombre entre 1 et 100 (\texttt{random.randint}), le joueur propose, le programme indique «~plus grand~» ou «~plus petit~», compte les essais et s'arrête quand le nombre est trouvé. Ajouter une limite de 7 essais.}
+
+\medskip
+\textbf{Plan B si un élève termine tôt\,:} afficher un triangle d'étoiles avec deux boucles imbriquées.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève présente sa boucle \texttt{for} et sa table de trace. Valoriser la prédiction avant l'exécution.}{un binôme montre son mot de passe à trois essais et explique la condition d'arrêt. Valoriser la précision.}{un élève fait jouer la classe à «~devine le nombre~». Valoriser la structure et l'interactivité.}{\textit{une boucle automatise une répétition : \texttt{for} pour un nombre de tours connu, \texttt{while} tant qu'une condition est vraie.}}
+
+\cloture{Quelles valeurs prend \texttt{i} dans \texttt{for i in range(4):} ?}{Pourquoi la boucle \texttt{while n > 0:} ne s'arrête-t-elle jamais si on oublie \texttt{n = n - 1} ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Boucles en Python}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{for} : nombre de tours connu. \textbf{while} : tant que la condition est vraie. Dans les deux cas, le bloc répété est \textbf{indenté}.
+\end{tcolorbox}
+
+\begin{python}[for]
+for i in range(1, 6):
+    print(i)
+\end{python}
+
+\begin{python}[while]
+essais = 0
+while essais < 3:
+    print("Essai", essais + 1)
+    essais = essais + 1
+\end{python}
+
+\begin{tabularx}{\linewidth}{>{\ttfamily}p{3.2cm}Y}
+\toprule
+Instruction & Valeurs\\
+\midrule
+range(5) & 0, 1, 2, 3, 4\\
+range(1, 6) & 1, 2, 3, 4, 5\\
+range(0, 10, 2) & 0, 2, 4, 6, 8\\
+\bottomrule
+\end{tabularx}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : répéter}
+
+\subsection*{3a. Table de multiplication}
+\begin{python}[À compléter pendant le codage en direct]
+n = int(input("Quelle table ? "))
+for i in range(1, _____):
+    print(n, "x", i, "=", n * _____)
+\end{python}
+
+\subsection*{3b. Mot de passe}
+\begin{python}[À compléter]
+mot = input("Mot de passe : ")
+while mot != "robot":
+    mot = _____("Mot de passe : ")
+print("Acces autorise")
+\end{python}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.2cm}Y Y}
+\toprule
+Tour & Valeur de \texttt{mot} & La condition est vraie ?\\
+\midrule
+1 & & \\ 2 & & \\ 3 & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le programme du 3a et la table de trace de l'annexe A.\\
+\textbf{Aide 2 :} Combien de fois la boucle se répète-t-elle ? Quelle variable change à chaque tour ?\\
+\textbf{Aide 3 :} demande à l'enseignant d'écrire la ligne \texttt{while} avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je complète la boucle}
+
+\textbf{Banque de mots :} for, in, range, print, 11, i.
+
+\begin{python}[niveauA.py]
+_____ i _____ range(1, _____):
+    _____(i)
+\end{python}
+
+\subsection*{Activité : table de trace}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y}
+\toprule
+Tour & Valeur de \texttt{i}\\
+\midrule
+1 & \\ 2 & \\ 3 & \\ 10 & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Activité : vrai ou faux ?}
+1. \texttt{range(5)} commence à 1. \cb Vrai \cb Faux\\
+2. \texttt{range(1, 4)} donne 1, 2, 3. \cb Vrai \cb Faux
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : trois programmes}
+
+\subsection*{Programme 1 : table choisie}
+Demande un nombre et affiche sa table de 1 à 10.
+
+\subsection*{Programme 2 : somme de 1 à $n$}
+Demande $n$ et affiche la somme $1 + 2 + \dots + n$. Indice : une variable \texttt{somme} qui part de 0.
+
+\subsection*{Programme 3 : mot de passe à trois essais}
+Le programme s'arrête après un bon mot de passe ou après trois essais ratés.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.2cm}Y Y Y}
+\toprule
+Programme & Entrée testée & Résultat attendu & Obtenu\\
+\midrule
+2 & $n = 4$ & & \\
+2 & $n = 10$ & & \\
+3 & bon mot dès le 2$^{\text{e}}$ essai & & \\
+3 & trois erreurs & & \\
+\bottomrule
+\end{tabularx}
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : devine le nombre}
+
+\begin{python}[niveauC.py : début du programme]
+import random
+secret = random.randint(1, 100)
+essais = 0
+trouve = False
+while not trouve and essais < 7:
+    # a toi de jouer : demander, comparer, compter
+    pass
+\end{python}
+
+\begin{enumerate}
+ \item Complète la boucle : demande un nombre, indique «~plus grand~» ou «~plus petit~», compte les essais.
+ \item Affiche un message de fin différent en cas de victoire ou de défaite.
+ \item Combien d'essais suffisent toujours avec la stratégie de la dichotomie (couper l'intervalle en deux) ? \dotfill
+\end{enumerate}
+
+\textbf{Défi bonus :} propose de rejouer à la fin avec une deuxième boucle.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+3a : \texttt{range(1, 11)}, \texttt{n * i}. 3b : \texttt{input}. La condition est vraie tant que le mot est différent de \texttt{"robot"}.
+
+\subsection*{Annexe C}
+\texttt{for i in range(1, 11): print(i)}. Trace : 1, 2, 3, 10. Vrai ou faux : Faux (commence à 0) ; Vrai.
+
+\subsection*{Annexe D}
+Somme : $n = 4$ donne 10 ; $n = 10$ donne 55. Mot de passe : \texttt{essais = 0} ; \texttt{while essais < 3 and mot != "robot"}. Cas limites : bon mot au 2\textsuperscript{e} essai, ou trois erreurs.
+
+\subsection*{Annexe E}
+Boucle attendue : \texttt{reponse = int(input(...))} ; \texttt{essais = essais + 1} ; \texttt{if reponse == secret: trouve = True} ; \texttt{elif reponse < secret: print("plus grand")} ; \texttt{else: print("plus petit")}. Dichotomie : 7 essais suffisent pour 1 à 100 ($2^7 = 128$).\\
+\textbf{Critères de réussite :} boucle qui s'arrête, compteur correct, messages de fin distincts.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : boucles}
+
+\begin{enumerate}
+ \item Quelles valeurs prend \texttt{i} dans \texttt{for i in range(4):} ?\\ \lig
+ \item Pourquoi la boucle \texttt{while n > 0:} ne s'arrête-t-elle jamais si on oublie \texttt{n = n - 1} ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. 0, 1, 2, 3. 2. La condition reste toujours vraie, car \texttt{n} ne change pas.
+
+\bigskip
+\grille{\texttt{range} compris}{Condition d'arrêt}{Programme testé}
+
+\end{document}

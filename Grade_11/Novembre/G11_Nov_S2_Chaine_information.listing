@@ -1,0 +1,12 @@
+void setup() {
+  Serial.begin(115200);
+  pinMode(5, OUTPUT);
+}
+
+void loop() {
+  int valeur = analogRead(34);     // ACQUERIR
+  bool nuit = (valeur < 1000);     // TRAITER
+  digitalWrite(5, nuit);           // COMMUNIQUER (ordre)
+  Serial.println(valeur);          // COMMUNIQUER (affichage)
+  delay(200);
+}

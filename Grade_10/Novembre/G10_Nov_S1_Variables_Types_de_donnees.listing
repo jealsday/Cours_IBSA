@@ -1,0 +1,4 @@
+nom = input("Ton nom : ")
+nombre = input("Un nombre : ")
+double = nombre * 2
+print(f"{Nom} : le double de {nombre} est {double}")

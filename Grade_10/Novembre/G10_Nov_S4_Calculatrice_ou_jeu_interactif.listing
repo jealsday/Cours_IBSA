@@ -1,0 +1,7 @@
+def addition(a, b):
+    return a + b
+
+try:
+    a = float(input("Nombre : "))
+except ValueError:
+    print("Ce n'est pas un nombre.")

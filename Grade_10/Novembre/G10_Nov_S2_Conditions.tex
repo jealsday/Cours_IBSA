@@ -1,0 +1,311 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 10}
+\newcommand{\leconhdr}{Conditions}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Conditions (Python)}{Semaine du 9 au 13 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Conditions : \texttt{if}, \texttt{elif}, \texttt{else}\\
+Classe / effectif & Grade 10, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec l'éditeur \textbf{Mu} en mode \emph{Python 3}.
+ \item Vidéoprojecteur ou tableau interactif avec Mu projeté.
+ \item Un dossier partagé contenant les fichiers de départ \texttt{.py} des trois niveaux.
+ \item Inspiration : unités «~At a crossroads~» et «~More branches~» du cours TeachComputing (binômes, codage en direct, exemples commentés).
+\end{itemize}\\
+Pré-requis &
+Séance précédente : variables, types \texttt{int}, \texttt{float}, \texttt{str}, saisie avec \texttt{input} et conversion.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 40 min)]
+\begin{enumerate}
+ \item Préparer les fichiers de départ : \texttt{niveauA.py} (programme à compléter), \texttt{niveauB.py} (vide avec consignes), \texttt{niveauC.py} (pierre-feuille-ciseaux à terminer).
+ \item Vérifier que l'indentation par quatre espaces fonctionne dans Mu (la touche Tab est bien configurée).
+ \item Créer le formulaire de sortie (annexe G) ou imprimer l'annexe.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Utiliser les structures conditionnelles.
+ \item Construire un programme décisionnel.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item d'écrire une comparaison (\texttt{==}, \texttt{!=}, \texttt{<}, \texttt{>}, \texttt{<=}, \texttt{>=}) et de la combiner avec \texttt{and}, \texttt{or}, \texttt{not}\,;
+ \item de construire une structure \texttt{if / elif / else} avec une indentation correcte\,;
+ \item de tester toutes les branches d'un programme avec un jeu d'essais.
+\end{itemize}
+\textbf{Compétences numériques\,:} indenter son code, lire une erreur de syntaxe, tester toutes les branches.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{L'accès au parc : qui peut monter ?}{Comparaison, \texttt{if}, \texttt{elif}, \texttt{else}}{Un programme majeur ou mineur en collectif, puis un tarif de cinéma en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : l'accès au parc d'attractions}{0 -- 10 min}
+\begin{enumerate}
+ \item (5 min) Mise en situation : un agent contrôle l'accès à une attraction. \emph{Si la taille est d'au moins 1,20~m, alors tu montes ; sinon tu attends.} Plusieurs élèves jouent les visiteurs avec des tailles différentes.
+ \item (5 min) Compliquer : \emph{et si tu as moins de 12 ans, il faut un adulte avec toi.} Question-problème : \textbf{«~Comment un programme décide-t-il quoi faire quand il y a plusieurs cas ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : décider avec if, elif, else}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Codage en direct. Quatre temps de 5 min.
+
+\textbf{Temps 1 : comparer.} Une comparaison donne \texttt{True} ou \texttt{False}.
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\ttfamily}p{2cm}Y Y}
+\toprule
+Opérateur & Signification & Exemple\\
+\midrule
+== & égal à & \texttt{age == 15}\\
+!= & différent de & \texttt{age != 15}\\
+< > & plus petit, plus grand & \texttt{taille > 1.2}\\
+<= >= & inférieur ou égal, supérieur ou égal & \texttt{note >= 10}\\
+\bottomrule
+\end{tabularx}
+\end{center}
+Attention : \texttt{=} range une valeur, \texttt{==} compare deux valeurs.
+
+\textbf{Temps 2 : if et else.}
+\begin{python}[Deux chemins]
+age = int(input("Ton age : "))
+if age >= 18:
+    print("Majeur")
+else:
+    print("Mineur")
+\end{python}
+L'indentation (quatre espaces) montre ce qui appartient au \texttt{if}.
+
+\textbf{Temps 3 : elif pour plus de deux cas.}
+\begin{python}[Trois chemins]
+if note >= 16:
+    print("Tres bien")
+elif note >= 10:
+    print("Passable")
+else:
+    print("Insuffisant")
+\end{python}
+
+\textbf{Temps 4 : and, or, not.} \texttt{if age >= 12 and taille >= 1.2:} (les deux conditions). \texttt{if jour == "samedi" or jour == "dimanche":} (l'une ou l'autre).
+
+\begin{astuce}
+Colorer le bloc indenté sur le tableau. Faire lire chaque condition à voix haute («~si l'âge est supérieur ou égal à 18~»). Fournir un modèle avec les deux-points et l'indentation déjà posés pour les élèves qui oublient.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B. Programmation en binômes (pilote et navigateur, rôles échangés à mi-temps).
+
+\textbf{3a. Majeur ou mineur en collectif (12 min).} Écrire en codage en direct le programme complet, puis tester deux âges (17 et 18) pour vérifier la limite.
+
+\textbf{3b. Tarif de cinéma en binômes (18 min).} Écrire un programme : moins de 12 ans, 3~\$ ; de 12 à 64 ans, 8~\$ ; 65 ans et plus, 5~\$. Tester les cas limites (11, 12, 64, 65).
+
+\aides{Le programme du 3a et le tableau des opérateurs}{Questions guides : \emph{Quelle condition faut-il tester en premier ? Que se passe-t-il pour 12 ans exactement ?}}{L'enseignant tape la structure \texttt{if / elif / else} avec le binôme, qui complète}
+
+\begin{astuce}
+Faire dessiner sur papier les trois zones d'âge sur une droite avant de coder. Rappeler que Python lit les conditions dans l'ordre et s'arrête à la première qui est vraie.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Fichier \texttt{niveauA.py} à compléter : programme de mention à partir d'une note, avec les mots \texttt{if}, \texttt{elif}, \texttt{else}, \texttt{>=} fournis en banque. Exécuter avec trois notes (8, 12, 17) et noter l'affichage.}{Écrire un programme de mention complet (insuffisant, passable, assez bien, bien, très bien) puis un test d'année bissextile. Tester avec un jeu d'essais écrit à l'avance.}{Terminer le jeu pierre-feuille-ciseaux contre l'ordinateur (utiliser \texttt{import random} et \texttt{random.choice}), avec des conditions combinées par \texttt{and} et \texttt{or}. Vérifier les neuf combinaisons dans un tableau de tests.}
+
+\medskip
+\textbf{Plan B si un élève termine tôt\,:} ajouter un message de victoire personnalisé qui dépend du prénom saisi.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève lit son programme et explique l'ordre des conditions. Valoriser l'explication.}{un binôme présente son jeu d'essais et la limite testée. Valoriser les cas limites.}{un élève joue contre son programme et explique la logique. Valoriser la créativité.}{\textit{un programme décisionnel teste des conditions dans l'ordre et exécute la première qui est vraie ; il faut tester toutes les branches.}}
+
+\cloture{Quelle est la différence entre \texttt{=} et \texttt{==} ?}{Que s'affiche-t-il pour \texttt{note = 10} dans le programme de mention de l'annexe A ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Conditions en Python}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\texttt{if} teste une condition. \texttt{elif} ajoute un cas. \texttt{else} traite tous les autres cas. L'\textbf{indentation} (4 espaces) et les \textbf{deux-points} sont obligatoires.
+\end{tcolorbox}
+
+\begin{python}[Modèle]
+note = int(input("Note : "))
+if note >= 16:
+    print("Tres bien")
+elif note >= 10:
+    print("Passable")
+else:
+    print("Insuffisant")
+\end{python}
+
+\begin{tabularx}{\linewidth}{>{\ttfamily}p{2.4cm}Y}
+\toprule
+Opérateur & Signification\\
+\midrule
+== != & égal, différent\\
+< > <= >= & comparaisons\\
+and & les deux conditions sont vraies\\
+or & au moins une est vraie\\
+not & inverse la condition\\
+\bottomrule
+\end{tabularx}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : décider}
+
+\subsection*{3a. Majeur ou mineur}
+\begin{python}[À compléter pendant le codage en direct]
+age = int(input("Ton age : "))
+if age _____ 18:
+    print("Majeur")
+_____:
+    print("Mineur")
+\end{python}
+
+\subsection*{3b. Tarif de cinéma}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.4cm}Y Y Y}
+\toprule
+Âge testé & Tarif attendu & Tarif obtenu & Conforme ?\\
+\midrule
+11 & & & \\ 12 & & & \\ 64 & & & \\ 65 & & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le programme du 3a et le tableau des opérateurs.\\
+\textbf{Aide 2 :} Quelle condition faut-il tester en premier ? Que se passe-t-il pour 12 ans exactement ?\\
+\textbf{Aide 3 :} demande à l'enseignant de taper la structure \texttt{if / elif / else} avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je complète la mention}
+
+\textbf{Banque de mots :} if, elif, else, >=, 16, 10.
+
+\begin{python}[niveauA.py]
+note = int(input("Note : "))
+_____ note >= 16:
+    print("Tres bien")
+_____ note _____ 10:
+    print("Passable")
+_____:
+    print("Insuffisant")
+\end{python}
+
+\subsection*{Activité : trois essais}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y Y}
+\toprule
+Note saisie & Affichage prévu & Affichage obtenu\\
+\midrule
+8 & & \\ 12 & & \\ 17 & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Activité : relie}
+\texttt{==} \quad $\bullet$ \quad égal \qquad \texttt{!=} \quad $\bullet$ \quad différent \qquad \texttt{>=} \quad $\bullet$ \quad supérieur ou égal
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : mention et année bissextile}
+
+\subsection*{Mission 1 : mention}
+Insuffisant (moins de 10), passable (10 à 11), assez bien (12 à 13), bien (14 à 15), très bien (16 et plus).
+
+\subsection*{Mission 2 : année bissextile}
+Une année est bissextile si elle est divisible par 4 mais pas par 100, ou si elle est divisible par 400. Indice : utilise \texttt{\%} et \texttt{and}, \texttt{or}.
+
+\subsection*{Jeu d'essais (à écrire avant de coder)}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y Y Y}
+\toprule
+Entrée & Résultat attendu & Résultat obtenu & Conforme ?\\
+\midrule
+ & & & \\ & & & \\ & & & \\ & & & \\
+\bottomrule
+\end{tabularx}
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : pierre, feuille, ciseaux}
+
+\begin{python}[niveauC.py : début du programme]
+import random
+choix = ["pierre", "feuille", "ciseaux"]
+joueur = input("pierre, feuille ou ciseaux ? ")
+ordi = random.choice(choix)
+print("L'ordinateur a joue :", ordi)
+# a toi de decider qui gagne
+\end{python}
+
+\textbf{Règles :} pierre bat ciseaux, ciseaux bat feuille, feuille bat pierre.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.4cm}Y Y Y}
+\toprule
+Joueur & Ordinateur & Résultat attendu & Conforme ?\\
+\midrule
+pierre & pierre & & \\ pierre & feuille & & \\ pierre & ciseaux & & \\
+feuille & pierre & & \\ feuille & feuille & & \\ feuille & ciseaux & & \\
+ciseaux & pierre & & \\ ciseaux & feuille & & \\ ciseaux & ciseaux & & \\
+\bottomrule
+\end{tabularx}
+
+\textbf{Défi bonus :} refuse une saisie invalide en affichant un message.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+3a : \texttt{>=} et \texttt{else}. 3b : \texttt{if age < 12: 3 \$ ; elif age < 65: 8 \$ ; else: 5 \$}. Résultats : 11 donne 3 ; 12 donne 8 ; 64 donne 8 ; 65 donne 5.
+
+\subsection*{Annexe C}
+\texttt{if}, \texttt{elif}, \texttt{>=}, \texttt{else}. 8 : Insuffisant ; 12 : Passable ; 17 : Tres bien.
+
+\subsection*{Annexe D}
+Mention : \texttt{if / elif} dans l'ordre décroissant (16, 14, 12, 10). Bissextile : \texttt{(annee \% 4 == 0 and annee \% 100 != 0) or annee \% 400 == 0}. Essais : 2024 oui ; 1900 non ; 2000 oui ; 2023 non.
+
+\subsection*{Annexe E}
+Programme : égalité si \texttt{joueur == ordi}, puis \texttt{(joueur == "pierre" and ordi == "ciseaux") or (joueur == "ciseaux" and ordi == "feuille") or (joueur == "feuille" and ordi == "pierre")} pour une victoire, sinon défaite. Trois égalités, trois victoires, trois défaites.\\
+\textbf{Critères de réussite :} les neuf cas testés, parenthèses correctes.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : conditions}
+
+\begin{enumerate}
+ \item Quelle est la différence entre \texttt{=} et \texttt{==} ?\\ \lig
+ \item Que s'affiche-t-il pour \texttt{note = 10} dans le programme de mention de l'annexe A ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. \texttt{=} range une valeur, \texttt{==} compare. 2. \texttt{Passable}, car \texttt{10 >= 10}.
+
+\bigskip
+\grille{Indentation correcte}{Cas limites testés}{Programme complet}
+
+\end{document}

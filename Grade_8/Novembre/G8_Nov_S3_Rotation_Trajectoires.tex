@@ -1,0 +1,275 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 8}
+\newcommand{\leconhdr}{Rotation et trajectoires}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Rotation et trajectoires}{Semaine du 16 au 20 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Rotation et trajectoires du mBot\\
+Classe / effectif & Grade 8, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec mBlock 5, robot connecté.
+ \item Un mBot par binôme, chargé.
+ \item Du ruban de masquage, un rapporteur ou une feuille avec un angle de 90° dessiné pour mesurer les rotations.
+ \item Un tableur ou un document partagé pour relever les mesures.
+\end{itemize}\\
+Pré-requis &
+Séance 2 : \texttt{avancer, attendre, arrêter}, puissance et durée. Angles en degrés (90°, 180°).\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 40 min)]
+\begin{enumerate}
+ \item Tracer au sol un repère de départ avec une croix et une ligne d'orientation (flèche au ruban).
+ \item Préparer les gabarits d'angle de 90° et de 180° (cartons).
+ \item Préparer les fichiers des annexes C à E et le formulaire de sortie.
+ \item Vérifier la charge des batteries : les rotations sont très sensibles à la tension.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Réaliser des rotations précises.
+ \item Programmer un parcours simple.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item d'expliquer comment un robot tourne (roues à des vitesses différentes ou opposées)\,;
+ \item de calibrer une rotation de 90° par essais successifs\,;
+ \item de programmer un parcours composé de plusieurs segments et virages (L, U, carré).
+\end{itemize}
+\textbf{Compétences numériques\,:} calibrer par essais, noter les paramètres, enregistrer plusieurs versions d'un programme.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Guider un robot humain les yeux fermés}{Comment tourne un robot}{Calibrer 90° en collectif, puis un parcours en L en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : le robot humain aux yeux fermés}{0 -- 10 min}
+\begin{enumerate}
+ \item (6 min) Un élève ferme les yeux (ou porte un bandeau) et doit atteindre une chaise. La classe donne des instructions précises avec seulement : \emph{avance de N pas}, \emph{tourne de 90° à droite}, \emph{tourne de 90° à gauche}.
+ \item (4 min) Question-problème : \textbf{«~Comment un robot sait-il de combien il a tourné ?~»} Noter : il n'a pas d'yeux, il compte le temps.
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : tourner}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : deux façons de tourner.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+ & Rotation sur place & Virage en avançant\\
+\midrule
+Roues & L'une avance, l'autre recule & Les deux avancent, l'une plus vite\\
+Résultat & Le robot pivote autour de son centre & Le robot trace une courbe\\
+Usage & Angles précis (90°) & Trajectoires courbes (cercle)\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 2 : un angle = une durée.} À puissance fixe, l'angle dépend de la durée de rotation. Il faut \textbf{calibrer} : par essais, trouver la durée pour 90°.
+
+\textbf{Temps 3 : la démarche de calibrage.} Essai à 0,5 s, mesurer l'angle, ajuster par proportion (si 0,5 s donne 60°, alors environ 0,75 s pour 90°).
+
+\textbf{Temps 4 : un parcours est une suite de segments.}
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=0.9cm,text width=2.2cm,align=center,font=\small},>={Stealth[length=3mm]},node distance=0.5cm]
+\node[box,fill=green!15] (a) {Avancer};
+\node[box,fill=blue!15,right=of a] (b) {Tourner 90°};
+\node[box,fill=green!15,right=of b] (c) {Avancer};
+\node[box,fill=blue!15,right=of c] (d) {Tourner 90°};
+\draw[->,thick] (a)--(b); \draw[->,thick] (b)--(c); \draw[->,thick] (c)--(d);
+\end{tikzpicture}
+\end{center}
+
+\begin{astuce}
+Montrer le virage avec une main (la paume pour le robot). Donner un gabarit d'angle en carton. Garder le tableau des essais affiché.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B.
+
+\textbf{3a. Calibrer 90° en collectif (12 min).} Rotation sur place à puissance 50 \% pendant 0,5 s sur le robot de démonstration. Mesurer l'angle avec le gabarit. Ajuster ensemble la durée.
+
+\textbf{3b. Parcours en L en binômes (18 min).} Programmer : avancer, tourner de 90° (avec la durée calibrée), avancer. Alternance des rôles.
+
+\aides{Le programme de la rotation du 3a et le tableau d'essais}{Questions guides : \emph{L'angle est-il trop grand ou trop petit ? Que modifies-tu ?}}{L'enseignant réalise un essai avec le binôme, qui ajuste ensuite}
+
+\begin{astuce}
+Marquer le départ et l'orientation avec du ruban pour que chaque essai soit comparable. Accepter une erreur d'environ 10° au début.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+Chaque élève prépare son programme seul. Les essais se font par binôme sur le sol, à tour de rôle.
+
+\medskip
+\groupes{Parcours en L avec durées données dans une banque (rotation 0,5 s, 0,6 s, 0,7 s). Choisir la bonne rotation par essai, puis compléter un tableau d'essais.}{Programmer un carré de 40 cm de côté et revenir au point de départ. Calibrer la rotation et noter l'écart d'arrivée.}{Programmer un parcours en U puis un cercle (virage : roue gauche et roue droite à des puissances différentes). Utiliser la boucle \texttt{répéter} pour le carré et expliquer pourquoi l'erreur s'accumule.}
+
+\medskip
+\textbf{Plan B si le robot ne tourne pas comme prévu\,:} vérifier le niveau des batteries, la surface (le tapis modifie la rotation) et refaire le calibrage.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève montre son parcours en L et décrit comment il a trouvé la bonne durée. Valoriser l'essai-correction.}{un binôme présente son carré et l'écart à l'arrivée. Valoriser l'honnêteté de la mesure.}{un élève explique pourquoi l'erreur s'accumule dans une boucle. Valoriser le raisonnement.}{\textit{un robot tourne avec la différence de vitesse de ses roues ; l'angle se règle par la durée et se calibre par essais.}}
+
+\cloture{Comment fait-on tourner le mBot sur place ?}{Que fais-tu si ton robot tourne trop (plus de 90°) ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Rotation et trajectoires}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{Tourner} = faire tourner les roues à des vitesses différentes. \textbf{L'angle} dépend de la \textbf{durée} : on \textbf{calibre} par essais.
+\end{tcolorbox}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+ & Rotation sur place & Virage en avançant\\
+\midrule
+Roues & Sens opposés & Même sens, vitesses différentes\\
+Résultat & Pivote sur place & Courbe\\
+\bottomrule
+\end{tabularx}
+
+\begin{code}[Un virage de 90° (durée à calibrer)]
+tourner à droite à la puissance 50 \%\\
+attendre \dotfill{} secondes\\
+arrêter les moteurs
+\end{code}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : rotation et parcours}
+
+\subsection*{3a. Calibrer 90°}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2cm}Y Y Y}
+\toprule
+Essai & Durée (s) & Angle mesuré (°) & Trop grand / trop petit ?\\
+\midrule
+1 & 0,5 & & \\ 2 & & & \\ 3 & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{3b. Parcours en L (en binôme)}
+Avancer \dotfill{} s, tourner \dotfill{} s, avancer \dotfill{} s.
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le programme et le tableau d'essais.\\
+\textbf{Aide 2 :} L'angle est-il trop grand ou trop petit ? Que modifies-tu ?\\
+\textbf{Aide 3 :} demande à l'enseignant de faire un essai avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je choisis la bonne rotation}
+
+\textbf{Banque de durées de rotation :} 0,5 s, 0,6 s, 0,7 s.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2cm}Y Y}
+\toprule
+Essai & Durée choisie & Le robot tourne\ldots\\
+\midrule
+1 & & \cb trop \quad \cb juste \quad \cb pas assez\\
+2 & & \cb trop \quad \cb juste \quad \cb pas assez\\
+3 & & \cb trop \quad \cb juste \quad \cb pas assez\\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Parcours en L}
+Ma durée de rotation : \dotfill{} s. Mon parcours réussi : \cb oui \quad \cb non
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : le carré}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2cm}Y Y Y}
+\toprule
+Essai & Durée avancer (s) & Durée rotation (s) & Écart à l'arrivée (cm)\\
+\midrule
+1 & & & \\ 2 & & & \\ 3 & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Questions}
+\begin{enumerate}
+ \item Le robot revient-il exactement au départ ? Pourquoi ? \dotfill
+ \item Quel est l'angle de rotation pour un triangle équilatéral ? \dotfill
+\end{enumerate}
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : parcours en U et cercle}
+
+\textbf{Mission 1 :} parcours en U (avancer, tourner 90°, avancer, tourner 90°, avancer).\\
+\textbf{Mission 2 :} cercle : puissance gauche 60 \%, puissance droite 30 \%. Relève le diamètre obtenu : \dotfill{} cm.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y Y}
+\toprule
+Réglage & Puissance gauche / droite & Diamètre mesuré\\
+\midrule
+Essai 1 & & \\ Essai 2 & & \\
+\bottomrule
+\end{tabularx}
+
+\textbf{Question :} pourquoi l'erreur d'angle s'accumule-t-elle quand on répète quatre fois la rotation ? \lig
+
+\textbf{Défi bonus :} que se passe-t-il quand la différence de puissance augmente ?
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+Valeurs indicatives : la durée de 90° est souvent comprise entre 0,5 et 0,8 s à 50 \%, mais elle dépend du robot, de la batterie et du sol. Ajustement proportionnel de la durée.
+
+\subsection*{Annexe C}
+La bonne durée est celle qui fait tourner d'environ 90° ; la banque est à adapter après essai des robots de la classe.
+
+\subsection*{Annexe D}
+Le robot ne revient pas exactement au départ : petite erreur de rotation et de distance qui se cumulent. Triangle équilatéral : rotation de 120°.
+
+\subsection*{Annexe E}
+Cercle : plus la différence de puissance est grande, plus le cercle est petit. Chaque rotation a une erreur, qui est multipliée par le nombre de répétitions.\\
+\textbf{Critères de réussite :} tableau d'essais complet, explication de l'erreur cumulée, au moins un parcours abouti.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : rotation et trajectoires}
+
+\begin{enumerate}
+ \item Comment fait-on tourner le mBot sur place ?\\ \lig
+ \item Que fais-tu si ton robot tourne trop (plus de 90°) ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. Un moteur dans un sens et l'autre dans l'autre sens. 2. Diminuer la durée de rotation.
+
+\bigskip
+\grille{Rotation calibrée}{Parcours abouti}{Explication de l'erreur}
+
+\end{document}

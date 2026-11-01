@@ -1,0 +1,9 @@
+void feuVert()   { /* instructions */ }
+void feuOrange() { /* instructions */ }
+void feuRouge()  { /* instructions */ }
+
+void loop() {
+  feuVert();
+  feuOrange();
+  feuRouge();
+}

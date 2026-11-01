@@ -1,0 +1,295 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 8}
+\newcommand{\leconhdr}{Connexion et prise en main de mBot}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Connexion et prise en main de mBot}{Semaine du 2 au 6 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Connexion et prise en main de mBot\\
+Classe / effectif & Grade 8, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec le logiciel \textbf{mBlock 5} (version bureau recommandée) et le pilote du robot installé.
+ \item Un robot mBot par binôme (6 à 10 robots), chargé ou avec piles neuves, et un câble USB (ou module Bluetooth / 2.4~G).
+ \item Vidéoprojecteur ou tableau interactif.
+ \item Sol dégagé pour les tests (ruban de masquage pour délimiter une zone d'essai).
+\end{itemize}\\
+Pré-requis &
+Systèmes automatisés (septembre) : information et énergie. Découverte du robot Arduino (octobre) : composants généraux. Bases de Scratch (G7).\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 45 min)]
+\begin{enumerate}
+ \item Installer et tester mBlock 5 sur les postes, avec le robot connecté par câble : vérifier que le port s'affiche. Noter les noms exacts des blocs dans votre version.
+ \item Numéroter les robots et les câbles, charger les batteries.
+ \item Préparer les fichiers de départ (annexes C à E) et le formulaire de sortie (annexe G).
+ \item Si le nombre de robots est inférieur au nombre de binômes, prévoir des groupes de 3 et un planning de passage (voir plan B).
+\end{enumerate}
+\end{astuce}
+
+\begin{astuce}[Sécurité et règles]
+Le robot est posé au sol ou sur une table dégagée avec les roues soulevées pendant les premiers essais. Pas de câble tendu. Le robot s'éteint avant d'être rangé. Aucun élève ne démonte les piles.
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Connecter le robot à l'ordinateur.
+ \item Tester les fonctions de base.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item de nommer les capteurs et actionneurs du mBot et de les classer en entrées et sorties\,;
+ \item de connecter le robot à mBlock et de vérifier la connexion\,;
+ \item de tester une LED, le buzzer et le bouton avec un petit programme.
+\end{itemize}
+\textbf{Compétences numériques\,:} choisir un appareil et un port, téléverser ou exécuter un programme, diagnostiquer une connexion.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Le robot mystère : quels sont ses sens ?}{Entrées, traitement et sorties}{Connexion et LED en collectif, puis buzzer et bouton en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : le robot mystère}{0 -- 10 min}
+\textbf{Un robot allumé est posé sur la table, sans programme chargé.}
+\begin{enumerate}
+ \item (4 min) Les élèves observent sans toucher. \emph{Qu'a-t-il pour «~sentir~» le monde ? Qu'a-t-il pour «~agir~» ?} Noter au tableau en deux colonnes.
+ \item (3 min) Faire appuyer sur le bouton de la carte : le robot réagit-il ? (Selon le programme d'usine, il peut jouer un son ou clignoter.)
+ \item (3 min) Question-problème : \textbf{«~Comment parler à un robot pour qu'il fasse ce qu'on veut ?~»} Relier à la chaîne d'information de septembre.
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : entrées, traitement, sorties}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : le robot est un système automatisé.}
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=1.2cm,text width=3cm,align=center,font=\small},>={Stealth[length=3mm]},node distance=0.9cm]
+\node[box,fill=orange!20] (a) {\textbf{Entrées}\\ capteurs};
+\node[box,fill=blue!15,right=of a] (b) {\textbf{Traitement}\\ carte + programme};
+\node[box,fill=green!15,right=of b] (c) {\textbf{Sorties}\\ actionneurs};
+\draw[->,thick] (a)--(b); \draw[->,thick] (b)--(c);
+\end{tikzpicture}
+\end{center}
+
+\textbf{Temps 2 : les éléments du mBot.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Élément & Type & Rôle\\
+\midrule
+Bouton de la carte & Entrée & Détecte un appui\\
+Capteur de lumière & Entrée & Mesure la luminosité\\
+Capteur ultrason & Entrée & Mesure une distance\\
+Capteur suiveur de ligne & Entrée & Détecte noir ou blanc au sol\\
+Moteurs gauche et droit & Sortie & Font tourner les roues\\
+LED de la carte & Sortie & Produisent de la lumière\\
+Buzzer & Sortie & Produit un son\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 3 : relier le robot à l'ordinateur.} Quatre étapes : allumer le robot, brancher le câble, dans mBlock ajouter l'appareil mBot et choisir le port, cliquer sur Connecter.
+
+\textbf{Temps 4 : deux modes de programmation.} Mode \emph{direct} : l'ordinateur reste branché et envoie les ordres en temps réel. Mode \emph{téléversement} : le programme est copié dans le robot, qui peut fonctionner seul (vérifier les noms de modes dans votre version).
+
+\begin{astuce}
+Étiqueter chaque composant sur une photo du robot imprimée. Lire les étapes de connexion à voix haute. Donner une liste de contrôle à cocher pour les élèves qui perdent le fil.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B.
+
+\textbf{3a. Connexion et LED en collectif (12 min).} Tous les binômes suivent l'enseignant : ouvrir mBlock, ajouter mBot, connecter, puis allumer la LED en rouge avec un bloc de couleur, puis l'éteindre.
+
+\textbf{3b. Buzzer et bouton en binômes (18 min).} Programmer : \emph{quand le bouton est pressé, le buzzer joue une note et la LED devient verte}. Alternance des rôles à mi-temps.
+
+\aides{Le programme du 3a affiché et la liste de contrôle de connexion}{Questions guides : \emph{Quelle est l'entrée ? Quelle est la sortie ? Quel bloc relie les deux ?}}{L'enseignant vérifie la connexion avec le binôme (câble, port, appareil sélectionné)}
+
+\begin{astuce}
+En cas d'échec de connexion, vérifier dans l'ordre : câble, interrupteur du robot, port, appareil sélectionné. Garder un robot et un câble de rechange.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+Chaque élève écrit son programme seul sur son poste. Le test sur robot se fait par binôme, à tour de rôle (un élève teste pendant que l'autre relit le programme du camarade).
+
+\medskip
+\groupes{Liste de contrôle illustrée et programme à compléter : allumer successivement la LED en rouge, vert, bleu, avec une pause entre chaque, puis jouer une note. Capture d'écran fournie pour chaque étape.}{Écrire seul un programme de démarrage : séquence de LED, mélodie courte, puis, à l'appui sur le bouton, avancer une seconde puis s'arrêter (robot soulevé pour le premier test).}{Concevoir une «~animation de démarrage~» déclenchée par le bouton, avec une condition (un son différent selon la luminosité du capteur de lumière), et documenter chaque entrée et sortie utilisée dans un tableau.}
+
+\medskip
+\textbf{Plan B si les robots sont en nombre insuffisant\,:} faire tourner les groupes toutes les 10 min. Les autres vérifient leur programme sur papier, ou simulent avec un lutin sur la scène de mBlock.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève montre sa liste de contrôle remplie et explique chaque étape. Valoriser la persévérance quand il y a eu un problème de connexion.}{un binôme montre son programme et le fait tourner. Valoriser la précision des blocs.}{un élève présente son animation et son tableau entrées/sorties. Valoriser la rigueur.}{\textit{un robot reçoit des informations par ses capteurs, les traite avec son programme et agit avec ses actionneurs.} Annoncer que la prochaine séance fera avancer le robot.}
+
+\cloture{Cite un capteur et un actionneur du mBot.}{Quelles sont les trois premières étapes pour connecter le robot à mBlock ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Le robot mBot}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{Un robot} : des \textbf{entrées} (capteurs), un \textbf{traitement} (carte et programme), des \textbf{sorties} (actionneurs).
+\end{tcolorbox}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y Y}
+\toprule
+Élément & Entrée ou sortie ? & Rôle\\
+\midrule
+Bouton & Entrée & Détecte un appui\\
+Capteur de lumière & Entrée & Mesure la luminosité\\
+Ultrason & Entrée & Mesure une distance\\
+Suiveur de ligne & Entrée & Noir ou blanc au sol\\
+Moteurs & Sortie & Font tourner les roues\\
+LED & Sortie & Lumière\\
+Buzzer & Sortie & Son\\
+\bottomrule
+\end{tabularx}
+
+\medskip
+\textbf{Connexion en quatre étapes :} 1. Allumer le robot. 2. Brancher le câble. 3. Ajouter l'appareil mBot dans mBlock et choisir le port. 4. Cliquer sur Connecter.
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : prise en main du mBot}
+
+\subsection*{Liste de contrôle de connexion}
+\cb Robot allumé \quad \cb Câble branché \quad \cb Appareil mBot ajouté \quad \cb Port choisi \quad \cb Connexion réussie
+
+\subsection*{3b. En binôme : bouton, buzzer, LED}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Élément & Bloc utilisé & Résultat observé\\
+\midrule
+Entrée (bouton) & & \\
+Sortie 1 (buzzer) & & \\
+Sortie 2 (LED) & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde la liste de contrôle et le programme du 3a.\\
+\textbf{Aide 2 :} Quelle est l'entrée ? Quelle est la sortie ? Quel bloc relie les deux ?\\
+\textbf{Aide 3 :} demande à l'enseignant de vérifier la connexion avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : j'allume la LED pas à pas}
+
+\textbf{Banque de mots :} rouge, vert, bleu, attendre, note, buzzer, LED.
+
+\subsection*{Activité 1 : complète le programme}
+\begin{enumerate}
+ \item Allumer la LED en \dotfill.
+ \item \dotfill{} 1 seconde.
+ \item Allumer la LED en \dotfill.
+ \item \dotfill{} 1 seconde.
+ \item Jouer une \dotfill{} avec le \dotfill.
+\end{enumerate}
+
+\subsection*{Activité 2 : relie}
+\begin{tabularx}{\linewidth}{Y Y}
+\toprule
+\textbf{Élément} & \textbf{Entrée ou sortie}\\
+\midrule
+Bouton & \\
+LED & \\
+Buzzer & \\
+\bottomrule
+\end{tabularx}
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : mon programme de démarrage}
+
+\textbf{Cahier des charges :} séquence de trois couleurs, mélodie courte, puis à l'appui sur le bouton le robot avance une seconde et s'arrête.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.6cm}Y Y}
+\toprule
+Étape & Mon programme & Mon test\\
+\midrule
+LED & & \\
+Mélodie & & \\
+Bouton & & \\
+Avancer & & \\
+Arrêter & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Question}
+Que se passe-t-il si tu oublies le bloc qui arrête les moteurs ? \dotfill
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : animation conditionnelle}
+
+\textbf{Mission :} au démarrage, le robot joue un son différent selon la lumière mesurée par son capteur : un son aigu s'il y a beaucoup de lumière, un son grave s'il y en a peu.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Élément utilisé & Entrée ou sortie ? & Rôle dans le programme\\
+\midrule
+ & & \\ & & \\ & & \\
+\bottomrule
+\end{tabularx}
+
+\textbf{Défi bonus :} change la couleur de la LED selon la valeur lue.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+3b : entrée = bouton ; sorties = buzzer et LED ; bloc \texttt{quand le bouton est pressé}. Cause fréquente d'échec : mauvais port ou câble débranché.
+
+\subsection*{Annexe C}
+Banque dans l'ordre : rouge, attendre, vert, attendre, note, buzzer. Entrées/sorties : bouton = entrée ; LED = sortie ; buzzer = sortie.
+
+\subsection*{Annexe D}
+Programme attendu : trois couleurs avec pauses, mélodie, \texttt{quand le bouton est pressé}, \texttt{avancer}, \texttt{attendre 1 seconde}, \texttt{arrêter}. Sans arrêt, le robot continue d'avancer.
+
+\subsection*{Annexe E}
+Entrée : capteur de lumière ; sorties : buzzer et LED. Programme : \texttt{si lumière > seuil alors note aiguë sinon note grave}.\\
+\textbf{Critères de réussite :} une condition fonctionnelle, un tableau cohérent, un test réalisé.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : prise en main du mBot}
+
+\begin{enumerate}
+ \item Cite un capteur et un actionneur du mBot.\\ \lig
+ \item Quelles sont les trois premières étapes pour connecter le robot à mBlock ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. Par exemple ultrason et moteur. 2. Allumer le robot, brancher le câble, choisir l'appareil et le port.
+
+\bigskip
+\grille{Connexion réussie}{Entrées/sorties}{Programme testé}
+
+\end{document}

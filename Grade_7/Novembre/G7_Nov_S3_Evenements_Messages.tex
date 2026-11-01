@@ -1,0 +1,275 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 7}
+\newcommand{\leconhdr}{Les événements et messages}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Les événements et messages}{Semaine du 16 au 20 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Les événements et messages (Scratch)\\
+Classe / effectif & Grade 7, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec Scratch 3 (éditeur en ligne ou hors ligne).
+ \item Vidéoprojecteur ou tableau interactif.
+ \item Projets de départ \texttt{.sb3} pour les trois niveaux, dans un dossier partagé.
+\end{itemize}\\
+Pré-requis &
+Boucles et conditions (deux séances précédentes). Savoir ajouter un lutin et un arrière-plan.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 40 min)]
+\begin{enumerate}
+ \item Préparer trois projets : A (deux lutins qui dialoguent, blocs d'envoi et de réception manquants), B (histoire en trois scènes sans messages), C (jeu à deux lutins sans communication).
+ \item Tester les projets sur les postes élèves.
+ \item Créer le formulaire de sortie (annexe G) ou imprimer l'annexe.
+ \item Reconstituer les groupes à partir de l'exit ticket de la séance précédente.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Déclencher une action par événement.
+ \item Faire communiquer plusieurs personnages Scratch.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item d'utiliser les blocs d'événement (\texttt{quand drapeau cliqué}, \texttt{quand touche pressée}, \texttt{quand ce lutin est cliqué})\,;
+ \item d'envoyer et de recevoir un message entre deux lutins\,;
+ \item d'expliquer l'ordre dans lequel les actions se produisent.
+\end{itemize}
+\textbf{Compétences numériques\,:} gérer plusieurs lutins, nommer ses messages, tester et corriger.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Le relais de messages}{Événement, envoi et réception}{Un dialogue entre deux lutins, puis un changement de décor en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : le relais de messages}{0 -- 10 min}
+\textbf{Écrans éteints.}
+\begin{enumerate}
+ \item (6 min) Trois élèves en ligne. L'enseignant tape sur l'épaule du premier, qui dit «~Bonjour~» et tape sur l'épaule du deuxième, qui répond «~Salut~» puis tape sur l'épaule du troisième, qui lève la main. La classe observe qui agit quand.
+ \item (4 min) Question-problème : \textbf{«~Comment un lutin peut-il dire à un autre lutin de commencer ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : événements et messages}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : un événement.} Une action programmée démarre quand \emph{quelque chose se produit} : drapeau vert, touche pressée, clic sur le lutin.
+
+\textbf{Temps 2 : les messages.} Un lutin peut \emph{envoyer} un message. Un autre lutin le \emph{reçoit} et démarre un script.
+
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=1cm,text width=3.2cm,align=center,font=\small},>={Stealth[length=3mm]},node distance=1.2cm]
+\node[box,fill=orange!20] (a) {Lutin 1\\ dire «~Bonjour~»\\ \texttt{envoyer salut}};
+\node[box,fill=blue!15,right=of a] (b) {Message\\ \texttt{salut}};
+\node[box,fill=green!15,right=of b] (c) {Lutin 2\\ \texttt{quand je reçois salut}\\ dire «~Salut !~»};
+\draw[->,thick] (a)--(b); \draw[->,thick] (b)--(c);
+\end{tikzpicture}
+\end{center}
+
+\textbf{Temps 3 : l'ordre des actions.} Quand plusieurs scripts démarrent en même temps, ils s'exécutent \emph{en parallèle}. Pour les enchaîner : \texttt{envoyer à tous et attendre}.
+
+\textbf{Temps 4 : bien nommer.} Choisir des noms clairs pour les messages : \texttt{debut\_scene2} plutôt que \texttt{message1}.
+
+\begin{astuce}
+Utiliser des couleurs par lutin dans les schémas. Donner un modèle de nom de message. Lire à voix haute : «~quand je reçois salut, alors\ldots~»
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B.
+
+\textbf{3a. Exemple collectif sur poste (12 min).} Chat et chien : le chat dit «~Bonjour~» quand on clique dessus, puis envoie le message \texttt{salut}. Le chien reçoit \texttt{salut} et répond.
+
+\textbf{3b. Second exemple en binômes (18 min).} Un clic sur un bouton envoie le message \texttt{nuit}. L'arrière-plan change et un lutin dit «~Bonne nuit~». Alternance des rôles à mi-temps.
+
+\aides{Le projet du 3a et le schéma de l'annexe A}{Questions guides : \emph{Qui envoie ? Qui reçoit ? Quel nom donnes-tu au message ?}}{L'enseignant crée le message avec le binôme, qui termine le script}
+
+\begin{astuce}
+Proposer des blocs déjà posés dans le projet pour les élèves lents. Autoriser à tester lutin par lutin avant de lancer l'ensemble.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Projet à compléter : un dialogue entre deux lutins dont les blocs \texttt{envoyer} et \texttt{quand je reçois} sont à relier avec des flèches de couleur, puis ajouter une réplique.}{Créer une histoire en trois scènes (arrière-plans différents) avec trois lutins qui s'envoient des messages pour passer d'une scène à l'autre.}{Programmer un jeu à deux lutins qui communiquent : un message \texttt{touche} quand le joueur est atteint, un message \texttt{fin} qui arrête les scripts, et une variable \texttt{vies}. Documenter les messages dans un tableau.}
+
+\medskip
+\textbf{Plan B si un élève termine tôt\,:} ajouter un bouton «~Rejouer~» qui envoie un message à tous les lutins.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève montre le dialogue et nomme qui envoie et qui reçoit. Valoriser la précision du vocabulaire.}{un binôme présente son histoire et enchaîne les trois scènes. Valoriser la fluidité.}{un élève présente son jeu et le tableau des messages. Valoriser la structure.}{\textit{un événement déclenche une action et un message permet à deux lutins de se parler.}}
+
+\cloture{Quel bloc permet à un lutin de réagir quand un autre lutin lui envoie un signal ?}{Pourquoi est-il utile de donner un nom clair à un message ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Les événements et messages}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{Événement} : quelque chose qui se produit et déclenche un script.\\
+\textbf{Message} : un signal envoyé par un lutin et reçu par un autre.
+\end{tcolorbox}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{4.6cm}Y}
+\toprule
+Bloc & Rôle\\
+\midrule
+\texttt{quand drapeau cliqué} & Démarre le programme\\
+\texttt{quand touche espace pressée} & Réagit au clavier\\
+\texttt{quand ce lutin est cliqué} & Réagit au clic\\
+\texttt{envoyer à tous salut} & Envoie un message\\
+\texttt{quand je reçois salut} & Démarre un script à la réception\\
+\texttt{envoyer à tous et attendre} & Attend la fin des scripts qui reçoivent\\
+\bottomrule
+\end{tabularx}
+
+\begin{code}[Modèle]
+Lutin 1 : quand ce lutin est cliqué $\rightarrow$ dire «~Bonjour~» $\rightarrow$ envoyer à tous salut\\
+Lutin 2 : quand je reçois salut $\rightarrow$ dire «~Salut !~»
+\end{code}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : événements et messages}
+
+\subsection*{3a. Exemple collectif : chat et chien}
+Qui envoie ? \dotfill\quad Qui reçoit ? \dotfill\quad Nom du message : \dotfill
+
+\subsection*{3b. En binôme : le jour et la nuit}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y Y}
+\toprule
+Élément & Mon script & Mon test\\
+\midrule
+Événement de départ & & \\
+Message envoyé & & \\
+Réception & & \\
+Résultat visible & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le projet du 3a.\\
+\textbf{Aide 2 :} Qui envoie ? Qui reçoit ? Quel nom donnes-tu au message ?\\
+\textbf{Aide 3 :} demande à l'enseignant de créer le message avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je relie envoi et réception}
+
+\subsection*{Activité 1 : relie chaque bloc à son rôle (les rôles sont mélangés)}
+\begin{tabularx}{\linewidth}{Y Y}
+\toprule
+\textbf{Bloc} & \textbf{Rôle}\\
+\midrule
+\texttt{envoyer à tous salut} & Démarre le script quand on appuie sur une touche\\
+\texttt{quand je reçois salut} & Le lutin envoie un signal\\
+\texttt{quand touche espace pressée} & Le lutin démarre quand il reçoit le signal\\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Activité 2 : complète le dialogue}
+Lutin 1 dit : «~\dotfill~» puis envoie le message \dotfill.\\
+Lutin 2 reçoit le message et dit : «~\dotfill~».
+
+\subsection*{Activité 3 : teste}
+Écris ce qui se passe si on enlève le bloc \texttt{envoyer} : \dotfill
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : une histoire en trois scènes}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.4cm}Y Y Y}
+\toprule
+Scène & Arrière-plan & Lutin et action & Message pour la suite\\
+\midrule
+1 & & & \\
+2 & & & \\
+3 & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Questions}
+\begin{enumerate}
+ \item Combien de messages as-tu utilisés ? \dotfill
+ \item Que se passe-t-il si deux lutins reçoivent le même message ? \dotfill
+\end{enumerate}
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : jeu à deux lutins}
+
+\textbf{Mission :} crée un jeu dans lequel un lutin joueur évite un lutin ennemi.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Message & Qui l'envoie ? & Qui le reçoit et que fait-il ?\\
+\midrule
+\texttt{touche} & & \\
+\texttt{fin} & & \\
+\texttt{rejouer} & & \\
+\bottomrule
+\end{tabularx}
+
+\textbf{Contraintes :} une variable \texttt{vies}, un message \texttt{fin} qui arrête les scripts, un bouton «~Rejouer~».
+
+\textbf{Défi bonus :} ajoute un deuxième ennemi qui apparaît quand le score dépasse 10.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+3a : le chat envoie, le chien reçoit, message \texttt{salut}. 3b : événement \texttt{quand ce lutin est cliqué} ; envoi \texttt{nuit} ; réception \texttt{quand je reçois nuit} avec changement d'arrière-plan et réplique.
+
+\subsection*{Annexe C}
+\texttt{envoyer à tous salut} $\rightarrow$ «~Le lutin envoie un signal~» ; \texttt{quand je reçois salut} $\rightarrow$ «~Le lutin démarre quand il reçoit le signal~» ; \texttt{quand touche espace pressée} $\rightarrow$ «~Démarre le script quand on appuie sur une touche~».\\
+Activité 3 : sans le bloc \texttt{envoyer}, le second lutin ne réagit pas.
+
+\subsection*{Annexe D}
+Au moins deux messages pour trois scènes. Deux lutins qui reçoivent le même message réagissent en même temps (en parallèle).
+
+\subsection*{Annexe E}
+\texttt{touche} : envoyé par l'ennemi quand il touche le joueur, reçu par le joueur qui perd une vie. \texttt{fin} : envoyé par le joueur à 0 vie, reçu par tous. \texttt{rejouer} : envoyé par le bouton.\\
+\textbf{Critères de réussite :} messages clairement nommés, jeu qui se termine et peut redémarrer.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : événements et messages}
+
+\begin{enumerate}
+ \item Quel bloc permet à un lutin de réagir quand un autre lutin lui envoie un signal ?\\ \lig
+ \item Pourquoi est-il utile de donner un nom clair à un message ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. \texttt{quand je reçois\ldots}. 2. Pour retrouver facilement quel lutin doit réagir et éviter les erreurs.
+
+\bigskip
+\grille{Événement utilisé}{Message envoyé}{Message reçu}
+
+\end{document}

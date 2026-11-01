@@ -1,0 +1,330 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 12}
+\newcommand{\leconhdr}{Communication MQTT}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Communication MQTT}{Semaine du 23 au 27 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Communication MQTT : publier et recevoir des données\\
+Classe / effectif & Grade 12, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec navigateur web.
+ \item \textbf{Wokwi} (wokwi.com, gratuit) : ESP32 simulé avec Wi-Fi \texttt{Wokwi-GUEST}, bibliothèque \texttt{PubSubClient}, un capteur de température et une LED.
+ \item Un client MQTT web gratuit (par exemple le client WebSocket de HiveMQ) et un courtier public d'essai (par exemple \texttt{broker.hivemq.com}). \textbf{À tester sur un poste élève avant la séance.}
+ \item Facultatif : une carte ESP32 réelle par binôme.
+ \item Vidéoprojecteur ou tableau interactif.
+\end{itemize}\\
+Pré-requis &
+Séances précédentes : architecture d'un objet connecté, protocoles (HTTP, MQTT), connexion Wi-Fi de l'ESP32 avec adresse IP et gestion d'échec.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 55 min)]
+\begin{enumerate}
+ \item Créer le projet Wokwi (ESP32, capteur de température, LED) avec la bibliothèque PubSubClient, et vérifier la connexion au courtier public depuis un poste élève. Si le pare-feu de l'école bloque le port MQTT (1883), prévoir le plan B.
+ \item Définir un préfixe de sujets unique à la classe, par exemple \texttt{ibsa/g12/}, suivi du prénom de l'élève.
+ \item Expliquer et faire respecter la règle : \textbf{aucune donnée personnelle} sur un courtier public. Tout le monde peut lire les messages.
+ \item Préparer les fichiers des annexes C à E et le formulaire de sortie.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Comprendre le protocole MQTT.
+ \item Publier et recevoir des données.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item d'expliquer le rôle du courtier (broker), de l'éditeur (publisher), de l'abonné (subscriber) et du sujet (topic)\,;
+ \item de publier une mesure sur un sujet et de s'abonner à un sujet pour recevoir une commande\,;
+ \item d'organiser des sujets de façon claire et de justifier le niveau de sécurité d'un échange.
+\end{itemize}
+\textbf{Compétences numériques\,:} publier et s'abonner, lire un journal d'échanges, protéger ses données.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Le journal et ses abonnés}{Courtier, sujet, publication, abonnement}{Publication et abonnement avec le client web en collectif, puis avec l'ESP32 simulé en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : le journal et ses abonnés}{0 -- 10 min}
+\begin{enumerate}
+ \item (5 min) Mise en situation : un élève «~imprimeur~» (courtier) reçoit des articles de plusieurs «~journalistes~» sur des rubriques (sport, météo) et les distribue aux «~abonnés~» de chaque rubrique. Les journalistes ne connaissent pas les abonnés.
+ \item (5 min) Question-problème : \textbf{«~Comment un capteur peut-il envoyer sa mesure à plusieurs applications sans les connaître ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : le principe de MQTT}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : trois acteurs.}
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=1.1cm,text width=2.6cm,align=center,font=\small},>={Stealth[length=3mm]},node distance=1cm]
+\node[box,fill=orange!20] (p) {Éditeur\\ ESP32 + capteur};
+\node[box,fill=blue!15,right=of p] (b) {Courtier\\ (broker)};
+\node[box,fill=green!15,right=of b] (s) {Abonné\\ application};
+\draw[->,thick] (p)--node[above,font=\scriptsize]{publie}(b);
+\draw[->,thick] (b)--node[above,font=\scriptsize]{transmet}(s);
+\end{tikzpicture}
+\end{center}
+
+\textbf{Temps 2 : les sujets (topics).} Hiérarchiques, séparés par des barres obliques : \texttt{ibsa/g12/awa/temp}. Deux jokers : \texttt{+} (un niveau) et \texttt{\#} (tous les niveaux suivants). Exemple : s'abonner à \texttt{ibsa/g12/+/temp} reçoit la température de tous les élèves.
+
+\textbf{Temps 3 : le programme (PubSubClient).}
+\begin{arduino}[Publier et s'abonner (extrait)]
+#include <WiFi.h>
+#include <PubSubClient.h>
+
+WiFiClient reseau;
+PubSubClient client(reseau);
+
+void recevoir(char* sujet, byte* donnees, unsigned int taille) {
+  String message = "";
+  for (unsigned int i = 0; i < taille; i++) {
+    message += (char)donnees[i];
+  }
+  Serial.println(message);
+  if (message == "on") digitalWrite(5, HIGH);
+  if (message == "off") digitalWrite(5, LOW);
+}
+
+void setup() {
+  // connexion Wi-Fi comme a la seance precedente
+  client.setServer("broker.hivemq.com", 1883);
+  client.setCallback(recevoir);
+}
+
+void loop() {
+  if (!client.connected()) {
+    client.connect("ibsa-g12-awa");
+    client.subscribe("ibsa/g12/awa/led");
+  }
+  client.loop();
+  client.publish("ibsa/g12/awa/temp", "24");
+  delay(5000);
+}
+\end{arduino}
+
+\textbf{Temps 4 : sécurité.} Un courtier public n'est ni chiffré ni protégé : pas de mots de passe, pas de données personnelles. En production : authentification, chiffrement TLS (port 8883) et contrôle d'accès par sujet.
+
+\begin{astuce}
+Colorer éditeur, courtier et abonné dans les schémas et dans le code. Lire le code en disant «~publie sur le sujet\ldots~» et «~s'abonne au sujet\ldots~». Fournir le lexique anglais (publish, subscribe, topic, broker).
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B. Programmation en binômes (pilote et navigateur, rôles échangés à mi-temps).
+
+\textbf{3a. Client web en collectif (12 min).} Dans le client MQTT web, tous se connectent au courtier, s'abonnent à \texttt{ibsa/g12/+/temp}, puis chaque élève publie sa valeur sur \texttt{ibsa/g12/prenom/temp}. Lire les messages reçus.
+
+\textbf{3b. ESP32 simulé en binômes (18 min).} Ouvrir le projet Wokwi, remplacer le prénom dans les sujets, lancer la simulation, observer la publication de la température dans le client web. Publier «~on~» puis «~off~» sur le sujet de la LED depuis le client web et vérifier la réaction. Alternance des rôles.
+
+\aides{Le tableau des sujets de la classe et le programme annoté}{Questions guides : \emph{Qui est l'éditeur ? Qui est l'abonné ? Sur quel sujet publie-t-on ?}}{L'enseignant vérifie le sujet avec le binôme et relance la connexion}
+
+\begin{astuce}
+Contrôler que chaque sujet contient bien le prénom de l'élève (éviter les collisions entre binômes). Si le courtier est inaccessible, passer au plan B (jeu de rôles avec le client web seul ou avec cartes sujets).
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Programme à compléter (instructions manquantes : \texttt{setServer}, \texttt{connect}, \texttt{subscribe}, \texttt{publish}, banque de mots). Relier les rôles (éditeur, abonné, courtier) à leurs éléments dans un schéma.}{Programmer seul une station qui publie la température toutes les 5 s sur \texttt{ibsa/g12/prenom/temp} et qui allume la LED à la réception de «~on~» sur \texttt{ibsa/g12/prenom/led}. Fournir un tableau de tests.}{Concevoir une organisation de sujets pour une station complète (température, humidité, état, commande), utiliser les jokers \texttt{+} et \texttt{\#} pour un tableau de bord, et rédiger une analyse de sécurité du système (courtier public, authentification, TLS).}
+
+\medskip
+\textbf{Plan B si le courtier est bloqué\,:} faire jouer le courtier à un élève et tenir un journal papier des publications et abonnements.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève montre la valeur reçue dans le client web et explique qui publie. Valoriser l'exactitude.}{un binôme montre la commande de la LED depuis le client web. Valoriser le lien entre le sujet et l'action.}{un élève présente son organisation de sujets et son analyse de sécurité. Valoriser la réflexion sur les risques.}{\textit{MQTT sépare ceux qui publient de ceux qui reçoivent grâce à un courtier et à des sujets ; il est léger, mais il faut le sécuriser.}}
+
+\cloture{Quel est le rôle du courtier (broker) dans MQTT ?}{Pourquoi ne faut-il pas envoyer de données personnelles sur un courtier public ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Communication MQTT}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{Éditeur} publie sur un \textbf{sujet}. \textbf{Courtier} transmet. \textbf{Abonné} reçoit les messages des sujets auxquels il est abonné.
+\end{tcolorbox}
+
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=1.1cm,text width=2.6cm,align=center,font=\small},>={Stealth[length=3mm]},node distance=1cm]
+\node[box,fill=orange!20] (p) {Éditeur};
+\node[box,fill=blue!15,right=of p] (b) {Courtier};
+\node[box,fill=green!15,right=of b] (s) {Abonné};
+\draw[->,thick] (p)--(b); \draw[->,thick] (b)--(s);
+\end{tikzpicture}
+\end{center}
+
+\begin{tabularx}{\linewidth}{>{\ttfamily}p{4.4cm}Y}
+\toprule
+Instruction & Rôle\\
+\midrule
+client.setServer(hote, 1883) & Adresse du courtier\\
+client.connect("identifiant") & Se connecte (identifiant unique)\\
+client.subscribe("sujet") & S'abonne\\
+client.publish("sujet", "valeur") & Publie\\
+client.loop() & Maintient la connexion, reçoit\\
+\bottomrule
+\end{tabularx}
+
+\medskip
+\textbf{Jokers :} \texttt{+} (un niveau), \texttt{\#} (tous les niveaux suivants).\\
+\textbf{Règle de la classe :} aucun mot de passe, aucune donnée personnelle sur un courtier public.
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : publier et recevoir}
+
+\subsection*{3a. Client web}
+Mon sujet : \dotfill\\
+Valeur publiée : \dotfill\\
+Messages reçus (au moins trois) : \dotfill
+
+\subsection*{3b. ESP32 simulé}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y Y}
+\toprule
+Action & Sujet utilisé & Résultat observé\\
+\midrule
+L'ESP32 publie la température & & \\
+Je publie «~on~» & & \\
+Je publie «~off~» & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le tableau des sujets et le programme annoté.\\
+\textbf{Aide 2 :} Qui est l'éditeur ? Qui est l'abonné ? Sur quel sujet publie-t-on ?\\
+\textbf{Aide 3 :} demande à l'enseignant de vérifier ton sujet avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je complète le programme MQTT}
+
+\textbf{Banque :} setServer, connect, subscribe, publish.
+
+\begin{arduino}[Programme à compléter]
+client._____("broker.hivemq.com", 1883);
+client._____("ibsa-g12-awa");
+client._____("ibsa/g12/awa/led");
+client._____("ibsa/g12/awa/temp", "24");
+\end{arduino}
+
+\subsection*{Activité : relie}
+\begin{tabularx}{\linewidth}{Y Y}
+\toprule
+\textbf{Rôle} & \textbf{Élément}\\
+\midrule
+Éditeur & \\
+Courtier & \\
+Abonné & \\
+\bottomrule
+\end{tabularx}
+Éléments : ESP32 avec capteur, serveur broker.hivemq.com, application qui affiche la température.
+
+\subsection*{Vrai ou faux ?}
+1. Un abonné doit connaître l'éditeur. \cb Vrai \cb Faux\\
+2. Un sujet ressemble à un chemin avec des barres obliques. \cb Vrai \cb Faux
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : ma station MQTT}
+
+\textbf{Cahier des charges :} publier la température toutes les 5 s sur \texttt{ibsa/g12/prenom/temp} ; allumer la LED à la réception de «~on~» et l'éteindre à la réception de «~off~» sur \texttt{ibsa/g12/prenom/led}.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{4cm}Y Y Y}
+\toprule
+Test & Résultat attendu & Obtenu & Conforme ?\\
+\midrule
+Publication de la température & & & \\
+Commande «~on~» & & & \\
+Commande «~off~» & & & \\
+Message inconnu («~xyz~») & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Question}
+Que se passe-t-il si deux élèves utilisent le même identifiant de client ? \dotfill
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : sujets et sécurité}
+
+\subsection*{1. Organisation des sujets d'une station complète}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y Y}
+\toprule
+Information & Sujet & Qui publie ?\\
+\midrule
+Température & & \\ Humidité & & \\ État de la station & & \\ Commande d'arrosage & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{2. Tableau de bord}
+Quel abonnement permet de recevoir toutes les mesures de la station ? \dotfill\\
+Quel abonnement permet de recevoir la température de toutes les stations ? \dotfill
+
+\subsection*{3. Analyse de sécurité}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y Y}
+\toprule
+Risque & Exemple & Parade\\
+\midrule
+Lecture des messages & & \\ Commande par un inconnu & & \\ Usurpation d'identité & & \\
+\bottomrule
+\end{tabularx}
+
+\textbf{Défi bonus :} explique la différence entre les niveaux de qualité de service (0, 1, 2) de MQTT.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+Publication : \texttt{ibsa/g12/prenom/temp}. Commande : \texttt{ibsa/g12/prenom/led}. La LED s'allume avec «~on~» et s'éteint avec «~off~».
+
+\subsection*{Annexe C}
+\texttt{setServer}, \texttt{connect}, \texttt{subscribe}, \texttt{publish}. Rôles : ESP32 = éditeur ; broker = courtier ; application = abonné. Faux, Vrai.
+
+\subsection*{Annexe D}
+Message inconnu : la LED ne change pas. Deux clients avec le même identifiant se déconnectent mutuellement (le courtier garde le dernier).
+
+\subsection*{Annexe E}
+Sujets : \texttt{ibsa/g12/prenom/temp}, \texttt{.../hum}, \texttt{.../etat}, \texttt{.../arrosage}. Abonnements : \texttt{ibsa/g12/prenom/\#} ; \texttt{ibsa/g12/+/temp}. Risques : lecture (chiffrer avec TLS), commande par un inconnu (authentification et contrôle d'accès), usurpation (identifiant unique et mot de passe). QoS : 0 au plus une fois, 1 au moins une fois, 2 exactement une fois.\\
+\textbf{Critères de réussite :} sujets cohérents, jokers corrects, trois risques et trois parades.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : MQTT}
+
+\begin{enumerate}
+ \item Quel est le rôle du courtier (broker) dans MQTT ?\\ \lig
+ \item Pourquoi ne faut-il pas envoyer de données personnelles sur un courtier public ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. Recevoir les messages des éditeurs et les transmettre aux abonnés du sujet. 2. Tout le monde peut lire les messages (non chiffrés, non protégés).
+
+\bigskip
+\grille{Publication}{Abonnement}{Sécurité comprise}
+
+\end{document}

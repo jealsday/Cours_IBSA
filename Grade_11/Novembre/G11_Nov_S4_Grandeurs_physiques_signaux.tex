@@ -1,0 +1,298 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 11}
+\newcommand{\leconhdr}{Grandeurs physiques et signaux}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Grandeurs physiques et signaux}{Semaine du 23 au 27 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Grandeurs physiques et signaux\\
+Classe / effectif & Grade 11, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec navigateur web.
+ \item \textbf{Wokwi} (wokwi.com, gratuit) : projet ESP32 modèle avec une thermistance (capteur de température NTC) sur GPIO 34 et une photorésistance (capteur de lumière) sur GPIO 35. Le code est fourni.
+ \item Un tableur (Google Sheets ou LibreOffice Calc) pour les graphiques.
+ \item Vidéoprojecteur ou tableau interactif.
+\end{itemize}\\
+Pré-requis &
+Séances précédentes : chaîne d'information, capteurs analogiques et numériques, CAN 12 bits (0 à 4095 pour 0 à 3,3~V).\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 45 min)]
+\begin{enumerate}
+ \item Créer le projet Wokwi avec les deux capteurs et coller le code de l'annexe A. Vérifier les noms et les broches des composants dans votre version du simulateur.
+ \item Préparer un tableur modèle avec les colonnes (temps, valeur, tension).
+ \item Préparer un graphique d'exemple de température sur 24~h pour l'accroche.
+ \item Préparer les fichiers des annexes C à E et le formulaire de sortie.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Identifier une grandeur mesurée.
+ \item Interpréter un signal simple.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item d'associer à un capteur la grandeur physique qu'il mesure et son unité\,;
+ \item de lire un signal (courbe d'une valeur en fonction du temps) et d'en dégager un minimum, un maximum et une tendance\,;
+ \item de choisir un seuil à partir d'un signal pour déclencher une action.
+\end{itemize}
+\textbf{Compétences numériques\,:} relever des mesures, tracer et lire une courbe, justifier une décision par les données.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Que raconte cette courbe de température ?}{Grandeur, unité, signal, seuil}{Lecture d'un signal en collectif, puis relevé et courbe en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : que raconte cette courbe ?}{0 -- 10 min}
+\begin{enumerate}
+ \item (5 min) Projeter la courbe de la température d'une journée (24 h) : montée le matin, maximum l'après-midi, descente le soir. \emph{À quelle heure fait-il le plus chaud ? Quand le chauffage doit-il se déclencher ?}
+ \item (5 min) Question-problème : \textbf{«~Comment un système peut-il comprendre ce que raconte une courbe et décider tout seul ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : grandeurs, signaux, seuils}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : la grandeur physique.} C'est ce qu'on mesure. Elle a une unité.
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Grandeur & Unité & Capteur possible\\
+\midrule
+Température & degré Celsius (°C) & Thermistance, sonde\\
+Luminosité & lux (lx) & Photorésistance\\
+Distance & mètre (m) & Capteur ultrason\\
+Vitesse & mètre par seconde (m/s) & Codeur\\
+Humidité & pour cent (\%) & Capteur d'humidité\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 2 : un signal est une grandeur qui varie.} On le représente par une courbe : le temps en abscisse, la valeur en ordonnée.
+
+\textbf{Temps 3 : lire un signal.} Repérer le minimum, le maximum, la tendance (monte, descend, stable), les valeurs anormales (pics). Le bruit est une petite variation parasite.
+
+\begin{center}
+\begin{tikzpicture}[scale=0.9]
+\draw[->] (0,0) -- (8,0) node[right]{\small temps};
+\draw[->] (0,0) -- (0,3.2) node[above]{\small valeur};
+\draw[thick,blue!70!black] (0,0.8) .. controls (2,0.6) and (3,3) .. (4,2.8) .. controls (5,2.6) and (6,0.7) .. (8,0.9);
+\draw[dashed,red!70!black] (0,1.6) -- (8,1.6) node[right,font=\small]{seuil};
+\end{tikzpicture}
+\end{center}
+
+\textbf{Temps 4 : le seuil.} Un seuil est une valeur qui déclenche une action. On le choisit à partir du signal, en tenant compte du bruit : un seuil trop proche d'une valeur courante fait «~clignoter~» la commande.
+
+\begin{astuce}
+Utiliser des couleurs pour le minimum, le maximum et le seuil sur toutes les courbes. Fournir des courbes déjà tracées pour les élèves qui ont du mal à construire un graphique. Lire à voix haute les axes avant d'interpréter.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B. Les élèves travaillent en binômes devant leur poste.
+
+\textbf{3a. Lecture d'un signal en collectif (12 min).} À partir de la courbe de température de l'accroche, repérer ensemble le minimum, le maximum, l'heure du maximum et la tendance. Placer un seuil de chauffage et indiquer quand il déclenche.
+
+\textbf{3b. Relevé et courbe en binômes (18 min).} Dans Wokwi, faire varier la température de la thermistance (valeurs \(-10\), 0, 10, 20, 30, 40~°C), relever la valeur lue, la reporter dans le tableur et tracer la courbe.
+
+\aides{La courbe de température de l'accroche annotée}{Questions guides : \emph{Que mesure-t-on en ordonnée ? En abscisse ? Quelle est la tendance ? Où mettrais-tu un seuil ?}}{L'enseignant relève un point du tableau avec le binôme, qui poursuit}
+
+\begin{astuce}
+Donner le tableau avec les températures déjà écrites et seulement les valeurs lues à compléter. Permettre de dicter les valeurs à son partenaire qui les saisit.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Associer cinq capteurs à la grandeur mesurée et à l'unité (banque de mots), puis lire une courbe imprimée de température en répondant à quatre questions guidées (minimum, maximum, heure du maximum, tendance).}{Relever dans Wokwi les valeurs de la thermistance pour six températures, tracer la courbe dans le tableur, interpréter (la relation est-elle linéaire ?) et choisir un seuil pour un ventilateur.}{Étudier la photorésistance : relever sept points (de l'obscurité à la pleine lumière), comparer avec la thermistance, choisir un seuil pour un éclairage automatique en tenant compte du bruit, et proposer deux seuils (hystérésis) pour éviter le clignotement.}
+
+\medskip
+\textbf{Plan B si Wokwi est indisponible\,:} utiliser le tableau de mesures imprimé et le tableur.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève lit la courbe imprimée et dit le maximum et l'heure. Valoriser la lecture précise.}{un binôme présente sa courbe et son seuil. Valoriser le lien entre les données et la décision.}{un élève présente ses deux seuils et explique le risque de clignotement. Valoriser l'analyse.}{\textit{un capteur transforme une grandeur physique en signal ; on lit ce signal pour choisir un seuil et déclencher une action.}}
+
+\cloture{Quelle grandeur mesure une photorésistance et dans quelle unité l'exprime-t-on ?}{Pourquoi faut-il tenir compte du bruit quand on choisit un seuil ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Grandeurs physiques et signaux}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+Une \textbf{grandeur physique} est mesurée avec une \textbf{unité}. Un \textbf{signal} est une grandeur qui varie dans le temps. Un \textbf{seuil} déclenche une action.
+\end{tcolorbox}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.2cm}Y Y}
+\toprule
+Grandeur & Unité & Capteur\\
+\midrule
+Température & °C & Thermistance\\
+Luminosité & lx & Photorésistance\\
+Distance & m & Ultrason\\
+Humidité & \% & Capteur d'humidité\\
+\bottomrule
+\end{tabularx}
+
+\begin{arduino}[Code fourni (Wokwi)]
+void setup() {
+  Serial.begin(115200);
+}
+
+void loop() {
+  int temp = analogRead(34);    // thermistance
+  int lum  = analogRead(35);    // photoresistance
+  Serial.print("temp = ");
+  Serial.print(temp);
+  Serial.print("   lum = ");
+  Serial.println(lum);
+  delay(500);
+}
+\end{arduino}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : lire un signal}
+
+\subsection*{3a. Courbe de température sur 24 h}
+Minimum : \dotfill{} °C à \dotfill{} h\quad Maximum : \dotfill{} °C à \dotfill{} h\\
+Tendance entre 6 h et 14 h : \dotfill\\
+Mon seuil de chauffage : \dotfill{} °C. Il se déclenche entre \dotfill{} h et \dotfill{} h.
+
+\subsection*{3b. Relevé de la thermistance}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Température (°C) & Valeur lue (0 à 4095) & Tension (V)\\
+\midrule
+$-10$ & & \\ 0 & & \\ 10 & & \\ 20 & & \\ 30 & & \\ 40 & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde la courbe annotée de l'accroche.\\
+\textbf{Aide 2 :} Que mesure-t-on en ordonnée ? En abscisse ? Quelle est la tendance ? Où mettrais-tu un seuil ?\\
+\textbf{Aide 3 :} demande à l'enseignant de relever un point avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : grandeur, unité, courbe}
+
+\textbf{Banque :} température, luminosité, distance, humidité, °C, lx, m, \%.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{4cm}Y Y}
+\toprule
+Capteur & Grandeur mesurée & Unité\\
+\midrule
+Thermistance & & \\
+Photorésistance & & \\
+Capteur ultrason & & \\
+Capteur d'humidité & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Lis la courbe}
+\begin{enumerate}
+ \item Quel est le maximum ? \dotfill
+ \item À quelle heure ? \dotfill
+ \item La courbe monte ou descend le matin ? \dotfill
+ \item Entoure le moment où le chauffage devrait se déclencher.
+\end{enumerate}
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : relevé, courbe et seuil}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Température (°C) & Valeur lue & Tension (V)\\
+\midrule
+$-10$ & & \\ 0 & & \\ 10 & & \\ 20 & & \\ 30 & & \\ 40 & & \\
+\bottomrule
+\end{tabularx}
+
+Trace la courbe (température en abscisse, valeur en ordonnée).
+
+\subsection*{Questions}
+\begin{enumerate}
+ \item La courbe est-elle une droite ? \dotfill
+ \item Quelle valeur lue correspond à 25 °C d'après ta courbe ? \dotfill
+ \item Choisis un seuil pour un ventilateur qui démarre à 28 °C : valeur seuil \dotfill
+\end{enumerate}
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : l'éclairage automatique}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Éclairement (position) & Valeur lue (photorésistance) & Commentaire\\
+\midrule
+Obscurité & & \\ Faible & & \\ Moyen & & \\ Fort & & \\ Très fort & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{enumerate}
+ \item Choisis un seuil et justifie : \lig
+ \item Explique ce qu'est le bruit et pourquoi la lampe peut clignoter autour du seuil : \lig \lig
+ \item Propose deux seuils (allumer, éteindre) pour l'éviter : \dotfill
+\end{enumerate}
+
+\textbf{Défi bonus :} compare la sensibilité de la thermistance et de la photorésistance (quelle variation de valeur pour quelle variation de grandeur).
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+Courbe type : minimum vers 5 h (environ 14 °C), maximum vers 15 h (environ 30 °C), tendance : monte. Un chauffage se déclenche quand la température passe sous un seuil (par exemple 18 °C), le soir et la nuit. Pour une thermistance NTC, la résistance diminue quand la température augmente ; le sens de variation de la valeur lue dépend du montage du module dans le simulateur (\textbf{à vérifier avant le cours}).
+
+\subsection*{Annexe C}
+Température (°C) ; luminosité (lx) ; distance (m) ; humidité (\%).
+
+\subsection*{Annexe D}
+La courbe d'une thermistance NTC n'est pas une droite. Interpolation : lire sur la courbe. Seuil : valeur lue pour 28 °C.
+
+\subsection*{Annexe E}
+Seuil indicatif : environ 1000 à 1500 sur 4095, selon le simulateur. Bruit : petites variations aléatoires qui font franchir le seuil. Hystérésis : allumer sous 900, éteindre au-dessus de 1100.\\
+\textbf{Critères de réussite :} lecture correcte de la courbe, seuil justifié, explication du bruit.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : grandeurs et signaux}
+
+\begin{enumerate}
+ \item Quelle grandeur mesure une photorésistance et dans quelle unité l'exprime-t-on ?\\ \lig
+ \item Pourquoi faut-il tenir compte du bruit quand on choisit un seuil ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. La luminosité, en lux. 2. Le bruit fait varier la mesure autour du seuil et la commande peut se déclencher puis s'arrêter sans cesse.
+
+\bigskip
+\grille{Grandeur et unité}{Courbe lue}{Seuil justifié}
+
+\end{document}

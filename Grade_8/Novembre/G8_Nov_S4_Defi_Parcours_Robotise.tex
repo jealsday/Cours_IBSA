@@ -1,0 +1,307 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 8}
+\newcommand{\leconhdr}{Défi parcours robotisé}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Défi parcours robotisé}{Semaine du 23 au 27 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Défi parcours robotisé\\
+Classe / effectif & Grade 8, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec mBlock 5, robot connecté.
+ \item Un mBot par binôme, chargé.
+ \item Un parcours au sol réalisé au ruban de masquage : départ, trois segments, deux virages à 90°, zone d'arrivée (plan en annexe A).
+ \item Un chronomètre et un mètre ruban pour le défi.
+\end{itemize}\\
+Pré-requis &
+Séances 1 à 3 : connexion, déplacements, rotations calibrées. Boucle \texttt{répéter} (G7).\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 45 min)]
+\begin{enumerate}
+ \item Tracer au moins deux exemplaires du parcours de l'annexe A (un pour les groupes A et B, un pour le groupe C), avec les distances écrites.
+ \item Préparer les fichiers de départ et la grille d'évaluation du défi (annexe B).
+ \item Vérifier la charge des batteries de tous les robots.
+ \item Créer le formulaire de sortie (annexe G) ou imprimer l'annexe.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Réaliser un parcours imposé.
+ \item Optimiser le programme du robot.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item de décomposer un parcours en segments et en virages dans un tableau\,;
+ \item de programmer, tester et corriger son programme jusqu'à atteindre la zone d'arrivée\,;
+ \item d'optimiser un programme (moins de blocs avec des boucles ou des variables, plus de précision).
+\end{itemize}
+\textbf{Compétences numériques\,:} versionner (enregistrer chaque version), tester méthodiquement, comparer deux programmes.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Présentation du défi et de ses règles}{Décomposer et optimiser un parcours}{Le tableau des segments en collectif, puis le premier segment en binômes}{Trois niveaux de besoin}{Passage des robots et valorisation}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : le défi}{0 -- 10 min}
+\begin{enumerate}
+ \item (4 min) Présenter le parcours au sol et ses règles : départ derrière la ligne, ne pas toucher le robot, arrivée dans la zone, pénalité si le robot sort.
+ \item (3 min) Montrer les trois critères de réussite : \textbf{précision}, \textbf{optimisation} (peu de blocs), \textbf{persévérance} (nombre de corrections documentées).
+ \item (3 min) Question-problème : \textbf{«~Comment programmer un parcours qu'on ne peut pas réussir du premier coup ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : décomposer et optimiser}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : décomposer.} Un parcours est une liste de segments et de virages. On la note dans un tableau.
+
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{1.6cm}Y Y Y}
+\toprule
+N° & Action & Mesure ou angle & Réglage à trouver\\
+\midrule
+1 & Avancer & 60 cm & durée\\
+2 & Tourner & 90° à droite & durée\\
+3 & Avancer & 40 cm & durée\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 2 : programmer par étapes.} On programme un segment, on le teste, puis on ajoute le suivant. On n'écrit jamais tout d'un coup.
+
+\textbf{Temps 3 : corriger.} Mesurer l'écart, ajuster un seul paramètre à la fois, noter le résultat.
+
+\textbf{Temps 4 : optimiser.} Un programme est meilleur quand il est plus court (boucles), plus facile à modifier (variables comme \texttt{durée\_90}) et plus précis.
+
+\begin{astuce}
+Garder le tableau des segments affiché. Un seul réglage modifié à la fois. Fournir une checklist «~Programmer, Tester, Corriger~».
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B.
+
+\textbf{3a. Le tableau des segments en collectif (12 min).} Remplir ensemble le tableau avec les mesures du parcours projeté.
+
+\textbf{3b. Le premier segment en binômes (18 min).} Chaque binôme programme et teste le segment 1 et le premier virage. Alternance des rôles.
+
+\aides{Le tableau rempli du 3a et les durées calibrées aux séances précédentes}{Questions guides : \emph{Quelle est la mesure de ce segment ? Quelle durée avais-tu trouvée pour 90° ?}}{L'enseignant teste le premier segment avec le binôme, qui continue}
+
+\begin{astuce}
+Autoriser à réutiliser les valeurs calibrées des séances précédentes. Si un binôme a un robot qui dévie, lui proposer un robot de rechange.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+Chaque élève prépare son programme seul. Les essais se font par binôme sur les parcours, à tour de rôle.
+
+\medskip
+\groupes{Parcours simplifié à deux segments et un virage, avec un squelette de programme à compléter et des durées proposées. Mise en ordre des blocs avec des étiquettes de couleur.}{Programmer le parcours complet de l'annexe A, tester, corriger, et tenir un journal des corrections (une ligne par essai).}{Parcours complet avec optimisation : variables \texttt{duree\_90} et \texttt{duree\_60cm}, boucle \texttt{répéter}, retour au point de départ. Comparer le nombre de blocs avant et après optimisation.}
+
+\medskip
+\textbf{Plan B si un élève termine tôt\,:} réussir le parcours dans le temps le plus court possible sans sortir.
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{teal}{5. Mise en commun : passage des robots}{95 -- 110 min}
+\begin{enumerate}
+ \item (2 min) Retour au calme, écrans mis en veille.
+ \item (9 min) Un passage officiel par binôme volontaire sur le parcours. La classe valorise un point précis :
+ \begin{itemize}
+  \item \textbf{Groupe A} : réussite du premier segment. Valoriser l'effort de réglage.
+  \item \textbf{Groupe B} : réussite du parcours. Valoriser la précision et le journal des corrections.
+  \item \textbf{Groupe C} : programme optimisé. Valoriser la réduction du nombre de blocs.
+ \end{itemize}
+ \item (4 min) Conclusion : \textit{un parcours se réussit en décomposant, en testant et en corrigeant, puis en optimisant.}
+\end{enumerate}
+\end{etape}
+
+\cloture{Pourquoi programme-t-on un segment à la fois et non tout le parcours d'un coup ?}{Cite une façon d'optimiser un programme de robot.}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon et plan du parcours}
+\entete{blue}{Défi parcours robotisé}
+
+\begin{center}
+\begin{tikzpicture}[>={Stealth[length=3mm]}]
+\draw[very thick,blue!60] (0,0)--(6,0)--(6,3)--(3,3);
+\node[below] at (0,0) {Départ};
+\node[above] at (3,3) {Arrivée};
+\node[below] at (3,0) {60 cm};
+\node[right] at (6,1.5) {40 cm};
+\node[above] at (4.5,3) {30 cm};
+\draw[->,thick] (0,0)--(0.6,0);
+\node[circle,fill=orange!60,inner sep=2pt] at (6,0) {1};
+\node[circle,fill=orange!60,inner sep=2pt] at (6,3) {2};
+\end{tikzpicture}
+\end{center}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{1.6cm}Y Y Y}
+\toprule
+N° & Action & Mesure ou angle & Réglage à trouver\\
+\midrule
+1 & Avancer & 60 cm & durée\\
+2 & Tourner & 90° à gauche & durée\\
+3 & Avancer & 40 cm & durée\\
+4 & Tourner & 90° à gauche & durée\\
+5 & Avancer & 30 cm & durée\\
+\bottomrule
+\end{tabularx}
+
+\medskip
+\textbf{Méthode :} Programmer un segment, tester, corriger (un réglage à la fois), noter. Optimiser à la fin.
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée et grille du défi}
+\entete{green}{Pratique guidée : mon parcours}
+
+\subsection*{3a. Tableau des segments (à compléter avec la classe)}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{1.6cm}Y Y Y}
+\toprule
+N° & Action & Mesure ou angle & Durée trouvée (s)\\
+\midrule
+1 & & & \\ 2 & & & \\ 3 & & & \\ 4 & & & \\ 5 & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Grille du défi (enseignant et élèves)}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y p{2.4cm}}
+\toprule
+Critère & Description & Points\\
+\midrule
+Précision & Le robot atteint la zone d'arrivée sans sortir du parcours & /4\\
+Optimisation & Programme avec boucle ou variable, peu de blocs & /3\\
+Persévérance & Journal des corrections complet & /3\\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le tableau rempli et les durées des séances précédentes.\\
+\textbf{Aide 2 :} Quelle est la mesure de ce segment ? Quelle durée avais-tu trouvée pour 90° ?\\
+\textbf{Aide 3 :} demande à l'enseignant de tester le premier segment avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : parcours simplifié}
+
+\textbf{Parcours :} avancer de 40 cm, tourner à droite de 90°, avancer de 30 cm.
+
+\subsection*{Étape 1 : complète le programme}
+\begin{enumerate}
+ \item Avancer à la puissance 50 \% pendant \dotfill{} s.
+ \item Arrêter les moteurs.
+ \item Tourner à droite pendant \dotfill{} s.
+ \item Arrêter les moteurs.
+ \item Avancer pendant \dotfill{} s, puis arrêter.
+\end{enumerate}
+
+\subsection*{Étape 2 : journal des essais}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2cm}Y Y}
+\toprule
+Essai & Ce que j'ai changé & Résultat\\
+\midrule
+1 & & \\ 2 & & \\ 3 & & \\
+\bottomrule
+\end{tabularx}
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : le parcours complet}
+
+\textbf{Mission :} réussir le parcours de l'annexe A.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{1.6cm}Y Y Y}
+\toprule
+Essai & Réglage modifié & Nouvelle valeur & Résultat\\
+\midrule
+1 & & & \\ 2 & & & \\ 3 & & & \\ 4 & & & \\ 5 & & & \\ 6 & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Bilan}
+Le réglage le plus difficile à trouver était : \dotfill\\
+Je l'ai trouvé en : \dotfill
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : optimiser et revenir}
+
+\textbf{Mission :} réussir le parcours de l'annexe A, puis revenir au point de départ.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{4cm}Y Y}
+\toprule
+Version du programme & Nombre de blocs & Précision (cm d'écart)\\
+\midrule
+V1 (sans optimisation) & & \\
+V2 (avec variables) & & \\
+V3 (avec boucle) & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Questions}
+\begin{enumerate}
+ \item Quelle optimisation a le plus réduit le nombre de blocs ? \dotfill
+ \item Pourquoi une variable comme \texttt{duree\_90} facilite-t-elle les corrections ? \dotfill
+\end{enumerate}
+
+\textbf{Défi bonus :} réussir le parcours deux fois de suite sans modifier le programme.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+Le tableau doit contenir cinq lignes alternant avancer et tourner. Les durées dépendent du robot ; elles sont les mêmes que celles trouvées aux séances 2 et 3.
+
+\subsection*{Annexe C}
+Mêmes durées que dans les séances précédentes. Le journal doit montrer un changement à la fois.
+
+\subsection*{Annexe D}
+Le programme doit comporter cinq actions. Le réglage souvent le plus difficile est la rotation. Critères de réussite : arrivée dans la zone, journal avec au moins trois essais.
+
+\subsection*{Annexe E}
+Optimisation attendue : variables \texttt{duree\_90} et \texttt{duree\_cm}, ou boucle si les virages sont identiques. Les variables rendent les corrections globales en un seul endroit.\\
+\textbf{Critères de réussite :} trois versions comparées, réduction du nombre de blocs.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : défi parcours}
+
+\begin{enumerate}
+ \item Pourquoi programme-t-on un segment à la fois et non tout le parcours d'un coup ?\\ \lig
+ \item Cite une façon d'optimiser un programme de robot.\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. Pour trouver plus facilement l'erreur et corriger un seul réglage. 2. Utiliser une boucle ou une variable, réduire le nombre de blocs.
+
+\bigskip
+\grille{Tableau des segments}{Journal des essais}{Optimisation}
+
+\end{document}

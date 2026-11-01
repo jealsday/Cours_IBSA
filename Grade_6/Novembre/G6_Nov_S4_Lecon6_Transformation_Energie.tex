@@ -1,0 +1,432 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2cm,headheight=14pt]{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor,tabularx,booktabs,array,enumitem,fancyhdr,amssymb,tikz}
+\usetikzlibrary{arrows.meta,positioning}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small Robotique -- Grade 6 -- Novembre 2026}
+\rhead{\small Leçon 6 : Transformation et transmission de l'énergie}
+\cfoot{\thepage}
+\setlist{itemsep=1pt,topsep=2pt,leftmargin=*}
+\renewcommand{\arraystretch}{1.35}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\cb}{$\square$\,}
+\newcommand{\fl}{$\rightarrow$}
+\newcommand{\lig}{\noindent\rule{\linewidth}{0.3pt}\\[5mm]}
+
+\newtcolorbox{etape}[3]{enhanced,breakable,colback=#1!6,colframe=#1!70!black,
+  coltitle=white,fonttitle=\bfseries,title={#2\hfill #3},boxrule=0.8pt,arc=2mm,
+  before skip=8pt,after skip=8pt}
+\newtcolorbox{astuce}[1][Différenciation et besoins particuliers]{breakable,
+  colback=yellow!12,colframe=yellow!50!black,fonttitle=\bfseries\small,
+  title={#1},boxrule=0.5pt,arc=1mm,before skip=6pt,after skip=6pt}
+\newcommand{\entete}[2]{%
+  \begin{tcolorbox}[colback=#1!10,colframe=#1!70!black,boxrule=0.8pt,arc=2mm]
+  {\Large\bfseries #2}\hfill Nom : \rule{4cm}{0.3pt}\quad Date : \rule{2.2cm}{0.3pt}
+  \end{tcolorbox}}
+
+% Chaîne énergétique : #1 source, #2 transformation, #3 transmission, #4 utilisation
+\newcommand{\chaine}[4]{%
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=1.3cm,text width=3cm,align=center,font=\small},>={Stealth[length=3mm]},node distance=0.8cm]
+\node[box,fill=orange!20] (a) {\textbf{Source}\\ #1};
+\node[box,fill=blue!15,right=of a] (b) {\textbf{Transformation}\\ #2};
+\node[box,fill=green!15,right=of b] (c) {\textbf{Transmission}\\ #3};
+\node[box,fill=violet!15,right=of c] (d) {\textbf{Utilisation}\\ #4};
+\draw[->,thick] (a)--(b); \draw[->,thick] (b)--(c); \draw[->,thick] (c)--(d);
+\node[draw=red!70!black,dashed,rounded corners,font=\small,text=red!70!black,anchor=north east] (p) at ([yshift=-0.6cm]d.south east) {Pertes : une partie de l'énergie devient de la chaleur};
+\draw[->,red!70!black,dashed] (d.south)--(d.south |- p.north);
+\end{tikzpicture}
+\end{center}}
+
+\begin{document}
+
+\begin{tcolorbox}[colback=teal!10,colframe=teal!70!black,arc=2mm,boxrule=1pt]
+\centering
+{\LARGE\bfseries Leçon 6 : Transformation et transmission de l'énergie}\\[2mm]
+{\large Robotique -- Grade 6 -- Plan de cours de 2 heures}\\[1mm]
+Enseignant : Francis Ki \quad|\quad Semaine du 23 au 27 novembre 2026
+\end{tcolorbox}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Leçon 6 : Transformation et transmission de l'énergie\\
+Classe / effectif & Grade 6, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec navigateur web à jour et accès internet.
+ \item Vidéoprojecteur ou tableau interactif pour l'enseignant.
+ \item Simulation PhET «~Formes et changements d'énergie~» (phet.colorado.edu, gratuite, en français), déjà utilisée à la leçon 5. \textbf{À tester sur un poste élève avant la séance.}
+ \item Diapositives (Google Slides ou LibreOffice Impress) pour dessiner les chaînes énergétiques, avec des formes et des flèches.
+ \item Fiches numériques partagées en lecture seule : chaque élève crée sa copie et la renomme avec son prénom.
+ \item Facultatif : une lampe de poche démontable et un petit moteur avec une pile pour la démonstration.
+\end{itemize}\\
+Pré-requis &
+Leçon 5 : connaître les formes d'énergie (électrique, chimique, lumineuse, thermique, mécanique, sonore) et les quatre effets (lumière, chaleur, mouvement, son).\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 35 min)]
+\begin{enumerate}
+ \item Tester la simulation PhET sur un poste élève. Prévoir un plan B sans simulation (schémas de l'annexe A).
+ \item Préparer les fichiers numériques des annexes B à E (une copie par élève) avec des cases vides pour les chaînes.
+ \item Créer le formulaire de sortie (annexe G) dans Google Forms ou imprimer l'annexe.
+ \item Reconstituer les groupes A, B, C à partir de l'exit ticket de la leçon 5.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Comprendre comment l'énergie se transforme dans un système technique.
+ \item Décrire la chaîne énergétique d'un objet simple.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item d'expliquer qu'une énergie change de forme dans un objet (par exemple électrique en lumineuse)\,;
+ \item de distinguer \emph{transformer} (changer de forme) et \emph{transmettre} (faire voyager)\,;
+ \item de compléter, puis de construire, la chaîne énergétique d'un objet simple : source, transformation, transmission, utilisation.
+\end{itemize}
+\textbf{Compétences numériques\,:} dessiner un schéma avec formes et flèches, manipuler une simulation, rendre son travail.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.2cm}p{2.6cm}Y p{2.8cm}}
+\toprule
+Minutes & Étape & Contenu & Organisation\\
+\midrule
+0 -- 10 & Accroche & La lampe de poche démontée & Classe entière, sans écran\\
+10 -- 30 & Mini-leçon & Transformer, transmettre et la chaîne énergétique & Classe entière\\
+30 -- 60 & Pratique guidée & Un système dans la simulation, puis deux objets en binômes & Collectif puis binômes\\
+60 -- 95 & Pratique autonome & Trois niveaux de besoin & Individuel\\
+95 -- 110 & Mise en commun & Valoriser chaque groupe & Classe entière\\
+110 -- 120 & Exit ticket & Trois questions sur poste & Individuel\\
+\bottomrule
+\end{tabularx}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : la lampe de poche démontée}{0 -- 10 min}
+\textbf{But\,:} faire penser au trajet de l'énergie, de la pile à la lumière.\\
+\textbf{Écrans éteints.}
+\begin{enumerate}
+ \item (4 min) Montrer une lampe de poche (ouverte si possible : pile, interrupteur, ampoule). Question : \emph{Que se passe-t-il dans cet objet quand on appuie ? Par où passe l'énergie ?}
+ \item (3 min) Poser l'ampoule allumée sur la main un instant (sans danger si elle est de faible puissance, sinon utiliser un radiateur ou un ordinateur) : \emph{Pourquoi l'ampoule chauffe-t-elle alors qu'on voulait de la lumière ?}
+ \item (3 min) Question-problème : \textbf{«~Que devient l'énergie de la pile quand la lampe est allumée ?~»}
+\end{enumerate}
+\textit{Sans lampe réelle, projeter une photo légendée ou un schéma de lampe de poche.}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : transformer, transmettre, chaîne énergétique}{10 -- 30 min}
+\textbf{Support\,:} schéma construit pas à pas au tableau ou projeté (annexe A). Quatre temps de 5 min.
+
+\medskip
+\textbf{Temps 1 : l'énergie change de forme.} L'énergie ne disparaît pas : elle se transforme. Exemples : une pile transforme de l'énergie chimique en électrique ; une lampe transforme de l'électrique en lumineuse ; un panneau solaire transforme de la lumineuse en électrique.
+
+\textbf{Temps 2 : l'énergie voyage.} \emph{Transmettre}, c'est faire voyager l'énergie d'un endroit à un autre sans changer sa forme.
+
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.2cm}Y Y}
+\toprule
+ & Transformer & Transmettre\\
+\midrule
+Définition & L'énergie change de forme & L'énergie va d'un point à un autre\\
+Exemple & Ampoule : électrique \fl{} lumineuse & Fils : l'énergie électrique va de la pile à l'ampoule\\
+Autre exemple & Moteur : électrique \fl{} mécanique & Chaîne de vélo : le mouvement va des pédales à la roue\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 3 : la chaîne énergétique.} Pour décrire un objet, on suit l'énergie de sa source jusqu'à son utilisation.
+
+\chaine{Pile (chimique)}{Pile : chimique \fl{} électrique}{Fils (électrique)}{Ampoule : électrique \fl{} lumière}
+\textit{Exemple : la lampe de poche. Pour un autre objet, certaines cases peuvent être vides (un fil peut manquer, par exemple) ou la transformation peut avoir lieu à la fin.}
+
+\textbf{Temps 4 : les pertes.} Dans chaque transformation, une partie de l'énergie devient de la chaleur qu'on n'utilise pas. C'est pourquoi l'ampoule chauffe. Retour à la question-problème : \textit{l'énergie de la pile devient de la lumière utile et de la chaleur perdue.}
+
+\begin{astuce}
+Dessiner la chaîne avec les mêmes couleurs de cases pour la source, la transformation, la transmission et l'utilisation, sur tous les supports. Lire les schémas à voix haute en suivant les flèches avec le doigt.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B (version numérique : fichier «~L6\_Guidee~»).
+
+\medskip
+\textbf{3a. Exemple collectif sur poste : un système dans la simulation (12 min).} Tout le monde ouvre la simulation PhET «~Formes et changements d'énergie~».
+\begin{enumerate}
+ \item Construire un système : une source (par exemple le robinet ou le cycliste), un convertisseur (roue ou générateur) et un utilisateur (ampoule ou ventilateur). Afficher les symboles d'énergie.
+ \item Suivre les symboles de la source à l'utilisateur et compléter ensemble le schéma B1 : forme d'énergie à chaque étape, transformation ou transmission, effet utile, perte.
+\end{enumerate}
+
+\textbf{3b. Deux objets en binômes (18 min).} Objet 1 : un grille-pain. Objet 2 : un ventilateur. Remplir le schéma B2 pour chacun. Alternance des rôles à mi-temps.
+
+\textbf{Étayage progressif de l'aide.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.4cm}Y p{4.6cm}}
+\toprule
+Niveau d'aide & Contenu & Qui intervient\\
+\midrule
+Aide 1 & Chaîne type de la lampe (annexe A) et tableau des formes d'énergie de la leçon 5 & Le binôme seul\\
+Aide 2 & Questions guides : \emph{D'où vient l'énergie ? Où change-t-elle de forme ? Qu'est-ce qui est perdu ?} & Le binôme avec la carte\\
+Aide 3 & L'enseignant remplit une case avec le binôme, qui termine & L'enseignant\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{astuce}
+Si la simulation est trop rapide ou trop riche pour un élève, utiliser seulement le schéma de la lampe. Proposer un schéma pré-rempli à compléter au lieu d'un schéma vierge. Un binôme tuteur peut aider à manipuler la simulation.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\textbf{Consigne commune\,:} chaque élève ouvre le fichier de son groupe, le renomme avec son prénom et travaille seul. L'enseignant passe d'abord auprès du groupe A pendant 10 min.
+
+\medskip
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y p{3.2cm}}
+\toprule
+Groupe & Tâche sur poste & Annexe\\
+\midrule
+A : en dessous du niveau &
+Trois chaînes à compléter avec une banque de mots (lampe de poche, ventilateur, panneau solaire) ; relier les mots «~transformer~» et «~transmettre~» à leur définition. & Annexe C\\
+B : au niveau &
+Décrire la chaîne énergétique de trois objets (bouilloire, vélo, voiture jouet à pile) avec un schéma sur diapositive : formes d'énergie, transformation, transmission, effet utile, perte. & Annexe D\\
+C : au-dessus du niveau &
+Mission «~Réduire les pertes~» : comparer deux ampoules, imaginer une voiture solaire jouet et dessiner sa chaîne énergétique, puis relier avec un robot (batterie, moteur, roues). & Annexe E\\
+\bottomrule
+\end{tabularx}
+
+\medskip
+\textbf{Plan B si un élève termine tôt\,:} retourner dans la simulation et enchaîner deux convertisseurs, puis décrire ce qu'on observe.
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{teal}{5. Mise en commun}{95 -- 110 min}
+\begin{enumerate}
+ \item (2 min) Retour au calme, écrans en veille.
+ \item (9 min) Trois passages courts de 3 min :
+ \begin{itemize}
+  \item \textbf{Groupe A} : un élève lit à voix haute une chaîne complétée. Valoriser la lecture dans l'ordre des flèches.
+  \item \textbf{Groupe B} : un binôme projette un schéma et explique où l'énergie est transformée. Valoriser la précision.
+  \item \textbf{Groupe C} : présentation de la voiture solaire et du lien avec le robot. Valoriser la créativité.
+ \end{itemize}
+ \item (4 min) Revenir à la question-problème et conclure : \textit{l'énergie ne disparaît pas, elle change de forme et une partie est perdue sous forme de chaleur.} Annoncer que la chaîne énergétique reviendra pour le projet robotique.
+\end{enumerate}
+\end{etape}
+
+\begin{etape}{gray}{6. Clôture : exit ticket}{110 -- 120 min}
+Formulaire en ligne ou papier (annexe G) :
+\begin{enumerate}
+ \item Dans une lampe de poche, quelles formes d'énergie rencontre-t-on ?
+ \item Vrai ou faux : l'énergie disparaît quand on éteint la lampe. Explique.
+ \item Auto-évaluation : \emph{Je maîtrise / Je progresse / J'ai besoin d'aide.}
+\end{enumerate}
+\end{etape}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Transformation et transmission de l'énergie}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{L'énergie ne disparaît pas : elle change de forme (transformation) et elle voyage (transmission).}
+\end{tcolorbox}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.2cm}Y Y}
+\toprule
+ & Transformer & Transmettre\\
+\midrule
+Définition & L'énergie change de forme & L'énergie va d'un point à un autre\\
+Exemple & Ampoule : électrique \fl{} lumineuse & Fils, chaîne de vélo\\
+\bottomrule
+\end{tabularx}
+
+\chaine{Pile (chimique)}{Pile : chimique \fl{} électrique}{Fils (électrique)}{Ampoule : électrique \fl{} lumière}
+
+\begin{tcolorbox}[colback=green!8,colframe=green!50!black]
+\textbf{Phrase modèle :} La \underline{\hspace{2cm}} reçoit de l'énergie \underline{\hspace{2cm}}, la transforme en \underline{\hspace{2cm}} et en \underline{\hspace{2cm}} (perdue).
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : la chaîne énergétique}
+
+\subsection*{B1. Exemple collectif dans la simulation}
+Système construit : source \dotfill{} \quad convertisseur \dotfill{} \quad utilisateur \dotfill
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y Y Y}
+\toprule
+Étape & Source & Transformation & Transmission & Utilisation\\
+\midrule
+Forme d'énergie & & & & \\
+Effet utile & & & & \\
+Perte & & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{B2. En binôme : deux objets}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y Y Y Y}
+\toprule
+Objet & Source & Transformation & Transmission & Utilisation et perte\\
+\midrule
+Grille-pain & & & & \\
+Ventilateur & & & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde la chaîne de la lampe de poche (annexe A).\\
+\textbf{Aide 2 :} D'où vient l'énergie ? Où change-t-elle de forme ? Qu'est-ce qui est perdu ?\\
+\textbf{Aide 3 :} demande à l'enseignant de remplir une case avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je complète les chaînes}
+
+\textbf{Banque de mots :} pile, fils, ampoule, électrique, chimique, lumière, chaleur, soleil, panneau solaire, moteur, hélice, mouvement.
+
+\subsection*{Activité 1 : complète avec la banque de mots (glisse les étiquettes)}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.2cm}Y Y Y Y}
+\toprule
+Objet & Source & Transformation & Transmission & Utilisation\\
+\midrule
+Lampe de poche & \dotfill & \dotfill{} & fils & lumière\\
+Ventilateur & prise & moteur & \dotfill & \dotfill\\
+Panneau solaire & \dotfill & \dotfill & fils & électricité\\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Activité 2 : relie}
+\begin{tabularx}{\linewidth}{Y Y}
+\toprule
+\textbf{Mot} & \textbf{Définition}\\
+\midrule
+Transformer & L'énergie voyage d'un point à un autre\\
+Transmettre & L'énergie change de forme\\
+\bottomrule
+\end{tabularx}
+Réponse : Transformer \fl{} \dotfill\quad Transmettre \fl{} \dotfill
+
+\subsection*{Activité 3 : complète}
+La lampe transforme l'énergie \dotfill{} en \dotfill{} et en un peu de \dotfill.
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : je décris des chaînes}
+
+Pour chaque objet, dessine sur une diapositive la chaîne énergétique (quatre cases et des flèches) puis complète le tableau.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.2cm}Y Y Y Y}
+\toprule
+Objet & Source (forme) & Transformation & Transmission & Effet utile et perte\\
+\midrule
+Bouilloire électrique & & & & \\
+Vélo & & & & \\
+Voiture jouet à pile & & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Question de réflexion}
+Pourquoi un ordinateur chauffe-t-il alors qu'on veut seulement de l'image et du son ?\\
+\lig \lig
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : réduire les pertes}
+
+\subsection*{Mission 1 : comparer deux ampoules}
+Une ampoule à filament chauffe beaucoup. Une ampoule LED chauffe très peu pour la même lumière. Dessine les deux chaînes sur une diapositive. Laquelle gaspille le moins d'énergie ? Explique.\\
+\lig \lig
+
+\subsection*{Mission 2 : conçois une voiture solaire jouet}
+Dessine sa chaîne énergétique : source, transformation, transmission, utilisation, et indique où se trouvent les pertes.\\
+Avec quels matériaux (leçon 4) construirais-tu la caisse ?\\
+\lig
+
+\subsection*{Mission 3 : relie avec un robot}
+Un robot a une batterie, un moteur et des roues. Écris sa chaîne énergétique.\\
+Source : \dotfill{} \quad Transformation : \dotfill{} \quad Transmission : \dotfill{} \quad Utilisation : \dotfill
+
+\textbf{Défi bonus :} dans la simulation, enchaîne deux convertisseurs et décris ce qui change.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B : pratique guidée}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y Y Y Y}
+\toprule
+Objet & Source & Transformation & Transmission & Utilisation et perte\\
+\midrule
+Grille-pain & Prise (électrique) & Résistance : électrique \fl{} thermique & Fils (électrique) & Chaleur pour griller ; un peu de lumière perdue\\
+Ventilateur & Prise (électrique) & Moteur : électrique \fl{} mécanique & Axe et pales (mécanique) & Mouvement de l'air ; chaleur et bruit perdus\\
+\bottomrule
+\end{tabularx}
+Simulation (exemple) : robinet \fl{} roue \fl{} générateur \fl{} ampoule, avec mécanique \fl{} électrique \fl{} lumineuse et thermique.
+
+\subsection*{Annexe C : niveau A}
+Lampe : pile, ampoule. Ventilateur : fils, mouvement. Panneau : soleil, panneau solaire. Activité 2 : Transformer \fl{} l'énergie change de forme ; Transmettre \fl{} l'énergie voyage. Activité 3 : chimique, lumineuse, chaleur.
+
+\subsection*{Annexe D : niveau B}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.2cm}Y Y Y Y}
+\toprule
+Objet & Source & Transformation & Transmission & Effet utile / perte\\
+\midrule
+Bouilloire & Prise & Électrique \fl{} thermique & Fils & Eau chaude / chaleur de l'air\\
+Vélo & Cycliste (chimique) & Muscles : chimique \fl{} mécanique & Pédales, chaîne & Mouvement / chaleur des frottements\\
+Voiture à pile & Pile & Moteur : électrique \fl{} mécanique & Fils, engrenages & Mouvement / chaleur, bruit\\
+\bottomrule
+\end{tabularx}
+Réflexion : l'électronique transforme de l'énergie électrique en lumière, en son et en chaleur ; la chaleur est une perte qui chauffe l'ordinateur.
+
+\subsection*{Annexe E : niveau C}
+Ampoule à filament : beaucoup de chaleur perdue ; LED : moins de pertes, donc plus économe. Voiture solaire : soleil \fl{} panneau \fl{} fils \fl{} moteur \fl{} roues. Robot : batterie (chimique), moteur (électrique \fl{} mécanique), transmission par fils et axes, roues.\\
+\textbf{Critères de réussite :} deux chaînes correctes, une comparaison argumentée, une chaîne de robot complète.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : transformation et transmission}
+
+\begin{enumerate}
+ \item Dans une lampe de poche, quelles formes d'énergie rencontre-t-on ?\\ \lig
+ \item Vrai ou faux : l'énergie disparaît quand on éteint la lampe. Explique.\\ \lig
+ \item Je me sens : \cb Je maîtrise \quad \cb Je progresse \quad \cb J'ai besoin d'aide
+\end{enumerate}
+
+\textbf{Attendus :} 1. Chimique (pile), électrique (fils), lumineuse (lumière) et thermique (chaleur). 2. Faux : l'énergie n'est plus transformée en lumière, mais elle n'a pas disparu (elle reste dans la pile, ou devient chaleur).
+
+\bigskip
+\subsection*{Grille d'observation (enseignant)}
+\begin{tabularx}{\linewidth}{Y p{2.4cm} p{2.4cm} p{2.4cm} Y}
+\toprule
+Élève & Transformation & Transmission & Chaîne complète & Groupe suivant\\
+\midrule
+ & & & & \\ & & & & \\ & & & & \\ & & & & \\ & & & & \\
+\bottomrule
+\end{tabularx}
+
+\end{document}

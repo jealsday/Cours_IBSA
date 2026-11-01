@@ -1,0 +1,318 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 12}
+\newcommand{\leconhdr}{Architecture d'un objet connecté}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Architecture d'un objet connecté}{Semaine du 2 au 6 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Architecture d'un objet connecté\\
+Classe / effectif & Grade 12, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec navigateur web.
+ \item \textbf{diagrams.net} (draw.io, gratuit, sans compte) ou Google Slides pour les schémas d'architecture.
+ \item \textbf{Wokwi} (wokwi.com, gratuit) : un projet ESP32 modèle, en lecture seule, avec un capteur de température, une LED et le moniteur série, pour observer ce que fait l'«~objet~».
+ \item Vidéoprojecteur ou tableau interactif.
+\end{itemize}\\
+Pré-requis &
+G10 et G11 : ESP32, entrées et sorties, chaîne d'information (acquérir, traiter, communiquer), notions de réseau (adresse IP, Wi-Fi).\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 45 min)]
+\begin{enumerate}
+ \item Préparer un schéma d'architecture modèle dans draw.io (objet, réseau local, passerelle, internet, serveur, application).
+ \item Préparer le projet Wokwi (ESP32 + capteur de température + LED) et vérifier le lien partagé.
+ \item Sélectionner trois objets connectés pour les trois niveaux (thermostat connecté, ampoule connectée, serrure connectée).
+ \item Préparer les fichiers des annexes C à E et le formulaire de sortie.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Identifier les fonctions d'un objet connecté.
+ \item Comprendre les échanges d'informations.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item de décomposer un objet connecté en blocs fonctionnels (capter, traiter, communiquer, alimenter, interagir)\,;
+ \item de représenter l'architecture complète (objet, réseau, serveur, application) avec le sens des flux de données et de commandes\,;
+ \item d'argumenter sur les contraintes d'un objet connecté (énergie, latence, sécurité, vie privée).
+\end{itemize}
+\textbf{Compétences numériques\,:} schématiser une architecture, lire un code court, évaluer les risques liés aux données.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Que sait ton thermostat de toi ?}{Fonctions, architecture en couches, flux et contraintes}{Un thermostat connecté en collectif, puis une ampoule connectée en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : que sait ton thermostat de toi ?}{0 -- 10 min}
+\begin{enumerate}
+ \item (5 min) Présenter un thermostat connecté et sa notification sur téléphone. \emph{Quelles informations circulent ? Qui peut les voir ? Où sont-elles enregistrées ?}
+ \item (5 min) Recueillir les idées en nuage de mots. Question-problème : \textbf{«~Que contient un objet connecté et avec qui échange-t-il ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : l'architecture d'un objet connecté}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : cinq fonctions dans l'objet.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y Y}
+\toprule
+Fonction & Rôle & Exemple (thermostat)\\
+\midrule
+Alimenter & Fournir l'énergie & Secteur ou piles\\
+Capter & Mesurer le monde & Sonde de température\\
+Traiter & Décider selon un programme & Microcontrôleur ESP32\\
+Communiquer & Échanger avec l'extérieur & Module Wi-Fi\\
+Interagir & Afficher ou agir & Écran, relais de chaudière\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 2 : l'architecture complète.}
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=1.1cm,text width=2.3cm,align=center,font=\small},>={Stealth[length=3mm]},node distance=0.6cm]
+\node[box,fill=orange!20] (a) {\textbf{Objet}\\ capteurs, ESP32};
+\node[box,fill=blue!15,right=of a] (b) {\textbf{Réseau local}\\ Wi-Fi, box};
+\node[box,fill=green!15,right=of b] (c) {\textbf{Internet}\\ serveur, nuage};
+\node[box,fill=violet!15,right=of c] (d) {\textbf{Application}\\ téléphone};
+\draw[<->,thick] (a)--(b); \draw[<->,thick] (b)--(c); \draw[<->,thick] (c)--(d);
+\end{tikzpicture}
+\end{center}
+Les flèches vont dans les deux sens : les \emph{données} montent (température), les \emph{commandes} descendent (consigne de chauffage).
+
+\textbf{Temps 3 : stocker et traiter où ?} Dans l'objet (rapide, confidentiel, limité) ou dans le nuage (puissant, accessible, dépendant du réseau).
+
+\textbf{Temps 4 : les contraintes.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y}
+\toprule
+Contrainte & Question à se poser\\
+\midrule
+Énergie & Combien l'objet consomme-t-il ? Sur piles, combien de temps ?\\
+Latence & Combien de temps entre l'ordre et l'action ?\\
+Sécurité & Qui peut commander l'objet ? Les échanges sont-ils chiffrés ?\\
+Vie privée & Quelles données personnelles sont collectées ?\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{astuce}
+Utiliser une couleur par bloc (objet, réseau, nuage, application) dans tous les schémas. Fournir un schéma pré-rempli à trous pour les élèves qui ont besoin d'un appui visuel fort. Autoriser une explication orale enregistrée.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B. Les élèves travaillent en binômes devant leur poste.
+
+\textbf{3a. Un thermostat connecté en collectif (12 min).} Compléter ensemble le tableau des cinq fonctions, puis dessiner dans draw.io l'architecture complète (projeter le fichier de l'enseignant). Ouvrir le projet Wokwi pour voir ce que fait l'«~objet~» (lecture de température et affichage).
+
+\textbf{3b. Une ampoule connectée en binômes (18 min).} Réaliser le même travail sur un nouvel objet : tableau des fonctions, schéma d'architecture, et sens des flux (données, commandes). Alternance des rôles.
+
+\aides{Le tableau du thermostat et le schéma modèle}{Questions guides : \emph{Qu'est-ce qui mesure ? Qui décide ? Par où passent les données ? Qui envoie une commande ?}}{L'enseignant remplit une ligne avec le binôme, qui poursuit}
+
+\begin{astuce}
+Accepter un croquis à la main photographié si le dessin sur poste ralentit l'élève. Toujours commencer par la fonction globale de l'objet.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Serrure connectée : tableau des cinq fonctions à compléter avec une banque de mots (batterie, lecteur, ESP32, Wi-Fi, gâche) et schéma d'architecture à légender avec des étiquettes mobiles.}{Station météo connectée : tableau des fonctions, schéma d'architecture complet avec le sens des flux (données montantes, commandes descendantes) et trois scénarios d'usage.}{Analyse critique d'un objet connecté au choix : architecture, tableau des quatre contraintes (énergie, latence, sécurité, vie privée), comparaison «~traitement local ou dans le nuage~» et recommandation argumentée.}
+
+\medskip
+\textbf{Plan B si un élève termine tôt\,:} chercher un exemple réel de faille de sécurité d'un objet connecté et résumer ce qu'on peut en apprendre (en citant la source).
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève présente son tableau complété. Valoriser la précision du vocabulaire.}{un binôme projette son schéma et suit le chemin d'une donnée puis d'une commande. Valoriser la clarté.}{un élève présente son analyse des contraintes et sa recommandation. Valoriser l'esprit critique.}{\textit{un objet connecté combine capter, traiter, communiquer ; il s'intègre dans une architecture avec un réseau, un serveur et une application, et pose des questions de sécurité et de vie privée.}}
+
+\cloture{Cite les cinq fonctions d'un objet connecté.}{Pourquoi dit-on que les flèches de l'architecture vont dans les deux sens ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Architecture d'un objet connecté}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+Un objet connecté = \textbf{alimenter, capter, traiter, communiquer, interagir}. Il échange avec un \textbf{réseau}, un \textbf{serveur} et une \textbf{application}.
+\end{tcolorbox}
+
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=1.1cm,text width=2.3cm,align=center,font=\small},>={Stealth[length=3mm]},node distance=0.6cm]
+\node[box,fill=orange!20] (a) {Objet};
+\node[box,fill=blue!15,right=of a] (b) {Réseau local};
+\node[box,fill=green!15,right=of b] (c) {Internet, serveur};
+\node[box,fill=violet!15,right=of c] (d) {Application};
+\draw[<->,thick] (a)--(b); \draw[<->,thick] (b)--(c); \draw[<->,thick] (c)--(d);
+\end{tikzpicture}
+\end{center}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y}
+\toprule
+Contrainte & Question\\
+\midrule
+Énergie & Quelle autonomie ?\\
+Latence & Quel délai entre ordre et action ?\\
+Sécurité & Qui peut commander l'objet ?\\
+Vie privée & Quelles données personnelles ?\\
+\bottomrule
+\end{tabularx}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : décrire un objet connecté}
+
+\subsection*{3a. Le thermostat connecté (collectif)}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y Y}
+\toprule
+Fonction & Composant du thermostat & Information échangée\\
+\midrule
+Alimenter & & \\ Capter & & \\ Traiter & & \\ Communiquer & & \\ Interagir & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{3b. L'ampoule connectée (binôme)}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y Y}
+\toprule
+Fonction & Composant de l'ampoule & Donnée ou commande\\
+\midrule
+Alimenter & & \\ Capter & & \\ Traiter & & \\ Communiquer & & \\ Interagir & & \\
+\bottomrule
+\end{tabularx}
+
+Sur une diapositive, dessine l'architecture et marque en couleur les données (montantes) et les commandes (descendantes).
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le tableau du thermostat et le schéma de l'annexe A.\\
+\textbf{Aide 2 :} Qu'est-ce qui mesure ? Qui décide ? Par où passent les données ? Qui envoie une commande ?\\
+\textbf{Aide 3 :} demande à l'enseignant de remplir une ligne avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : la serrure connectée}
+
+\textbf{Banque :} batterie, lecteur de badge, ESP32, Wi-Fi, gâche électrique.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y}
+\toprule
+Fonction & Composant de la serrure\\
+\midrule
+Alimenter & \\ Capter & \\ Traiter & \\ Communiquer & \\ Interagir & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Légende le schéma (glisse les étiquettes)}
+Serrure \fl{} \dotfill{} \fl{} \dotfill{} \fl{} \dotfill
+
+\subsection*{Vrai ou faux ?}
+1. Une serrure connectée peut recevoir une commande depuis un téléphone. \cb Vrai \cb Faux\\
+2. Les flèches du schéma ne vont que dans un sens. \cb Vrai \cb Faux
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : la station météo connectée}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y Y}
+\toprule
+Fonction & Composant & Information\\
+\midrule
+Alimenter & & \\ Capter & & \\ Traiter & & \\ Communiquer & & \\ Interagir & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Trois scénarios}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{4cm}Y Y}
+\toprule
+Scénario & Donnée ou commande & Chemin parcouru\\
+\midrule
+L'utilisateur consulte la température & & \\
+La station envoie une mesure toutes les 10 min & & \\
+L'utilisateur change la fréquence des mesures & & \\
+\bottomrule
+\end{tabularx}
+
+Dessine le schéma complet sur une diapositive.
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : analyse critique}
+
+\textbf{Mission :} choisis un objet connecté (bracelet, caméra, enceinte, thermostat).
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y Y}
+\toprule
+Contrainte & Analyse pour mon objet & Risque ou limite\\
+\midrule
+Énergie & & \\ Latence & & \\ Sécurité & & \\ Vie privée & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Local ou nuage ?}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Critère & Traitement dans l'objet & Traitement dans le nuage\\
+\midrule
+Rapidité & & \\ Confidentialité & & \\ Puissance de calcul & & \\ Dépendance au réseau & & \\
+\bottomrule
+\end{tabularx}
+
+Ma recommandation (cinq lignes maximum) : \lig \lig \lig
+
+\textbf{Défi bonus :} explique ce qui se passe si le réseau tombe en panne.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+Thermostat : alimenter (secteur ou piles), capter (sonde), traiter (ESP32), communiquer (Wi-Fi), interagir (écran, relais). Ampoule : alimenter (secteur), capter (parfois rien ou un capteur de présence), traiter (puce), communiquer (Wi-Fi, Bluetooth), interagir (LEDs). Flux : mesures montantes, commandes descendantes.
+
+\subsection*{Annexe C}
+Batterie ; lecteur de badge ; ESP32 ; Wi-Fi ; gâche électrique. Schéma : serrure \fl{} réseau \fl{} serveur. Vrai, Faux.
+
+\subsection*{Annexe D}
+Capteurs : température, humidité, pression ; ESP32 ; Wi-Fi ; écran. Scénario 1 : application $\to$ serveur $\to$ lecture de la dernière mesure. Scénario 2 : station $\to$ réseau $\to$ serveur. Scénario 3 : application $\to$ serveur $\to$ commande $\to$ station.
+
+\subsection*{Annexe E}
+Une bonne analyse relève au moins un risque par contrainte (par exemple batterie qui se vide, données de santé exposées, commande piratée). Local : rapide et confidentiel, nuage : puissant mais dépendant du réseau.\\
+\textbf{Critères de réussite :} quatre contraintes traitées, recommandation argumentée.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : architecture}
+
+\begin{enumerate}
+ \item Cite les cinq fonctions d'un objet connecté.\\ \lig
+ \item Pourquoi dit-on que les flèches de l'architecture vont dans les deux sens ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. Alimenter, capter, traiter, communiquer, interagir. 2. Les données montent de l'objet vers l'application, les commandes descendent de l'application vers l'objet.
+
+\bigskip
+\grille{Cinq fonctions}{Architecture}{Flux}
+
+\end{document}

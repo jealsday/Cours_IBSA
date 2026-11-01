@@ -1,0 +1,288 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 7}
+\newcommand{\leconhdr}{Les boucles Répéter}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Les boucles Répéter}{Semaine du 9 au 13 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Les boucles Répéter (Scratch)\\
+Classe / effectif & Grade 7, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec Scratch 3 (éditeur en ligne ou hors ligne) et l'extension \textbf{Stylo}.
+ \item Vidéoprojecteur ou tableau interactif.
+ \item Projets de départ \texttt{.sb3} préparés par l'enseignant pour les trois niveaux, dans un dossier partagé.
+\end{itemize}\\
+Pré-requis &
+Séance précédente : condition, bloc \texttt{si\ldots{} alors\ldots{} sinon}. Blocs de mouvement, angles en degrés (un tour complet vaut 360).\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 40 min)]
+\begin{enumerate}
+ \item Préparer trois projets : A (carré en blocs répétés, à transformer), B (projet vide avec stylo activé), C (projet avec variable \texttt{longueur}).
+ \item Vérifier que l'extension Stylo est disponible hors ligne si le réseau est instable.
+ \item Créer le formulaire de sortie (annexe G) ou imprimer l'annexe.
+ \item Reconstituer les groupes à partir de l'exit ticket de la séance précédente.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Comprendre le principe d'itération.
+ \item Créer des séquences répétitives.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item de reconnaître un motif qui se répète et de le remplacer par un bloc \texttt{répéter}\,;
+ \item d'utiliser \texttt{répéter n fois}, \texttt{répéter indéfiniment} et \texttt{répéter jusqu'à}\,;
+ \item de tracer un polygone régulier en calculant l'angle de rotation (360 divisé par le nombre de côtés).
+\end{itemize}
+\textbf{Compétences numériques\,:} utiliser l'extension Stylo, tester et corriger, enregistrer un projet.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Le robot humain qui dessine un carré}{Séquence répétée et boucle}{Un carré avec boucle, puis un polygone en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : le robot humain}{0 -- 10 min}
+\textbf{Écrans éteints.}
+\begin{enumerate}
+ \item (5 min) Un élève joue le robot au sol (craie ou ruban). La classe dicte : \emph{avance de 4 pas, tourne à droite, avance de 4 pas, tourne à droite\ldots} L'enseignant écrit chaque instruction au tableau. Après deux côtés, la classe remarque que ça se répète.
+ \item (5 min) Question-problème : \textbf{«~Peut-on écrire cette suite plus courte pour ne pas répéter les mêmes mots ?~»} Recueillir des idées : «~recommence quatre fois~».
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : l'itération}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : séquence et répétition.} Les huit instructions du carré se résument à \textbf{4 fois} (avancer, tourner).
+
+\textbf{Temps 2 : trois boucles.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.2cm}Y Y}
+\toprule
+Bloc & Quand l'utiliser & Exemple\\
+\midrule
+\texttt{répéter n fois} & On connaît le nombre de répétitions & Un carré : 4 fois\\
+\texttt{répéter indéfiniment} & Cela ne s'arrête jamais & Un personnage qui bat des ailes\\
+\texttt{répéter jusqu'à} & On répète jusqu'à ce qu'une condition soit vraie & Avancer jusqu'à toucher le mur\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 3 : l'angle d'un polygone.} Pour un polygone régulier à $n$ côtés, la boucle se répète $n$ fois et l'angle de rotation vaut $360 \div n$.
+
+\begin{center}
+\begin{tabularx}{0.8\linewidth}{>{\bfseries}c c c}
+\toprule
+Polygone & Côtés $n$ & Angle (360 $\div$ $n$)\\
+\midrule
+Triangle & 3 & 120\\
+Carré & 4 & 90\\
+Pentagone & 5 & 72\\
+Hexagone & 6 & 60\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 4 : prédire avant d'exécuter.} Écrire au tableau \texttt{répéter 3 fois (avancer 100, tourner 120)} et demander : \emph{quelle forme ?}
+
+\begin{astuce}
+Utiliser des gestes pour compter les répétitions et un tableau des angles affiché en permanence. Donner un patron de bloc coloré aux élèves en difficulté. Autoriser la calculatrice.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B.
+
+\textbf{3a. Exemple collectif sur poste (12 min).} Ouvrir un projet vide avec l'extension Stylo. Programmer ensemble un carré avec \texttt{répéter 4 fois} : \texttt{stylo en position d'écriture}, \texttt{avancer de 100}, \texttt{tourner de 90}.
+
+\textbf{3b. Second exemple en binômes (18 min).} Tracer un triangle puis un hexagone en changeant uniquement le nombre de répétitions et l'angle. Alternance des rôles à mi-temps.
+
+\aides{Le programme du carré projeté et le tableau des angles}{Questions guides : \emph{Combien de côtés ? Quel angle (360 divisé par ce nombre) ?}}{L'enseignant place le bloc \texttt{répéter} et le binôme termine}
+
+\begin{astuce}
+Fournir le programme du carré pré-construit aux élèves qui ont peur de démarrer. Autoriser à tester avec un petit nombre (2 répétitions) pour voir le début de la forme.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Projet à compléter : transformer une suite de huit blocs en une boucle (carré), puis changer un nombre pour obtenir un triangle. Étiquettes de couleur et banque de valeurs (3, 4, 6, 90, 120, 60).}{Tracer un pentagone, un hexagone puis une étoile à cinq branches en cherchant les angles. Remplir le tableau des angles.}{Créer une spirale carrée avec une variable \texttt{longueur} qui augmente à chaque tour, puis un dessin libre combinant deux boucles imbriquées (une rosace). Expliquer par écrit la logique.}
+
+\medskip
+\textbf{Plan B si un élève termine tôt\,:} animer un personnage qui marche avec \texttt{répéter indéfiniment} et un changement de costume.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève montre son carré et lit le programme. Valoriser l'emploi correct de la boucle.}{un binôme présente ses polygones et explique le calcul de l'angle. Valoriser la méthode.}{un élève projette sa spirale ou sa rosace et explique la variable. Valoriser la persévérance.}{\textit{une boucle évite de répéter les mêmes blocs et rend le programme plus court et plus facile à modifier.}}
+
+\cloture{Combien de fois faut-il répéter (avancer, tourner de 120) pour tracer une forme fermée ?}{Quelle est la différence entre \texttt{répéter 10 fois} et \texttt{répéter indéfiniment} ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Les boucles Répéter}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{Une boucle} répète des blocs. Elle rend un programme plus court et plus facile à modifier.
+\end{tcolorbox}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y}
+\toprule
+Bloc & Rôle\\
+\midrule
+\texttt{répéter n fois} & Répète $n$ fois\\
+\texttt{répéter indéfiniment} & Répète sans fin\\
+\texttt{répéter jusqu'à <condition>} & Répète jusqu'à ce que la condition soit vraie\\
+\bottomrule
+\end{tabularx}
+
+\medskip
+\begin{tabularx}{0.8\linewidth}{>{\bfseries}c c c}
+\toprule
+Polygone & Côtés $n$ & Angle (360 $\div$ $n$)\\
+\midrule
+Triangle & 3 & 120\\
+Carré & 4 & 90\\
+Pentagone & 5 & 72\\
+Hexagone & 6 & 60\\
+\bottomrule
+\end{tabularx}
+
+\begin{code}[Modèle du carré]
+stylo en position d'écriture\\
+répéter 4 fois\\
+\hspace*{1cm}avancer de 100\\
+\hspace*{1cm}tourner de 90 degrés
+\end{code}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : les boucles}
+
+\subsection*{3a. Exemple collectif : le carré}
+Nombre de côtés : \dotfill\quad Angle : \dotfill\quad Nombre de répétitions : \dotfill
+
+\subsection*{3b. En binôme : triangle et hexagone}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y Y Y}
+\toprule
+Forme & Répétitions & Angle & Mon test\\
+\midrule
+Triangle & & & \\
+Hexagone & & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le tableau des angles et le programme du carré.\\
+\textbf{Aide 2 :} Combien de côtés ? Quel angle (360 divisé par ce nombre) ?\\
+\textbf{Aide 3 :} demande à l'enseignant de placer le bloc \texttt{répéter} avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je remplace par une boucle}
+
+\textbf{Banque de valeurs :} 3, 4, 6, 60, 90, 120.
+
+\subsection*{Activité 1 : complète}
+Un carré a \dotfill{} côtés et l'angle est \dotfill. Je répète \dotfill{} fois (avancer de 100, tourner de \dotfill).
+
+\subsection*{Activité 2 : projet à compléter}
+Transforme la suite de huit blocs en une seule boucle. Note ce que tu changes : \dotfill
+
+\subsection*{Activité 3 : change une valeur}
+Pour obtenir un triangle, je change \dotfill{} en \dotfill{} et \dotfill{} en \dotfill.
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : je trace des polygones}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y Y}
+\toprule
+Forme & Côtés $n$ & Angle $360 \div n$ & Programme testé ?\\
+\midrule
+Pentagone & & & \\
+Hexagone & & & \\
+Octogone & & & \\
+Étoile à cinq branches & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Question}
+Pourquoi l'étoile à cinq branches utilise-t-elle un angle de 144 et non de 72 ?\\
+\lig \lig
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : spirale et rosace}
+
+\textbf{Mission 1 : spirale carrée.} Crée une variable \texttt{longueur} de départ 10. Répète 30 fois : avancer de \texttt{longueur}, tourner de 90, ajouter 5 à \texttt{longueur}.
+
+\textbf{Mission 2 : rosace.} Répète 12 fois : tracer un carré (boucle imbriquée) puis tourner de 30.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{4cm}Y}
+\toprule
+Question & Ma réponse\\
+\midrule
+Combien de blocs sans boucle pour la rosace ? & \\
+Que se passe-t-il si j'augmente \texttt{longueur} de 10 ? & \\
+\bottomrule
+\end{tabularx}
+
+\textbf{Défi bonus :} change la couleur du stylo à chaque tour.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+Carré : 4 côtés, angle 90, 4 répétitions. Triangle : 3 répétitions, 120. Hexagone : 6 répétitions, 60.
+
+\subsection*{Annexe C}
+Carré : 4 côtés, angle 90, 4 répétitions. Pour un triangle : 4 devient 3 et 90 devient 120.
+
+\subsection*{Annexe D}
+Pentagone 5 / 72 ; hexagone 6 / 60 ; octogone 8 / 45 ; étoile : on tourne de 144 car on relie un sommet sur deux (72 $\times$ 2), 5 répétitions de \texttt{avancer 100, tourner 144}.
+
+\subsection*{Annexe E}
+Spirale : \texttt{répéter 30 fois (avancer longueur, tourner 90, ajouter 5 à longueur)}. Rosace : 12 $\times$ (4 $\times$ 2 blocs) $+$ 12 rotations $=$ 108 blocs sans boucle. Si on augmente de 10, la spirale s'ouvre plus vite.\\
+\textbf{Critères de réussite :} variable utilisée à bon escient, boucle imbriquée correcte.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : les boucles}
+
+\begin{enumerate}
+ \item Combien de fois faut-il répéter (avancer, tourner de 120) pour tracer une forme fermée ?\\ \lig
+ \item Quelle est la différence entre \texttt{répéter 10 fois} et \texttt{répéter indéfiniment} ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. Trois fois (triangle). 2. Le premier s'arrête après 10 répétitions, le second ne s'arrête jamais.
+
+\bigskip
+\grille{Boucle utilisée}{Angle correct}{Test réalisé}
+
+\end{document}

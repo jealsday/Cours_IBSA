@@ -1,0 +1,299 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 9}
+\newcommand{\leconhdr}{Simulation d'un feu intelligent}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Simulation d'un feu intelligent}{Semaine du 23 au 27 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Simulation d'un feu intelligent\\
+Classe / effectif & Grade 9, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec navigateur web : \textbf{Tinkercad Circuits} (simulation) et son moniteur série.
+ \item Arduino IDE sur les postes pour vérifier le code.
+ \item Facultatif : cartes Arduino avec LEDs et résistances pour tester un montage réel.
+ \item Vidéoprojecteur ou tableau interactif.
+\end{itemize}\\
+Pré-requis &
+Séance précédente : cycle d'états du feu tricolore, tableau des états, temporisations. Variables de type \texttt{int}.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 45 min)]
+\begin{enumerate}
+ \item Préparer le circuit du feu tricolore de la séance précédente (broches 8, 9, 10) comme base commune.
+ \item Préparer une courte vidéo ou des photos de carrefours : carrefour très chargé et carrefour vide la nuit.
+ \item Préparer les fichiers des annexes C à E et le formulaire de sortie.
+ \item Préciser que les capteurs (bouton, ultrason) seront ajoutés en janvier : ici, le «~trafic~» et l'«~heure~» sont simulés par des variables.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Analyser un besoin réel.
+ \item Réaliser un programme complet.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item de rédiger un mini cahier des charges (besoin, fonctions, scénarios)\,;
+ \item d'utiliser des variables et une condition \texttt{if} pour adapter le comportement du feu\,;
+ \item de tester chaque scénario en simulation et de documenter ses résultats.
+\end{itemize}
+\textbf{Compétences numériques\,:} structurer un programme, utiliser le moniteur série pour contrôler, écrire une courte documentation technique.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Pourquoi un feu devrait-il être intelligent ?}{Besoin, scénarios et variables}{Un mode nuit en collectif, puis un feu qui prolonge le vert en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : le feu qui s'adapte}{0 -- 10 min}
+\begin{enumerate}
+ \item (5 min) Projeter deux situations : un carrefour bloqué aux heures de pointe, un feu rouge à 3 h du matin sans voiture. \emph{Qu'est-ce qui ne va pas ? Que faudrait-il changer ?}
+ \item (5 min) Noter les idées au tableau : feu plus long quand il y a du trafic, clignotant la nuit. Question-problème : \textbf{«~Comment faire adapter un feu à la situation ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : du besoin au programme}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : le besoin.} \emph{Qui est concerné ? Quel problème ? Quelle amélioration ?}
+
+\textbf{Temps 2 : des scénarios.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.8cm}Y Y}
+\toprule
+Scénario & Condition (variable) & Comportement du feu\\
+\midrule
+Normal & \texttt{nuit == false} et \texttt{trafic == 0} & Cycle vert 5 s, orange 2 s, rouge 5 s\\
+Trafic dense & \texttt{trafic == 1} & Vert prolongé à 8 s\\
+Nuit & \texttt{nuit == true} & Orange clignotant (500 ms)\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 3 : variables et condition.}
+\begin{arduino}[Structure avec variables]
+bool nuit = false;      // mode nuit ou non
+int trafic = 0;         // 0 = faible, 1 = dense
+int cycle = 0;          // compte les cycles
+
+void loop() {
+  if (nuit) {
+    digitalWrite(9, HIGH); delay(500);
+    digitalWrite(9, LOW);  delay(500);
+  } else {
+    // cycle normal, avec vert plus long si trafic dense
+  }
+}
+\end{arduino}
+
+\textbf{Temps 4 : simuler le monde réel.} Sans capteur, on change les variables pour simuler : le programme compte les cycles et passe en mode nuit après 4 cycles, puis revient en mode jour après 4 autres.
+
+\begin{astuce}
+Écrire les scénarios sous forme de phrases «~si\ldots{} alors\ldots~» avant de coder. Utiliser des couleurs pour distinguer les variables du reste du code. Lire le code à voix haute avec les noms des variables.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B.
+
+\textbf{3a. Le mode nuit en collectif (12 min).} Ajouter à la base commune une variable \texttt{nuit} et la condition \texttt{if (nuit)}. Tester avec \texttt{nuit = true} puis \texttt{false}.
+
+\textbf{3b. Le vert prolongé en binômes (18 min).} Ajouter la variable \texttt{trafic} : si \texttt{trafic == 1}, le vert dure 8 s au lieu de 5 s. Tester les deux valeurs. Alternance des rôles.
+
+\aides{Le programme du 3a et le tableau des scénarios}{Questions guides : \emph{Quelle variable change le comportement ? Quelle valeur de \texttt{delay} dans chaque cas ?}}{L'enseignant écrit la structure \texttt{if / else} avec le binôme, qui complète}
+
+\begin{astuce}
+Tester un scénario à la fois en changeant seulement la valeur d'une variable. Commenter chaque \texttt{if} avec le scénario correspondant.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Programme du mode nuit à compléter (conditions et valeurs à placer avec une banque de mots), puis test avec \texttt{nuit = true} et \texttt{false} et relevé des résultats dans un tableau.}{Réaliser un feu avec deux scénarios (nuit et trafic dense) et un compteur de cycles qui bascule en mode nuit après 4 cycles. Tester chaque scénario et noter les résultats.}{Concevoir un feu intelligent complet : cahier des charges d'une page, trois scénarios, code structuré avec des fonctions, affichage du scénario dans le moniteur série, et un tableau de tests.}
+
+\medskip
+\textbf{Plan B si un élève termine tôt\,:} ajouter un feu piéton qui s'adapte aux mêmes scénarios.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève montre son mode nuit et explique la condition \texttt{if}. Valoriser le lien entre le scénario et le code.}{un binôme montre le basculement jour et nuit par compteur de cycles. Valoriser le test méthodique.}{un élève présente son cahier des charges et son tableau de tests. Valoriser la rigueur de la démarche.}{\textit{un feu «~intelligent~» adapte son comportement avec des variables et des conditions. Dans le trimestre suivant, on le fera avec de vrais capteurs (boutons, ultrason).} Annoncer la préparation du projet pour décembre.}
+
+\cloture{À quoi sert la variable \texttt{nuit} dans le programme du feu ?}{Écris la condition qui fait durer le vert 8 s quand le trafic est dense.}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Du besoin au programme}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{Besoin} $\rightarrow$ \textbf{scénarios} $\rightarrow$ \textbf{variables et conditions} $\rightarrow$ \textbf{programme} $\rightarrow$ \textbf{tests}
+\end{tcolorbox}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.8cm}Y Y}
+\toprule
+Scénario & Condition & Comportement\\
+\midrule
+Normal & ni nuit ni trafic dense & Cycle 5 s / 2 s / 5 s\\
+Trafic dense & \texttt{trafic == 1} & Vert 8 s\\
+Nuit & \texttt{nuit == true} & Orange clignotant\\
+\bottomrule
+\end{tabularx}
+
+\begin{arduino}[Modèle]
+if (nuit) {
+  // orange clignotant
+} else {
+  if (trafic == 1) { delay(8000); }
+  else             { delay(5000); }
+}
+\end{arduino}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : le feu intelligent}
+
+\subsection*{3a. Mode nuit}
+Variable utilisée : \dotfill\quad Valeur pour la nuit : \dotfill\\
+Comportement observé : \dotfill
+
+\subsection*{3b. Tableau de tests}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.4cm}Y Y Y}
+\toprule
+Test & Valeur des variables & Comportement attendu & Observé ?\\
+\midrule
+1 & \texttt{nuit = false}, \texttt{trafic = 0} & & \\
+2 & \texttt{nuit = false}, \texttt{trafic = 1} & & \\
+3 & \texttt{nuit = true} & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le programme du mode nuit et le tableau des scénarios.\\
+\textbf{Aide 2 :} Quelle variable change le comportement ? Quelle valeur de \texttt{delay} dans chaque cas ?\\
+\textbf{Aide 3 :} demande à l'enseignant d'écrire le \texttt{if / else} avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je complète le mode nuit}
+
+\textbf{Banque :} nuit, true, false, HIGH, LOW, 500.
+
+\begin{arduino}[Programme à compléter]
+bool nuit = _____;
+
+void loop() {
+  if (_____) {
+    digitalWrite(9, HIGH); delay(_____);
+    digitalWrite(9, _____); delay(500);
+  } else {
+    // cycle normal
+  }
+}
+\end{arduino}
+
+\subsection*{Activité : relevé des tests}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Valeur de \texttt{nuit} & Ce que fait le feu & Conforme ?\\
+\midrule
+\texttt{true} & & \\ \texttt{false} & & \\
+\bottomrule
+\end{tabularx}
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : deux scénarios et un compteur}
+
+\textbf{Mission :} le feu passe en mode nuit après 4 cycles, puis en mode jour après 4 autres. En mode jour, le vert dure 8 s si \texttt{trafic == 1}.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.8cm}Y Y Y}
+\toprule
+Cycle n° & Mode & Durée du vert & Observé ?\\
+\midrule
+1 & & & \\ 2 & & & \\ 3 & & & \\ 4 & & & \\ 5 & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Questions}
+\begin{enumerate}
+ \item Quelle ligne remet \texttt{cycle} à zéro ? \dotfill
+ \item Pourquoi tester chaque scénario séparément ? \dotfill
+\end{enumerate}
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : mon feu intelligent complet}
+
+\subsection*{Étape 1 : mini cahier des charges}
+Besoin : \dotfill\\
+Utilisateurs : \dotfill\\
+Trois scénarios : \lig
+
+\subsection*{Étape 2 : tableau de tests}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.4cm}Y Y Y}
+\toprule
+Scénario & Valeur des variables & Résultat attendu & Résultat observé\\
+\midrule
+ & & & \\ & & & \\ & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Étape 3 : moniteur série}
+Affiche le scénario avec \texttt{Serial.println("nuit");}. Recopie ici une ligne de ton moniteur : \dotfill
+
+\textbf{Défi bonus :} ajoute une variable \texttt{priorite} pour donner la priorité à une voie.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+Tests : 1 cycle normal (vert 5 s) ; 2 vert prolongé (8 s) ; 3 orange clignotant.
+
+\subsection*{Annexe C}
+\texttt{false}, \texttt{nuit}, \texttt{500}, \texttt{LOW}. \texttt{true} $\rightarrow$ orange clignotant ; \texttt{false} $\rightarrow$ cycle normal.
+
+\subsection*{Annexe D}
+Cycles 1 à 4 : jour ; 5 à 8 : nuit. Remise à zéro de \texttt{cycle} : \texttt{cycle = 0;} à la bascule. On teste séparément pour localiser l'erreur.
+
+\subsection*{Annexe E}
+Un bon dossier contient un besoin clair, trois scénarios cohérents, un tableau de tests avec résultat observé, et un code lisible avec fonctions.\\
+\textbf{Critères de réussite :} chaque scénario testé et conforme, code commenté, moniteur série utilisé.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : feu intelligent}
+
+\begin{enumerate}
+ \item À quoi sert la variable \texttt{nuit} dans le programme du feu ?\\ \lig
+ \item Écris la condition qui fait durer le vert 8 s quand le trafic est dense.\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. À choisir entre le cycle normal et l'orange clignotant. 2. \texttt{if (trafic == 1) \{ delay(8000); \}}.
+
+\bigskip
+\grille{Scénarios}{Tests réalisés}{Code lisible}
+
+\end{document}

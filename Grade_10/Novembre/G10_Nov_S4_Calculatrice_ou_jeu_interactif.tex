@@ -1,0 +1,333 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 10}
+\newcommand{\leconhdr}{Calculatrice ou jeu interactif}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Calculatrice ou jeu interactif (Python)}{Semaine du 23 au 27 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Calculatrice ou jeu interactif : un programme complet\\
+Classe / effectif & Grade 10, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec l'éditeur \textbf{Mu} en mode \emph{Python 3} (Vérifier, Exécuter, Débogueur).
+ \item Vidéoprojecteur ou tableau interactif avec Mu projeté.
+ \item Un dossier partagé contenant les fichiers de départ \texttt{.py} des trois niveaux et la grille d'évaluation du projet.
+ \item Inspiration : unité «~Putting it all together~» du cours TeachComputing (binômes, codage en direct, exemples commentés).
+\end{itemize}\\
+Pré-requis &
+Séances précédentes : variables, types, saisie, conditions, boucles \texttt{for} et \texttt{while}.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 45 min)]
+\begin{enumerate}
+ \item Préparer un exemple fini de calculatrice et un exemple fini de jeu (à montrer en démonstration).
+ \item Préparer les fichiers de départ : \texttt{niveauA.py}, \texttt{niveauB.py}, \texttt{niveauC.py}.
+ \item Préparer la grille d'évaluation du projet (annexe B) et le formulaire de sortie (annexe G).
+ \item Prévoir la séance de décembre : \og Introduction au HTML \fg{}, qui suivra l'évaluation.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Concevoir un programme fonctionnel.
+ \item Corriger les erreurs détectées.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item de décomposer un programme en étapes (pseudo-code) avant de le coder\,;
+ \item d'assembler variables, conditions et boucles dans un programme complet\,;
+ \item de distinguer et de corriger une erreur de syntaxe, d'exécution et de logique.
+\end{itemize}
+\textbf{Compétences numériques\,:} planifier, tester par un jeu d'essais, lire un message d'erreur, enregistrer des versions.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Démonstration d'une calculatrice et d'un jeu}{Du pseudo-code au programme ; les trois types d'erreurs}{Pseudo-code collectif, puis première opération en binômes}{Trois niveaux de besoin}{Présentation des programmes}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : deux programmes à découvrir}{0 -- 10 min}
+\begin{enumerate}
+ \item (5 min) Faire fonctionner une calculatrice (menu, boucle, quitter) et un jeu de devinette. \emph{Quelles variables, conditions et boucles y voyez-vous ?}
+ \item (5 min) Les élèves choisissent leur projet : calculatrice ou jeu. Question-problème : \textbf{«~Comment transformer une idée en programme qui fonctionne et qui ne plante pas ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : planifier, tester, déboguer}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Codage en direct. Quatre temps de 5 min.
+
+\textbf{Temps 1 : du pseudo-code au code.}
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=1cm,text width=2.7cm,align=center,font=\small\bfseries},>={Stealth[length=3mm]},node distance=0.7cm]
+\node[box,fill=orange!20] (a) {1. Idée};
+\node[box,fill=blue!15,right=of a] (b) {2. Pseudo-code};
+\node[box,fill=green!15,right=of b] (c) {3. Code et test};
+\node[box,fill=violet!15,right=of c] (d) {4. Corriger};
+\draw[->,thick] (a)--(b); \draw[->,thick] (b)--(c); \draw[->,thick] (c)--(d);
+\end{tikzpicture}
+\end{center}
+
+\begin{python}[Pseudo-code d'une calculatrice]
+# repeter jusqu'a ce que l'utilisateur quitte
+#   afficher le menu
+#   demander l'operation
+#   si quitter : arreter
+#   demander deux nombres
+#   selon l'operation : calculer
+#   afficher le resultat
+\end{python}
+
+\textbf{Temps 2 : les trois types d'erreurs.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.2cm}Y Y}
+\toprule
+Type & Exemple & Comment la trouver\\
+\midrule
+Syntaxe & Deux-points oublié, parenthèse non fermée & Mu la signale avant ou à l'exécution\\
+Exécution & Division par zéro, \texttt{int("abc")} & Le programme s'arrête avec un message (\emph{Traceback})\\
+Logique & Mauvaise condition, résultat faux & Aucun message : il faut tester\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 3 : lire un message d'erreur.} Montrer un \emph{Traceback} : la dernière ligne dit le type d'erreur, l'avant-dernière donne la ligne concernée.
+
+\textbf{Temps 4 : le jeu d'essais.} Avant de dire «~ça marche~», tester des cas normaux, des cas limites (0, négatif) et des saisies absurdes.
+
+\begin{astuce}
+Fournir le pseudo-code sous forme d'étiquettes à ranger dans l'ordre. Utiliser les couleurs de l'annexe A pour distinguer les trois erreurs. Autoriser le travail en binôme sur la planification.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B. Programmation en binômes (pilote et navigateur, rôles échangés à mi-temps).
+
+\textbf{3a. Pseudo-code collectif (12 min).} Écrire ensemble le pseudo-code de la calculatrice, puis coder le menu et la première opération (addition).
+
+\textbf{3b. Première opération en binômes (18 min).} Chaque binôme code, selon son projet, soit l'addition et la soustraction avec le menu, soit la partie «~choisir un nombre secret et le comparer~». Tester avec trois entrées.
+
+\aides{Le pseudo-code du 3a et les modèles de code des séances précédentes}{Questions guides : \emph{Quelle est la prochaine étape du pseudo-code ? Quelle structure (condition ou boucle) faut-il ?}}{L'enseignant écrit la première ligne de code avec le binôme}
+
+\begin{astuce}
+Insister : coder une étape, tester, puis ajouter la suivante. Laisser ouverte la liste des modèles de code. En cas de blocage prolongé, passer au pseudo-code sur papier.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Fichier \texttt{niveauA.py} : calculatrice à deux opérations dont les lignes essentielles sont à compléter, avec le pseudo-code fourni et une banque de mots. Tester trois calculs.}{Programmer une calculatrice à quatre opérations avec menu en boucle, gestion de la division par zéro et option «~Quitter~», ou un jeu de devinette complet. Fournir un jeu d'essais.}{Réaliser un projet complet et structuré : calculatrice avec fonctions (\texttt{def addition(a, b):}, etc.) et historique des calculs dans une liste, ou jeu avec rejouer et meilleur score. Gérer les saisies invalides avec \texttt{try} et \texttt{except}.}
+
+\medskip
+\textbf{Plan B si un élève termine tôt\,:} tester le programme d'un camarade en cherchant à le faire planter, et noter les bogues trouvés.
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{teal}{5. Mise en commun : présentation des programmes}{95 -- 110 min}
+\begin{enumerate}
+ \item (2 min) Retour au calme.
+ \item (9 min) Trois présentations courtes (3 min), avec valorisation :
+ \begin{itemize}
+  \item \textbf{Groupe A} : un élève montre ses calculs et explique une ligne. Valoriser la compréhension de son programme.
+  \item \textbf{Groupe B} : un élève présente son jeu d'essais et un bogue corrigé. Valoriser la rigueur.
+  \item \textbf{Groupe C} : un élève présente sa structure (fonctions, gestion d'erreurs). Valoriser la maîtrise.
+ \end{itemize}
+ \item (4 min) Conclusion : \textit{un programme se planifie en pseudo-code, se teste avec un jeu d'essais et se corrige en distinguant le type d'erreur.} Annoncer la prochaine séance : page Web avec HTML.
+\end{enumerate}
+\end{etape}
+
+\cloture{Un programme s'exécute mais affiche un mauvais résultat sans message d'erreur : de quel type d'erreur s'agit-il ?}{Cite deux cas que tu testerais pour vérifier une calculatrice.}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Planifier, tester, déboguer}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{Idée} $\rightarrow$ \textbf{pseudo-code} $\rightarrow$ \textbf{code étape par étape} $\rightarrow$ \textbf{tests} $\rightarrow$ \textbf{corrections}
+\end{tcolorbox}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.2cm}Y Y}
+\toprule
+Type d'erreur & Signe & Exemple\\
+\midrule
+Syntaxe & Message avant l'exécution & \texttt{if x > 3} (deux-points oublié)\\
+Exécution & Programme qui s'arrête (Traceback) & \texttt{10 / 0}\\
+Logique & Résultat faux sans message & \texttt{moyenne = a + b / 2}\\
+\bottomrule
+\end{tabularx}
+
+\begin{python}[Modèle de calculatrice]
+while True:
+    print("1 : addition   2 : soustraction   0 : quitter")
+    choix = input("Choix : ")
+    if choix == "0":
+        break
+    a = float(input("Premier nombre : "))
+    b = float(input("Second nombre : "))
+    if choix == "1":
+        print("Resultat :", a + b)
+    elif choix == "2":
+        print("Resultat :", a - b)
+\end{python}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée et grille du projet}
+\entete{green}{Pratique guidée : mon programme}
+
+\subsection*{3a. Pseudo-code de mon projet}
+Mon projet : \cb Calculatrice \quad \cb Jeu de devinette\\
+Étapes (à ranger dans l'ordre) :\\
+\lig \lig \lig \lig
+
+\subsection*{3b. Jeu d'essais}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y Y Y}
+\toprule
+Entrée & Résultat attendu & Résultat obtenu & Conforme ?\\
+\midrule
+ & & & \\ & & & \\ & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Grille d'évaluation du projet}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y p{2cm}}
+\toprule
+Critère & Description & Points\\
+\midrule
+Fonctionnement & Le programme fait ce qui est demandé & /5\\
+Structure & Variables, condition et boucle utilisées à bon escient & /5\\
+Tests & Jeu d'essais complet, erreurs corrigées & /5\\
+Lisibilité & Commentaires, noms clairs, indentation & /5\\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le pseudo-code du 3a et les modèles des séances précédentes.\\
+\textbf{Aide 2 :} Quelle est la prochaine étape du pseudo-code ? Quelle structure faut-il ?\\
+\textbf{Aide 3 :} demande à l'enseignant d'écrire la première ligne avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : calculatrice à deux opérations}
+
+\textbf{Banque de mots :} input, float, if, elif, print, +, -.
+
+\begin{python}[niveauA.py]
+a = _____(input("Premier nombre : "))
+b = _____(input("Second nombre : "))
+op = input("Operation (+ ou -) : ")
+_____ op == "+":
+    print("Resultat :", a _____ b)
+_____ op == "-":
+    print("Resultat :", a _____ b)
+\end{python}
+
+\subsection*{Activité : trois calculs}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{4cm}Y Y}
+\toprule
+Calcul & Résultat attendu & Résultat obtenu\\
+\midrule
+$5 + 3$ & & \\ $10 - 4$ & & \\ $2{,}5 + 1{,}5$ & & \\
+\bottomrule
+\end{tabularx}
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : calculatrice complète ou jeu}
+
+\textbf{Option 1 : calculatrice.} Menu en boucle avec les quatre opérations, option quitter, division par zéro refusée avec un message.\\
+\textbf{Option 2 : jeu de devinette.} Nombre secret, indices «~plus grand~» ou «~plus petit~», compteur d'essais, rejouer.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y Y}
+\toprule
+Cas testé & Résultat attendu & Obtenu & Corrigé ?\\
+\midrule
+Cas normal & & & \\
+Cas limite (0, négatif) & & & \\
+Saisie absurde (lettre) & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Bilan des erreurs rencontrées}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.8cm}Y Y}
+\toprule
+Type d'erreur & Où ? & Comment corrigée ?\\
+\midrule
+ & & \\ & & \\
+\bottomrule
+\end{tabularx}
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : projet structuré}
+
+\begin{python}[Aide : fonction et gestion d'erreur]
+def addition(a, b):
+    return a + b
+
+try:
+    a = float(input("Nombre : "))
+except ValueError:
+    print("Ce n'est pas un nombre.")
+\end{python}
+
+\begin{enumerate}
+ \item Ajoute une fonction par opération et utilise-les dans la boucle.
+ \item Garde un historique des calculs dans une liste (\texttt{historique.append(...)}) et affiche-le à la fin.
+ \item Explique pourquoi une fonction améliore la lisibilité : \dotfill
+\end{enumerate}
+
+\textbf{Défi bonus :} ajoute les puissances et le reste de la division (\texttt{**} et \texttt{\%}).
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+Pseudo-code attendu : boucle, menu, saisie de deux nombres, calcul selon l'opération, affichage, quitter. Barème : voir la grille.
+
+\subsection*{Annexe C}
+\texttt{float}, \texttt{float}, \texttt{if}, \texttt{+}, \texttt{elif}, \texttt{-}. Résultats : 8, 6, 4.
+
+\subsection*{Annexe D}
+Division par zéro : \texttt{if b == 0: print("Division impossible")}. Cas limites : 0, négatifs. Saisie absurde : \texttt{ValueError} (à gérer au niveau C). Les trois types d'erreurs doivent être nommés correctement.
+
+\subsection*{Annexe E}
+Structure attendue : fonctions \texttt{addition}, \texttt{soustraction}, \texttt{multiplication}, \texttt{division} ; liste \texttt{historique} ; \texttt{try / except ValueError}.\\
+\textbf{Critères de réussite :} programme qui ne plante pas sur une saisie absurde, fonctions utilisées, historique correct.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : programme complet}
+
+\begin{enumerate}
+ \item Un programme s'exécute mais affiche un mauvais résultat sans message d'erreur : de quel type d'erreur s'agit-il ?\\ \lig
+ \item Cite deux cas que tu testerais pour vérifier une calculatrice.\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. Une erreur de logique. 2. Par exemple une division par zéro, un nombre négatif, une saisie qui n'est pas un nombre.
+
+\bigskip
+\grille{Pseudo-code}{Jeu d'essais}{Erreurs corrigées}
+
+\end{document}

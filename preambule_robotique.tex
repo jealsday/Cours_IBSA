@@ -1,0 +1,145 @@
+% Préambule commun aux plans de cours de robotique (Grades 7 à 12).
+% Chaque plan de cours commence par \documentclass[11pt,a4paper]{article}, définit
+% \gradelabel et \leconhdr (en-têtes de page), puis \input{../../preambule_robotique.tex}.
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2cm,headheight=14pt]{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor,tabularx,booktabs,array,enumitem,fancyhdr,amssymb,tikz}
+\usetikzlibrary{arrows.meta,positioning}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small Robotique -- \gradelabel{} -- Novembre 2026}
+\rhead{\small \leconhdr}
+\cfoot{\thepage}
+\setlist{itemsep=1pt,topsep=2pt,leftmargin=*}
+\renewcommand{\arraystretch}{1.35}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\cb}{$\square$\,}
+\newcommand{\fl}{$\rightarrow$}
+\newcommand{\lig}{\noindent\rule{\linewidth}{0.3pt}\\[5mm]}
+
+\newtcolorbox{etape}[3]{enhanced,breakable,colback=#1!6,colframe=#1!70!black,
+  coltitle=white,fonttitle=\bfseries,title={#2\hfill #3},boxrule=0.8pt,arc=2mm,
+  before skip=8pt,after skip=8pt}
+\newtcolorbox{astuce}[1][Différenciation et besoins particuliers]{breakable,
+  colback=yellow!12,colframe=yellow!50!black,fonttitle=\bfseries\small,
+  title={#1},boxrule=0.5pt,arc=1mm,before skip=6pt,after skip=6pt}
+\newtcolorbox{code}[1][Code]{breakable,colback=black!4,colframe=black!60,
+  fonttitle=\bfseries\small,title={#1},boxrule=0.5pt,arc=1mm,fontupper=\ttfamily\small,
+  before skip=6pt,after skip=6pt}
+% Blocs de code coloré (écrire le code sans accents : comme dans l'éditeur)
+\newtcblisting{arduino}[1][Code Arduino]{listing only,breakable,colback=black!4,
+  colframe=black!60,fonttitle=\bfseries\small,title={#1},boxrule=0.5pt,arc=1mm,
+  before skip=6pt,after skip=6pt,
+  listing options={language=C++,basicstyle=\ttfamily\small,columns=fullflexible,
+  keepspaces=true,showstringspaces=false,commentstyle=\color{green!40!black}\itshape,
+  keywordstyle=\color{blue!70!black}\bfseries}}
+\newtcblisting{python}[1][Code Python]{listing only,breakable,colback=black!4,
+  colframe=black!60,fonttitle=\bfseries\small,title={#1},boxrule=0.5pt,arc=1mm,
+  before skip=6pt,after skip=6pt,
+  listing options={language=Python,basicstyle=\ttfamily\small,columns=fullflexible,
+  keepspaces=true,showstringspaces=false,commentstyle=\color{green!40!black}\itshape,
+  keywordstyle=\color{blue!70!black}\bfseries}}
+\newcommand{\entete}[2]{%
+  \begin{tcolorbox}[colback=#1!10,colframe=#1!70!black,boxrule=0.8pt,arc=2mm]
+  {\Large\bfseries #2}\hfill Nom : \rule{4cm}{0.3pt}\quad Date : \rule{2.2cm}{0.3pt}
+  \end{tcolorbox}}
+
+% Bandeau de titre : #1 titre, #2 semaine
+\newcommand{\titreblock}[2]{%
+\begin{tcolorbox}[colback=teal!10,colframe=teal!70!black,arc=2mm,boxrule=1pt]
+\centering
+{\LARGE\bfseries #1}\\[2mm]
+{\large Robotique -- \gradelabel{} -- Plan de cours de 2 heures}\\[1mm]
+Enseignant : Francis Ki \quad|\quad #2
+\end{tcolorbox}}
+
+% Tableau du minutage : 6 contenus (accroche, mini-leçon, guidée, autonome, mise en commun, exit ticket)
+\newcommand{\minutage}[6]{%
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.2cm}p{2.6cm}Y p{3cm}}
+\toprule
+Minutes & Étape & Contenu & Organisation\\
+\midrule
+0 -- 10 & Accroche & #1 & Classe entière\\
+10 -- 30 & Mini-leçon & #2 & Classe entière\\
+30 -- 60 & Pratique guidée & #3 & Collectif puis binômes\\
+60 -- 95 & Pratique autonome & #4 & Individuel sur poste\\
+95 -- 110 & Mise en commun & #5 & Classe entière\\
+110 -- 120 & Exit ticket & #6 & Individuel sur poste\\
+\bottomrule
+\end{tabularx}}
+
+% Étayage progressif : #1 aide 1, #2 aide 2, #3 aide 3
+\newcommand{\aides}[3]{%
+\textbf{Étayage progressif de l'aide.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.4cm}Y p{4.4cm}}
+\toprule
+Niveau d'aide & Contenu & Qui intervient\\
+\midrule
+Aide 1 & #1 & Le binôme seul\\
+Aide 2 & #2 & Le binôme avec la carte d'aide\\
+Aide 3 & #3 & L'enseignant\\
+\bottomrule
+\end{tabularx}
+\end{center}}
+
+% Les trois groupes de la pratique autonome : #1 tâche A, #2 tâche B, #3 tâche C
+\newcommand{\groupes}[3]{%
+\textbf{Consigne commune\,:} chaque élève ouvre le fichier de son groupe, le renomme avec son prénom et travaille seul sur son poste. L'enseignant passe d'abord auprès du groupe A pendant 10 min.
+
+\medskip
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y p{2.2cm}}
+\toprule
+Groupe & Tâche sur poste & Annexe\\
+\midrule
+A : en dessous du niveau & #1 & Annexe C\\
+B : au niveau & #2 & Annexe D\\
+C : au-dessus du niveau & #3 & Annexe E\\
+\bottomrule
+\end{tabularx}}
+
+% Mise en commun : #1 groupe A, #2 groupe B, #3 groupe C, #4 conclusion
+\newcommand{\miseencommun}[4]{%
+\begin{etape}{teal}{5. Mise en commun}{95 -- 110 min}
+\begin{enumerate}
+ \item (2 min) Retour au calme, écrans mis en veille.
+ \item (9 min) Trois passages courts de 3 min, avec valorisation :
+ \begin{itemize}
+  \item \textbf{Groupe A} : #1
+  \item \textbf{Groupe B} : #2
+  \item \textbf{Groupe C} : #3
+ \end{itemize}
+ \item (4 min) Conclusion : #4
+\end{enumerate}
+\end{etape}}
+
+% Clôture : #1 question 1, #2 question 2
+\newcommand{\cloture}[2]{%
+\begin{etape}{gray}{6. Clôture : exit ticket}{110 -- 120 min}
+Formulaire en ligne ou papier (annexe G) :
+\begin{enumerate}
+ \item #1
+ \item #2
+ \item Auto-évaluation : \emph{Je maîtrise / Je progresse / J'ai besoin d'aide.}
+\end{enumerate}
+Lire les réponses avant la séance suivante pour ajuster les groupes de besoin.
+\end{etape}}
+
+% Grille d'observation : #1 #2 #3 intitulés de colonnes
+\newcommand{\grille}[3]{%
+\subsection*{Grille d'observation (enseignant)}
+\begin{tabularx}{\linewidth}{Y p{2.4cm} p{2.4cm} p{2.4cm} Y}
+\toprule
+Élève & #1 & #2 & #3 & Groupe suivant\\
+\midrule
+ & & & & \\ & & & & \\ & & & & \\ & & & & \\ & & & & \\
+\bottomrule
+\end{tabularx}}
+
+% Signature de l'exit ticket
+\newcommand{\autoeval}{Je me sens : \cb Je maîtrise \quad \cb Je progresse \quad \cb J'ai besoin d'aide}

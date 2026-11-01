@@ -1,0 +1,6 @@
+WiFi._____(ssid, mdp);
+while (WiFi.status() != _____) {
+  delay(500);
+}
+Serial.println(WiFi._____());
+Serial.println(WiFi._____());

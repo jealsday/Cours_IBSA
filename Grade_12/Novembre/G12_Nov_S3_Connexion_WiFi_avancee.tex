@@ -1,0 +1,345 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 12}
+\newcommand{\leconhdr}{Connexion Wi-Fi avancée}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Connexion Wi-Fi avancée (ESP32)}{Semaine du 16 au 20 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Connexion Wi-Fi avancée avec l'ESP32\\
+Classe / effectif & Grade 12, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec navigateur web.
+ \item \textbf{Wokwi} (wokwi.com, gratuit) : simulation d'un ESP32 avec Wi-Fi (réseau de test \texttt{Wokwi-GUEST}, sans mot de passe).
+ \item Facultatif : une carte ESP32 réelle par binôme et un réseau Wi-Fi 2,4~GHz de test, avec Arduino IDE configuré pour l'ESP32.
+ \item Un service Web de test accessible en HTTP, choisi et vérifié par l'enseignant la veille (par exemple une page ou une API publique qui renvoie un texte court).
+ \item Vidéoprojecteur ou tableau interactif.
+\end{itemize}\\
+Pré-requis &
+Séances précédentes : architecture d'un objet connecté, protocoles TCP/IP et HTTP. G11 : \texttt{setup()} et \texttt{loop()}, communication Wi-Fi de base.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 50 min)]
+\begin{enumerate}
+ \item Créer dans Wokwi un projet ESP32 modèle avec le code de connexion de l'annexe A et vérifier que la connexion à \texttt{Wokwi-GUEST} réussit.
+ \item Choisir et tester le service Web de test (adresse, format de la réponse). Prévoir un plan B si le service est indisponible.
+ \item Si des cartes réelles sont utilisées : la plupart des ESP32 n'utilisent que le Wi-Fi 2,4~GHz et ne se connectent pas aux réseaux d'entreprise avec identifiant individuel ; prévoir un point d'accès dédié.
+ \item Préparer les fichiers des annexes C à E et le formulaire de sortie.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Configurer une connexion réseau.
+ \item Échanger des données via Wi-Fi.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item d'expliquer les étapes d'une connexion Wi-Fi (SSID, mot de passe, adresse IP attribuée par DHCP)\,;
+ \item d'écrire ou de compléter un programme ESP32 qui se connecte, affiche son adresse IP et sa puissance de signal (RSSI)\,;
+ \item de gérer un échec de connexion (délai maximal, nouvelle tentative) et d'effectuer une requête HTTP simple.
+\end{itemize}
+\textbf{Compétences numériques\,:} lire un moniteur série, diagnostiquer une connexion, gérer les erreurs réseau.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Pourquoi mon téléphone se reconnecte tout seul ?}{Étapes d'une connexion, DHCP, RSSI, gestion d'erreur}{Connexion d'un ESP32 simulé en collectif, puis requête HTTP en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : le téléphone qui se reconnecte}{0 -- 10 min}
+\begin{enumerate}
+ \item (5 min) \emph{Que se passe-t-il quand ton téléphone arrive à la maison ? Qui lui donne une adresse ? Que se passe-t-il quand le signal est faible ?} Noter les mots : réseau, mot de passe, adresse, signal.
+ \item (5 min) Question-problème : \textbf{«~Comment un petit microcontrôleur, sans écran, se connecte-t-il à un réseau et reste-t-il connecté ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : se connecter et rester connecté}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : les étapes d'une connexion.}
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=1.1cm,text width=2.4cm,align=center,font=\small},>={Stealth[length=3mm]},node distance=0.5cm]
+\node[box,fill=orange!20] (a) {1. Chercher le réseau (SSID)};
+\node[box,fill=blue!15,right=of a] (b) {2. S'authentifier};
+\node[box,fill=green!15,right=of b] (c) {3. Recevoir une adresse IP (DHCP)};
+\node[box,fill=violet!15,right=of c] (d) {4. Échanger};
+\draw[->,thick] (a)--(b); \draw[->,thick] (b)--(c); \draw[->,thick] (c)--(d);
+\end{tikzpicture}
+\end{center}
+
+\textbf{Temps 2 : le vocabulaire.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y}
+\toprule
+Terme & Sens\\
+\midrule
+SSID & Nom du réseau Wi-Fi\\
+DHCP & Service qui attribue automatiquement une adresse IP\\
+Passerelle & Équipement qui relie le réseau local à Internet (la box)\\
+RSSI & Puissance du signal reçu (en dBm, plus proche de 0 = plus fort)\\
+Mode STA / AP & L'ESP32 se connecte à un réseau (STA) ou crée son propre réseau (AP)\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 3 : le programme.} Se connecter avec un délai maximal.
+\begin{arduino}[Connexion avec délai maximal]
+#include <WiFi.h>
+
+const char* ssid = "Wokwi-GUEST";
+const char* mdp  = "";
+
+void setup() {
+  Serial.begin(115200);
+  WiFi.mode(WIFI_STA);
+  WiFi.begin(ssid, mdp);
+
+  int essais = 0;
+  while (WiFi.status() != WL_CONNECTED && essais < 20) {
+    delay(500);
+    Serial.print(".");
+    essais++;
+  }
+  if (WiFi.status() == WL_CONNECTED) {
+    Serial.println("\nConnecte !");
+    Serial.println(WiFi.localIP());
+    Serial.println(WiFi.RSSI());
+  } else {
+    Serial.println("\nEchec de connexion");
+  }
+}
+
+void loop() { }
+\end{arduino}
+
+\textbf{Temps 4 : rester connecté.} Un réseau peut disparaître. Un programme robuste vérifie l'état de la connexion dans \texttt{loop} et se reconnecte si besoin. Ne jamais écrire un mot de passe réel dans un code partagé.
+
+\begin{astuce}
+Colorer les étapes de la connexion de la même façon dans le schéma et dans le code. Lire le code à voix haute avec les noms des variables. Fournir un lexique bilingue (SSID, gateway).
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B. Programmation en binômes (pilote et navigateur, rôles échangés à mi-temps).
+
+\textbf{3a. Connexion en collectif (12 min).} Ouvrir le projet Wokwi, lancer la simulation, lire dans le moniteur série les points d'attente, l'adresse IP et le RSSI. Changer le nom du réseau pour provoquer un échec et observer le message.
+
+\textbf{3b. Requête HTTP en binômes (18 min).} Compléter le programme pour envoyer une requête GET au service de test et afficher le code de statut et le début de la réponse. Alternance des rôles.
+
+\aides{Le programme de connexion du 3a et la liste des instructions}{Questions guides : \emph{Quelle instruction lance la connexion ? Quelle condition fait attendre ? Que renvoie le serveur ?}}{L'enseignant écrit l'instruction de requête avec le binôme, qui complète}
+
+\begin{astuce}
+Rappeler que la simulation ne remplace pas un vrai test : le signal, les pannes et la sécurité réels ne sont pas identiques. Faire noter dans la fiche ce que le simulateur ne montre pas.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Programme de connexion à compléter (instructions manquantes signalées par des tirets, banque de mots : \texttt{WiFi.begin}, \texttt{WL\_CONNECTED}, \texttt{localIP}, \texttt{RSSI}). Lire la sortie du moniteur série et la décrire.}{Écrire seul un programme qui se connecte avec un délai maximal, affiche l'adresse IP et le RSSI, puis fait une requête HTTP au service de test et affiche le code de statut. Fournir un tableau de tests (réseau correct, réseau inexistant).}{Ajouter une reconnexion automatique dans \texttt{loop}, un compteur de tentatives et un message d'état. Comparer l'attribution d'une adresse par DHCP et une adresse fixe (\texttt{WiFi.config}), et discuter la sécurité d'un réseau ouvert.}
+
+\medskip
+\textbf{Plan B si la simulation est indisponible\,:} analyser le code et la sortie du moniteur série imprimés (annexe A) et répondre aux questions.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève lit la sortie du moniteur et identifie l'adresse IP. Valoriser la lecture technique.}{un binôme présente son tableau de tests (réseau correct, réseau inexistant). Valoriser la gestion de l'échec.}{un élève présente sa reconnexion automatique et la comparaison DHCP et adresse fixe. Valoriser la profondeur.}{\textit{se connecter à un réseau demande un SSID, une authentification et une adresse IP ; un bon programme limite l'attente, gère l'échec et se reconnecte.}}
+
+\cloture{À quoi sert le DHCP ?}{Pourquoi ajoute-t-on un nombre maximal d'essais dans la boucle d'attente ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Connexion Wi-Fi avec l'ESP32}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+SSID $\rightarrow$ authentification $\rightarrow$ adresse IP (DHCP) $\rightarrow$ échanges. Toujours limiter l'attente et gérer l'échec.
+\end{tcolorbox}
+
+\begin{arduino}[Connexion et requête HTTP (modèle)]
+#include <WiFi.h>
+#include <HTTPClient.h>
+
+void loop() {
+  if (WiFi.status() == WL_CONNECTED) {
+    HTTPClient http;
+    http.begin("http://adresse-du-service-de-test");
+    int code = http.GET();
+    Serial.println(code);
+    if (code > 0) {
+      Serial.println(http.getString());
+    }
+    http.end();
+  } else {
+    Serial.println("Reconnexion...");
+    WiFi.reconnect();
+  }
+  delay(10000);
+}
+\end{arduino}
+
+\begin{tabularx}{\linewidth}{>{\ttfamily}p{4cm}Y}
+\toprule
+Instruction & Rôle\\
+\midrule
+WiFi.begin(ssid, mdp) & Lance la connexion\\
+WiFi.status() & Donne l'état (WL\_CONNECTED si connecté)\\
+WiFi.localIP() & Adresse IP reçue\\
+WiFi.RSSI() & Puissance du signal\\
+http.GET() & Envoie une requête GET, renvoie le code de statut\\
+\bottomrule
+\end{tabularx}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : se connecter et échanger}
+
+\subsection*{3a. Observations}
+Adresse IP obtenue : \dotfill\quad RSSI : \dotfill{} dBm\\
+Message avec un mauvais nom de réseau : \dotfill
+
+\subsection*{3b. Requête HTTP}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y}
+\toprule
+Élément & Ce que j'observe\\
+\midrule
+Code de statut & \\
+Début de la réponse & \\
+Nombre de tentatives de connexion & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le programme de connexion et le tableau des instructions.\\
+\textbf{Aide 2 :} Quelle instruction lance la connexion ? Quelle condition fait attendre ? Que renvoie le serveur ?\\
+\textbf{Aide 3 :} demande à l'enseignant d'écrire l'instruction de requête avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je complète la connexion}
+
+\textbf{Banque :} WiFi.begin, WL\_CONNECTED, localIP, RSSI.
+
+\begin{arduino}[Programme à compléter]
+WiFi._____(ssid, mdp);
+while (WiFi.status() != _____) {
+  delay(500);
+}
+Serial.println(WiFi._____());
+Serial.println(WiFi._____());
+\end{arduino}
+
+\subsection*{Activité : lis la sortie du moniteur}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{4cm}Y}
+\toprule
+Sortie & Ce que cela signifie\\
+\midrule
+\texttt{....} & \\
+\texttt{192.168.1.25} & \\
+\texttt{-60} & \\
+\texttt{Echec de connexion} & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Vrai ou faux ?}
+1. Le DHCP attribue une adresse IP. \cb Vrai \cb Faux\\
+2. Un RSSI de $-30$ est un signal plus fort qu'un RSSI de $-80$. \cb Vrai \cb Faux
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : connexion et requête HTTP}
+
+\textbf{Cahier des charges :} se connecter avec un maximum de 20 essais, afficher l'adresse IP et le RSSI, envoyer une requête GET, afficher le code de statut.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y Y}
+\toprule
+Test & Résultat attendu & Obtenu & Conforme ?\\
+\midrule
+Réseau correct & & & \\
+Réseau inexistant & & & \\
+Service injoignable & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Questions}
+\begin{enumerate}
+ \item Que fait ton programme si la connexion échoue ? \dotfill
+ \item Quel code HTTP indique un succès ? \dotfill
+\end{enumerate}
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : robustesse et sécurité}
+
+\begin{enumerate}
+ \item Ajoute dans \texttt{loop} une vérification de l'état et une reconnexion automatique avec un compteur de tentatives.
+ \item Compare une adresse attribuée par DHCP et une adresse fixe (\texttt{WiFi.config}) :
+\end{enumerate}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Critère & DHCP & Adresse fixe\\
+\midrule
+Simplicité & & \\ Risque de conflit & & \\ Usage typique & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{enumerate}
+\setcounter{enumi}{2}
+ \item Pourquoi un réseau Wi-Fi ouvert est-il risqué pour un objet connecté ? \lig \lig
+\end{enumerate}
+
+\textbf{Défi bonus :} propose une façon de ne pas écrire le mot de passe directement dans le code.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+Adresse IP : une adresse privée attribuée par le simulateur (de la forme 10.x.x.x ou 192.168.x.x). RSSI : valeur négative (par exemple $-60$). Avec un mauvais nom : «~Echec de connexion~» après les essais. Requête GET réussie : code 200.
+
+\subsection*{Annexe C}
+\texttt{begin}, \texttt{WL\_CONNECTED}, \texttt{localIP}, \texttt{RSSI}. Sorties : points d'attente de la connexion ; adresse IP reçue ; puissance du signal (assez bonne) ; échec après le nombre maximal d'essais. Vrai, Vrai.
+
+\subsection*{Annexe D}
+Réseau correct : IP et RSSI affichés, code 200. Réseau inexistant : «~Echec~» sans bloquer. Service injoignable : code négatif ou erreur, programme qui continue.
+
+\subsection*{Annexe E}
+Reconnexion : \texttt{if (WiFi.status() != WL\_CONNECTED) \{ WiFi.reconnect(); tentatives++; \}}. DHCP : simple, adresse change ; fixe : adresse stable, risque de conflit. Réseau ouvert : messages lisibles par d'autres, pas d'authentification. Mot de passe : fichier séparé non partagé, ou saisie au démarrage.\\
+\textbf{Critères de réussite :} connexion avec délai, gestion d'échec, requête HTTP correcte.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : connexion Wi-Fi}
+
+\begin{enumerate}
+ \item À quoi sert le DHCP ?\\ \lig
+ \item Pourquoi ajoute-t-on un nombre maximal d'essais dans la boucle d'attente ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. À attribuer automatiquement une adresse IP. 2. Pour ne pas rester bloqué indéfiniment si le réseau est introuvable.
+
+\bigskip
+\grille{Connexion réussie}{Échec géré}{Requête HTTP}
+
+\end{document}

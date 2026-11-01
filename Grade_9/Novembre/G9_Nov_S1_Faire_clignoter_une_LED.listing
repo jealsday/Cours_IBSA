@@ -1,0 +1,6 @@
+void clignote(int duree) {
+  digitalWrite(8, HIGH);
+  delay(duree);
+  digitalWrite(8, LOW);
+  delay(duree);
+}

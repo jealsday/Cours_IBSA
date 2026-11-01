@@ -1,0 +1,266 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 7}
+\newcommand{\leconhdr}{Mini projet Scratch interactif}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Mini projet Scratch interactif}{Semaine du 23 au 27 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Mini projet Scratch interactif\\
+Classe / effectif & Grade 7, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec Scratch 3 (éditeur en ligne ou hors ligne).
+ \item Vidéoprojecteur ou tableau interactif.
+ \item Trois projets de départ (squelettes) pour les niveaux A, B et C dans un dossier partagé.
+ \item Une grille de critères du projet imprimée ou projetée (annexe A).
+\end{itemize}\\
+Pré-requis &
+Variables (septembre), conditions, boucles, événements et messages (novembre).\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 45 min)]
+\begin{enumerate}
+ \item Préparer un exemple de projet fini (jeu «~attrape-fruits~») pour la démonstration.
+ \item Préparer les squelettes : A (fond, lutins et variable \texttt{score} déjà placés), B (projet vide avec consignes), C (projet vide avec options de niveaux).
+ \item Imprimer ou projeter la grille de critères.
+ \item Créer le formulaire de sortie (annexe G) ou imprimer l'annexe.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Concevoir un projet interactif.
+ \item Réutiliser variables, boucles et conditions.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item de planifier un projet par un storyboard (idée, scènes, actions)\,;
+ \item d'intégrer au moins une variable, une boucle, une condition et un message\,;
+ \item de tester avec un camarade et d'améliorer son projet.
+\end{itemize}
+\textbf{Compétences numériques\,:} organiser son projet, enregistrer des versions, partager un lien.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Quel jeu aimerais-tu créer ?}{La démarche de projet et la grille de critères}{Storyboard collectif, puis storyboard en binômes}{Réalisation du projet sur poste, trois niveaux}{Test croisé et valorisation}{Auto-évaluation sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : quel jeu aimerais-tu créer ?}{0 -- 10 min}
+\textbf{Écran de démonstration seulement.}
+\begin{enumerate}
+ \item (4 min) Projeter le jeu «~attrape-fruits~». Demander : \emph{quelles variables, boucles, conditions et messages voyez-vous ?}
+ \item (6 min) Chaque élève cite une idée de projet à un voisin. Question-problème : \textbf{«~Comment passer d'une idée à un projet qui fonctionne ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : la démarche de projet}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : les quatre étapes.}
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=1.1cm,text width=3cm,align=center,font=\small\bfseries},>={Stealth[length=3mm]},node distance=0.8cm]
+\node[box,fill=orange!20] (a) {1. Idée\\[-1mm]\footnotesize\mdseries que fait le jeu ?};
+\node[box,fill=blue!15,right=of a] (b) {2. Plan\\[-1mm]\footnotesize\mdseries storyboard};
+\node[box,fill=green!15,right=of b] (c) {3. Réaliser\\[-1mm]\footnotesize\mdseries petit à petit};
+\node[box,fill=violet!15,right=of c] (d) {4. Tester\\[-1mm]\footnotesize\mdseries et améliorer};
+\draw[->,thick] (a)--(b); \draw[->,thick] (b)--(c); \draw[->,thick] (c)--(d);
+\end{tikzpicture}
+\end{center}
+
+\textbf{Temps 2 : le storyboard.} Dessiner trois cases : début, milieu, fin, avec les lutins et les actions.
+
+\textbf{Temps 3 : la grille de critères.} Présenter les critères obligatoires : une variable, une boucle, une condition, un message, un test par un camarade.
+
+\textbf{Temps 4 : avancer par petites étapes.} Programmer un élément à la fois et le tester avant d'ajouter le suivant.
+
+\begin{astuce}
+Fournir un modèle de storyboard à trous. Autoriser le dessin ou une description orale. Fractionner le projet en trois jalons notés au tableau.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B.
+
+\textbf{3a. Storyboard collectif (12 min).} Construire ensemble le storyboard du jeu «~attrape-fruits~» : lutin, variable \texttt{score}, boucle, condition, message.
+
+\textbf{3b. Storyboard en binômes (18 min).} Chaque binôme produit le storyboard de \emph{son} projet et le fait valider par l'enseignant. Alternance des rôles à mi-temps.
+
+\aides{Le storyboard de l'exemple et la grille de critères}{Questions guides : \emph{Que fait le joueur ? Que fait le programme ? Où est la variable, la boucle, la condition ?}}{L'enseignant aide à choisir un projet réalisable en une séance}
+
+\begin{astuce}
+Guider vers un projet réalisable : un lutin, un décor, un score. Vérifier que le projet n'est pas trop ambitieux.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Compléter le squelette du jeu «~attrape-fruits~» : ajouter la boucle de chute, la condition de capture et le score. Étiquettes de couleur pour chaque bloc.}{Réaliser son propre projet à partir du storyboard, avec les quatre éléments obligatoires de la grille. Tester seul puis corriger.}{Réaliser un projet plus ambitieux : plusieurs niveaux, écran de début et de fin, difficulté croissante. Rédiger une courte notice «~comment jouer~».}
+
+\medskip
+\textbf{Plan B si un élève termine tôt\,:} tester le projet d'un camarade et noter deux améliorations dans le tableau de l'annexe D.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève présente le point fort de son jeu. Valoriser l'avancée par rapport au début de séance.}{échange de postes : deux élèves jouent au jeu d'un camarade et formulent un compliment et une suggestion.}{présentation du projet et de la notice. Valoriser l'ambition et la clarté.}{\textit{un projet se prépare, se réalise par étapes, puis se teste. La séance de décembre servira à déboguer et à améliorer.}}
+
+\cloture{Coche dans la grille quels critères ton projet respecte déjà.}{Quelle amélioration vas-tu faire en priorité à la prochaine séance ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Le mini projet Scratch}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y}
+\toprule
+Étape & Ce que je fais\\
+\midrule
+1. Idée & Je décris mon jeu en une phrase\\
+2. Plan & Je dessine un storyboard de trois cases\\
+3. Réaliser & Je programme un élément et je le teste\\
+4. Tester & Un camarade teste et me donne un avis\\
+\bottomrule
+\end{tabularx}
+
+\medskip
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Grille de critères obligatoires},fonttitle=\bfseries\small]
+\cb Une \textbf{variable} (par exemple le score)\\
+\cb Une \textbf{boucle} (répéter ou répéter indéfiniment)\\
+\cb Une \textbf{condition} (si\ldots{} alors)\\
+\cb Un \textbf{message} entre deux lutins\\
+\cb Un test réalisé par un camarade
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : mon storyboard}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.4cm}Y Y Y}
+\toprule
+Case & Début & Milieu & Fin\\
+\midrule
+Dessin / description & \vspace{1.6cm} & & \\
+Actions du joueur & & & \\
+Actions du programme & & & \\
+\bottomrule
+\end{tabularx}
+
+\medskip
+Ma variable : \dotfill\quad Ma boucle : \dotfill\\
+Ma condition : \dotfill\quad Mon message : \dotfill
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le storyboard de l'exemple.\\
+\textbf{Aide 2 :} Que fait le joueur ? Que fait le programme ? Où sont la variable, la boucle et la condition ?\\
+\textbf{Aide 3 :} demande à l'enseignant de t'aider à choisir un projet réalisable.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je complète le jeu attrape-fruits}
+
+\subsection*{Étape 1 : coche ce qui est déjà dans le squelette}
+\cb le décor \quad \cb le panier \quad \cb le fruit \quad \cb la variable \texttt{score}
+
+\subsection*{Étape 2 : ajoute dans l'ordre}
+\begin{enumerate}
+ \item Une boucle qui fait tomber le fruit.\\ Fait : \cb
+ \item Une condition : si le fruit touche le panier, alors le score augmente.\\ Fait : \cb
+ \item Un message \texttt{perdu} si le fruit touche le sol.\\ Fait : \cb
+\end{enumerate}
+
+\subsection*{Étape 3 : teste}
+Quel score obtiens-tu après trois fruits attrapés ? \dotfill
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : mon projet}
+
+Titre du projet : \dotfill
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Critère & Où dans mon projet ? & Testé ?\\
+\midrule
+Variable & & \\
+Boucle & & \\
+Condition & & \\
+Message & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Test d'un camarade}
+Nom du camarade : \dotfill\\
+Ce qui marche bien : \dotfill\\
+Ce qui peut être amélioré : \dotfill
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : un projet ambitieux}
+
+\textbf{Cahier des charges :} un écran de début, au moins deux niveaux de difficulté, un écran de fin, une notice.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Élément & Comment je le programme ? & Fait\\
+\midrule
+Écran de début & & \cb\\
+Niveau 1 & & \cb\\
+Niveau 2 (plus difficile) & & \cb\\
+Écran de fin & & \cb\\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Notice «~comment jouer~» (trois phrases)}
+\lig \lig \lig
+
+\textbf{Défi bonus :} ajoute un meilleur score mémorisé dans une variable.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+Exemple attrape-fruits : variable \texttt{score}, boucle de chute (\texttt{répéter jusqu'à toucher le sol}), condition de capture, message \texttt{perdu}.
+
+\subsection*{Annexe C}
+Score de trois après trois fruits attrapés si +1 par fruit. Vérifier que la boucle est dans le script du fruit et que la condition utilise \texttt{touche panier ?}.
+
+\subsection*{Annexe D et E}
+Les quatre critères doivent être identifiables dans le projet. Pour le niveau C : les écrans de début et de fin peuvent être des arrière-plans activés par messages.\\
+\textbf{Critères de réussite (tous niveaux) :} le projet démarre avec le drapeau, contient les éléments obligatoires, est testé par un camarade et enregistré avec le prénom de l'élève.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : mon mini projet}
+
+\begin{enumerate}
+ \item Coche dans la grille quels critères ton projet respecte déjà : \cb variable \cb boucle \cb condition \cb message \cb test d'un camarade
+ \item Quelle amélioration vas-tu faire en priorité à la prochaine séance ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+
+\bigskip
+\grille{Critères présents}{Test d'un camarade}{Projet enregistré}
+
+\end{document}

@@ -1,0 +1,317 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 10}
+\newcommand{\leconhdr}{Variables et types de données}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Variables et types de données (Python)}{Semaine du 2 au 6 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Variables et types de données en Python\\
+Classe / effectif & Grade 10, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec l'éditeur \textbf{Mu} en mode \emph{Python 3} (boutons Exécuter, REPL, Vérifier, Débogueur).
+ \item Vidéoprojecteur ou tableau interactif avec Mu projeté.
+ \item Un dossier partagé contenant les fichiers de départ \texttt{.py} des trois niveaux.
+ \item Inspiration pédagogique : unité «~Introduction to Python programming~» de TeachComputing (programmation en binômes, codage en direct, exemples commentés, traitement des idées fausses courantes).
+\end{itemize}\\
+Pré-requis &
+Séance d'octobre : installer et lancer Mu, exécuter un programme simple avec \texttt{print}. Notions de réseau vues en septembre non nécessaires.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 40 min)]
+\begin{enumerate}
+ \item Vérifier que Mu démarre en mode Python 3 sur tous les postes et que l'exécution d'un \texttt{print} fonctionne.
+ \item Préparer les fichiers de départ : \texttt{niveauA.py} (programme à compléter), \texttt{niveauB.py} (vide avec commentaires), \texttt{niveauC.py} (programme contenant des bogues volontaires).
+ \item Créer le formulaire de sortie (annexe G) ou imprimer l'annexe.
+ \item Préparer les diapositives de codage en direct (trois exemples courts).
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Déclarer des variables.
+ \item Manipuler des nombres et du texte.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item de créer une variable avec l'affectation \texttt{=} et d'afficher sa valeur\,;
+ \item de distinguer les types \texttt{int}, \texttt{float}, \texttt{str} et \texttt{bool}, et de convertir une saisie avec \texttt{int()} ou \texttt{float()}\,;
+ \item de combiner texte et nombres avec les f-strings et de corriger l'erreur classique «~\texttt{'5' + '3'}~».
+\end{itemize}
+\textbf{Compétences numériques\,:} saisir et exécuter du code dans Mu, lire un message d'erreur, nommer ses fichiers.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Prédire avant d'exécuter : 5 + 3 ou \texttt{'5' + '3'} ?}{Variable, type, saisie et f-string}{Un programme «~fiche d'identité~» en collectif, puis un calcul d'aire en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : prédire avant d'exécuter}{0 -- 10 min}
+\begin{enumerate}
+ \item (5 min) Projeter deux lignes : \texttt{print(5 + 3)} et \texttt{print('5' + '3')}. Chaque élève écrit sa prédiction, puis lève la main pour 8 ou 53.
+ \item (5 min) Exécuter en direct. Question-problème : \textbf{«~Pourquoi l'ordinateur répond-il différemment à deux calculs qui se ressemblent ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : variables et types}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Codage en direct de l'enseignant. Quatre temps de 5 min.
+
+\textbf{Temps 1 : une variable est une boîte étiquetée.}
+\begin{python}[Affectation]
+age = 15            # on range 15 dans la boite age
+prenom = "Awa"      # on range du texte
+print(prenom, age)
+\end{python}
+Le signe \texttt{=} n'est pas l'égalité des mathématiques : il \emph{range} la valeur de droite dans la variable de gauche.
+
+\textbf{Temps 2 : les types.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\ttfamily}p{1.8cm}Y Y}
+\toprule
+Type & Exemple & Usage\\
+\midrule
+int & 15 & Nombre entier\\
+float & 3.14 & Nombre à virgule (point décimal)\\
+str & "Awa" & Texte (entre guillemets)\\
+bool & True & Vrai ou faux\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 3 : \texttt{input} renvoie toujours du texte.}
+\begin{python}[Conversion]
+a = input("Premier nombre : ")   # a est un str
+b = input("Second nombre : ")
+somme = int(a) + int(b)          # conversion en entier
+print(f"La somme est {somme}")
+\end{python}
+
+\textbf{Temps 4 : opérations utiles.} \texttt{+ - * /} ; \texttt{//} (division entière) ; \texttt{\%} (reste) ; \texttt{**} (puissance). Le type d'une variable s'obtient avec \texttt{type(x)}.
+
+\begin{astuce}
+Garder l'annexe A à côté du clavier. Insister sur : un nom de variable sans espace ni accent, majuscules et minuscules différentes. Lire le code à voix haute en disant «~range dans~» pour \texttt{=}. Autoriser le travail avec un camarade comme pilote.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B. Programmation en binômes (pilote et navigateur, rôles échangés à mi-temps).
+
+\textbf{3a. Fiche d'identité en collectif (12 min).} Écrire ensemble, en codage en direct, un programme qui demande le prénom et l'âge puis affiche une phrase avec une f-string et l'âge dans cinq ans.
+
+\textbf{3b. Aire d'un rectangle en binômes (18 min).} Demander la longueur et la largeur (avec \texttt{float}), calculer l'aire et le périmètre, puis les afficher avec une phrase.
+
+\aides{Le programme du 3a affiché, l'annexe A et la liste des types}{Questions guides : \emph{Quel est le type de la saisie ? Que faut-il faire avant de calculer ? Quelle valeur la variable contient-elle ?}}{L'enseignant tape la première ligne avec le binôme, qui continue}
+
+\begin{astuce}
+Faire expliquer à voix haute chaque ligne par le navigateur pendant que le pilote tape. Rappeler le bouton Vérifier de Mu pour repérer les fautes de syntaxe avant d'exécuter.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Fichier \texttt{niveauA.py} à compléter : lignes à trous avec une banque de mots (\texttt{input}, \texttt{int}, \texttt{print}, \texttt{prenom}, \texttt{age}), puis appariement valeur et type. Exécuter et comparer avec le résultat attendu.}{Écrire seul un programme qui calcule la moyenne de trois notes saisies et affiche une phrase avec la moyenne arrondie à une décimale. Tester avec trois jeux de valeurs.}{Corriger les bogues du fichier \texttt{niveauC.py} (types oubliés, nom de variable mal orthographié, division mal écrite) et écrire un convertisseur de température Celsius vers Fahrenheit avec affichage formaté. Expliquer chaque correction en commentaire.}
+
+\medskip
+\textbf{Plan B si un élève termine tôt\,:} calculer l'IMC (masse divisée par taille au carré) et l'afficher avec deux décimales.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève lit son programme complété et explique chaque ligne. Valoriser la lecture à voix haute du code.}{un binôme montre sa moyenne et ses trois tests. Valoriser les tests variés.}{un élève présente un bogue corrigé et explique ce qui n'allait pas. Valoriser la méthode de recherche d'erreur.}{\textit{une variable range une valeur, chaque valeur a un type, et \texttt{input} donne du texte qu'il faut convertir pour calculer.}}
+
+\cloture{Quel est le type de la variable \texttt{x} après \texttt{x = input("Nombre : ")} ?}{Que vaut \texttt{int("4") + 3} ? Et \texttt{"4" + "3"} ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Variables et types en Python}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\texttt{=} range une valeur dans une variable. Chaque valeur a un \textbf{type}. \texttt{input()} renvoie du \textbf{texte} : il faut convertir avec \texttt{int()} ou \texttt{float()}.
+\end{tcolorbox}
+
+\begin{tabularx}{\linewidth}{>{\ttfamily}p{1.8cm}Y Y}
+\toprule
+Type & Exemple & Convertir\\
+\midrule
+int & 15 & int("15")\\
+float & 3.14 & float("3.14")\\
+str & "Awa" & str(15)\\
+bool & True & bool(1)\\
+\bottomrule
+\end{tabularx}
+
+\begin{python}[Modèle]
+prenom = input("Ton prenom : ")
+age = int(input("Ton age : "))
+print(f"{prenom} aura {age + 5} ans dans 5 ans.")
+\end{python}
+
+\begin{tabularx}{\linewidth}{>{\ttfamily}p{2.2cm}Y}
+\toprule
+Opérateur & Rôle\\
+\midrule
++ - * / & Opérations usuelles\\
+// & Division entière\\
+\% & Reste de la division\\
+** & Puissance\\
+\bottomrule
+\end{tabularx}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : mon premier programme}
+
+\subsection*{3a. Fiche d'identité (collectif)}
+\begin{python}[À compléter pendant le codage en direct]
+prenom = input("Ton prenom : ")
+age = _______(input("Ton age : "))
+print(f"Bonjour {_______}, tu auras {age + 5} ans dans 5 ans.")
+\end{python}
+
+\subsection*{3b. Aire d'un rectangle (binôme)}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y Y}
+\toprule
+Étape & Mon code & Type de la variable\\
+\midrule
+Demander la longueur & & \\
+Demander la largeur & & \\
+Calculer l'aire & & \\
+Calculer le périmètre & & \\
+Afficher la phrase & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le programme du 3a et l'annexe A.\\
+\textbf{Aide 2 :} Quel est le type de la saisie ? Que faut-il faire avant de calculer ?\\
+\textbf{Aide 3 :} demande à l'enseignant de taper la première ligne avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je complète le programme}
+
+\textbf{Banque de mots :} input, int, print, prenom, age.
+
+\begin{python}[niveauA.py]
+prenom = _______("Ton prenom : ")
+age = _______(input("Ton age : "))
+_______(f"{prenom} a {age} ans.")
+\end{python}
+
+\subsection*{Activité : relie chaque valeur à son type}
+\begin{tabularx}{\linewidth}{Y Y}
+\toprule
+\textbf{Valeur} & \textbf{Type (int, float, str ou bool)}\\
+\midrule
+\texttt{42} & \\
+\texttt{"Bonjour"} & \\
+\texttt{3.5} & \\
+\texttt{True} & \\
+\texttt{"12"} & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Activité : prédis puis teste}
+\texttt{print(2 + 3)} affiche \dotfill\quad \texttt{print("2" + "3")} affiche \dotfill
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : la moyenne de trois notes}
+
+\textbf{Cahier des charges :} le programme demande trois notes, calcule la moyenne, l'arrondit à une décimale avec \texttt{round(valeur, 1)} et affiche une phrase.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y Y Y}
+\toprule
+Test & Notes saisies & Résultat attendu & Résultat obtenu\\
+\midrule
+1 & 10, 12, 14 & & \\
+2 & 15, 15, 15 & & \\
+3 & 8, 9, 12 & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Questions}
+\begin{enumerate}
+ \item Pourquoi faut-il convertir les notes avec \texttt{float} ou \texttt{int} ? \dotfill
+ \item Que se passe-t-il si tu tapes une lettre au lieu d'un nombre ? \dotfill
+\end{enumerate}
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : chasse aux bogues et convertisseur}
+
+\subsection*{Mission 1 : trouve et corrige trois bogues}
+\begin{python}[niveauC.py]
+nom = input("Ton nom : ")
+nombre = input("Un nombre : ")
+double = nombre * 2
+print(f"{Nom} : le double de {nombre} est {double}")
+\end{python}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{1.6cm}Y Y}
+\toprule
+Bogue & Ce qui ne va pas & Ma correction\\
+\midrule
+1 & & \\ 2 & & \\ 3 & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Mission 2 : convertisseur Celsius vers Fahrenheit}
+Formule : $F = C \times 1{,}8 + 32$. Écris le programme avec saisie et affichage d'une phrase.\\
+\lig \lig \lig
+
+\textbf{Défi bonus :} ajoute la conversion inverse et un affichage avec une seule décimale.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+3a : \texttt{int}, \texttt{prenom}. 3b : \texttt{longueur = float(input(...))}, \texttt{largeur = float(input(...))}, \texttt{aire = longueur * largeur}, \texttt{perimetre = 2 * (longueur + largeur)}. Types : float, float, float, float.
+
+\subsection*{Annexe C}
+\texttt{input}, \texttt{int}, \texttt{print}. Types : \texttt{42} int ; \texttt{"Bonjour"} str ; \texttt{3.5} float ; \texttt{True} bool ; \texttt{"12"} str. \texttt{print(2 + 3)} affiche 5 ; \texttt{print("2" + "3")} affiche 23.
+
+\subsection*{Annexe D}
+\texttt{moyenne = round((n1 + n2 + n3) / 3, 1)}. Résultats : 12,0 ; 15,0 ; 9,7. Sans conversion, \texttt{input} renvoie du texte et les notes se concatènent. Une lettre provoque une \texttt{ValueError} (la gestion d'erreur sera vue plus tard).
+
+\subsection*{Annexe E}
+Bogues : 1 \texttt{nombre} est du texte : \texttt{int(input(...))} ; 2 \texttt{double = nombre * 2} multiplierait le texte, corrigé par la conversion ; 3 \texttt{Nom} avec majuscule au lieu de \texttt{nom}. Convertisseur : \texttt{f = c * 1.8 + 32}.\\
+\textbf{Critères de réussite :} trois bogues expliqués, convertisseur correct et testé (0 \degre{}C donne 32 \degre{}F).
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : variables et types}
+
+\begin{enumerate}
+ \item Quel est le type de la variable \texttt{x} après \texttt{x = input("Nombre : ")} ?\\ \lig
+ \item Que vaut \texttt{int("4") + 3} ? Et \texttt{"4" + "3"} ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. \texttt{str} (du texte). 2. 7, puis \texttt{"43"}.
+
+\bigskip
+\grille{Type identifié}{Conversion correcte}{Programme testé}
+
+\end{document}

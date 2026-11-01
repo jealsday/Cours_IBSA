@@ -1,0 +1,2 @@
+for (int pin = 8; pin <= 12; pin++) { /* aller */ }
+for (int pin = 11; pin >= 9; pin--) { /* retour */ }

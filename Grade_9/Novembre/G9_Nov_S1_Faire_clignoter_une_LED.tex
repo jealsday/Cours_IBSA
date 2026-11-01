@@ -1,0 +1,312 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 9}
+\newcommand{\leconhdr}{Faire clignoter une LED}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Faire clignoter une LED}{Semaine du 2 au 6 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Faire clignoter une LED avec Arduino\\
+Classe / effectif & Grade 9, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec navigateur web : \textbf{Tinkercad Circuits} (tinkercad.com, gratuit, compte élève ou code de classe) pour construire et simuler le montage.
+ \item Arduino IDE installé sur les postes (vu en septembre) pour copier, vérifier et éventuellement téléverser le code.
+ \item Facultatif : une carte Arduino Uno avec LED et résistance de 220~$\Omega$ par binôme pour tester le montage réel.
+ \item Vidéoprojecteur ou tableau interactif.
+\end{itemize}\\
+Pré-requis &
+Séances précédentes : carte Arduino, entrées et sorties, structure d'un programme (\texttt{setup} et \texttt{loop}), premier montage d'une LED (octobre).\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 40 min)]
+\begin{enumerate}
+ \item Créer une classe dans Tinkercad (si disponible) ou un code d'invitation, et vérifier que chaque élève se connecte.
+ \item Préparer un circuit modèle partagé (Arduino Uno, LED, résistance 220~$\Omega$ sur la broche 8) que les élèves dupliquent.
+ \item Préparer les fichiers des annexes C à E et le formulaire de sortie (annexe G).
+ \item Si des cartes réelles sont utilisées, vérifier les câbles USB et le port dans l'IDE.
+\end{enumerate}
+\end{astuce}
+
+\begin{astuce}[Sécurité et bonnes pratiques]
+Une LED se branche toujours avec une résistance. Pas de court-circuit entre la broche et la masse. Débrancher la carte avant de modifier le montage réel.
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Utiliser les temporisations.
+ \item Modifier un programme existant.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item d'expliquer le rôle de \texttt{pinMode}, \texttt{digitalWrite} et \texttt{delay}\,;
+ \item de faire clignoter une LED à une durée donnée et de calculer la période et la fréquence\,;
+ \item de modifier un programme existant pour changer le rythme, et de vérifier le résultat en simulation.
+\end{itemize}
+\textbf{Compétences numériques\,:} construire un circuit en simulation, démarrer et arrêter la simulation, copier du code vers l'IDE.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Le feu clignotant et le battement de c\oe ur}{setup, loop, delay et fréquence}{Un clignotement à 1 s en collectif, puis un rythme modifié en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : le clignotant et le battement de c\oe ur}{0 -- 10 min}
+\begin{enumerate}
+ \item (5 min) Projeter une vidéo courte ou un schéma d'un clignotant de voiture, d'un phare et d'un moniteur cardiaque. \emph{Comment sont-ils commandés ? Combien de fois par seconde ?}
+ \item (5 min) Les élèves tapent avec la main au rythme d'un clignotant (1 fois par seconde), puis plus vite. Question-problème : \textbf{«~Comment dire à une carte électronique de s'allumer et de s'éteindre à un rythme choisi ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : les instructions de base}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : le montage.} La LED est branchée en série avec une résistance sur une broche numérique (broche 8) et à la masse (GND).
+
+\textbf{Temps 2 : le programme.}
+\begin{arduino}[Le programme Blink]
+const int LED = 8;      // numero de la broche
+
+void setup() {
+  pinMode(LED, OUTPUT); // la broche est une sortie
+}
+
+void loop() {
+  digitalWrite(LED, HIGH); // allume
+  delay(1000);             // attend 1000 ms
+  digitalWrite(LED, LOW);  // eteint
+  delay(1000);
+}
+\end{arduino}
+
+\textbf{Temps 3 : le vocabulaire.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\ttfamily}p{3.6cm}Y}
+\toprule
+Instruction & Rôle\\
+\midrule
+pinMode(LED, OUTPUT) & Déclare la broche comme sortie (dans \texttt{setup})\\
+digitalWrite(LED, HIGH) & Met la broche à 5~V : la LED s'allume\\
+digitalWrite(LED, LOW) & Met la broche à 0~V : la LED s'éteint\\
+delay(1000) & Attend 1000 ms, soit 1 seconde\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 4 : période et fréquence.} La \emph{période} est la durée d'un cycle (allumée + éteinte). La \emph{fréquence} est le nombre de cycles par seconde : $f = 1 \div T$. Ici $T = 2$~s, donc $f = 0{,}5$~Hz.
+
+\begin{astuce}
+Colorer les instructions de la même façon que dans l'IDE. Lire le programme à voix haute ligne par ligne. Donner un modèle avec les accolades déjà placées. Rappeler que chaque ligne se termine par un point-virgule.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B.
+
+\textbf{3a. Clignotement à 1 s en collectif (12 min).} Dupliquer le circuit modèle, ouvrir l'éditeur de code (mode texte), saisir le programme Blink, démarrer la simulation. Chaque élève chronomètre trois clignotements.
+
+\textbf{3b. Un rythme modifié en binômes (18 min).} Modifier uniquement les valeurs de \texttt{delay} pour obtenir un clignotement à 2 Hz, puis un battement de c\oe ur (deux éclairs rapides, une pause). Vérifier en simulation. Alternance des rôles (pilote, vérificateur).
+
+\aides{Le programme du 3a et le tableau période et fréquence}{Questions guides : \emph{Quelle valeur règle le temps allumé ? Quelle valeur règle le temps éteint ?}}{L'enseignant modifie une valeur avec le binôme, qui poursuit}
+
+\begin{astuce}
+En cas d'erreur, lire le message de l'éditeur à voix haute et chercher d'abord un point-virgule manquant ou une accolade oubliée. Garder un exemple correct visible.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Programme Blink à compléter (valeurs de \texttt{delay} manquantes) avec une banque de valeurs : 200, 500, 1000, 2000. Obtenir un clignotement rapide, puis lent, et noter le résultat.}{Obtenir un clignotement à 2 Hz puis le signal SOS en morse (trois éclairs courts, trois longs, trois courts) en modifiant le programme.}{Écrire une fonction \texttt{void clignote(int duree)} qui allume et éteint la LED, puis l'utiliser pour produire un battement de c\oe ur, et tester avec la variable \texttt{duree} modifiée. Commenter chaque ligne du code.}
+
+\medskip
+\textbf{Plan B si la simulation ne fonctionne pas\,:} utiliser le programme dans l'IDE avec la vérification de compilation, et relire à voix haute avec un camarade.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève montre son clignotement lent et rapide et explique la valeur modifiée. Valoriser le lien entre la valeur et le rythme.}{un binôme fait tourner le SOS en simulation. Valoriser l'exactitude du rythme.}{un élève présente sa fonction \texttt{clignote} et explique à quoi sert le paramètre. Valoriser la structuration.}{\textit{delay règle le rythme, la période est la somme du temps allumé et du temps éteint.}}
+
+\cloture{Quel est le rôle de l'instruction \texttt{delay(500)} ?}{Une LED est allumée 300 ms et éteinte 700 ms : quelle est la période, quelle est la fréquence ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Faire clignoter une LED}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{Montage :} broche 8 $\rightarrow$ résistance 220~$\Omega$ $\rightarrow$ LED $\rightarrow$ GND.\\
+\textbf{Période} $T$ = temps allumé + temps éteint. \textbf{Fréquence} $f = 1 \div T$ (en Hz).
+\end{tcolorbox}
+
+\begin{arduino}[Modèle]
+void setup() {
+  pinMode(8, OUTPUT);
+}
+void loop() {
+  digitalWrite(8, HIGH);
+  delay(1000);
+  digitalWrite(8, LOW);
+  delay(1000);
+}
+\end{arduino}
+
+\begin{tabularx}{\linewidth}{>{\ttfamily}p{3.6cm}Y}
+\toprule
+Instruction & Rôle\\
+\midrule
+pinMode & Déclare une broche\\
+digitalWrite & Écrit HIGH ou LOW\\
+delay & Attend en millisecondes (1000 ms = 1 s)\\
+\bottomrule
+\end{tabularx}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : clignotement}
+
+\subsection*{3a. Mesure en collectif}
+Durée de trois clignotements : \dotfill{} s \quad Période : \dotfill{} s \quad Fréquence : \dotfill{} Hz
+
+\subsection*{3b. En binôme : changer le rythme}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.8cm}Y Y Y}
+\toprule
+Rythme demandé & delay allumé & delay éteint & Vérifié en simulation ?\\
+\midrule
+1 Hz (période 1 s) & & & \\
+2 Hz (période 0,5 s) & & & \\
+Battement de c\oe ur & & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le programme du 3a et la formule de la fréquence.\\
+\textbf{Aide 2 :} Quelle valeur règle le temps allumé ? Quelle valeur règle le temps éteint ?\\
+\textbf{Aide 3 :} demande à l'enseignant de modifier une valeur avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je complète le programme}
+
+\textbf{Banque de valeurs :} 200, 500, 1000, 2000.
+
+\begin{arduino}[Programme à compléter]
+void setup() {
+  pinMode(8, OUTPUT);
+}
+void loop() {
+  digitalWrite(8, HIGH);
+  delay(_____);
+  digitalWrite(8, LOW);
+  delay(_____);
+}
+\end{arduino}
+
+\subsection*{Activité 1 : essaie les deux rythmes}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.2cm}Y Y Y}
+\toprule
+Rythme & Valeur delay & La LED clignote\ldots & Vrai ?\\
+\midrule
+Rapide & & \cb vite \quad \cb lentement & \\
+Lent & & \cb vite \quad \cb lentement & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Activité 2 : vrai ou faux ?}
+1. \texttt{delay(1000)} attend 1 seconde. \cb Vrai \cb Faux\\
+2. \texttt{LOW} allume la LED. \cb Vrai \cb Faux
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : 2 Hz et SOS}
+
+\subsection*{Mission 1 : clignotement à 2 Hz}
+Période : \dotfill{} ms \quad delay allumé : \dotfill{} \quad delay éteint : \dotfill
+
+\subsection*{Mission 2 : SOS en morse}
+Trois éclairs courts (200 ms), trois longs (600 ms), trois courts, avec 200 ms de pause entre les éclairs et une pause de 1 s à la fin.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y Y}
+\toprule
+Partie & Durée allumée (ms) & Durée éteinte (ms)\\
+\midrule
+S (court) $\times$ 3 & & \\
+O (long) $\times$ 3 & & \\
+S (court) $\times$ 3 & & \\
+\bottomrule
+\end{tabularx}
+
+Combien d'instructions \texttt{delay} dans ton programme ? \dotfill
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : une fonction qui clignote}
+
+\textbf{Mission :} écrire une fonction pour éviter de répéter les mêmes lignes.
+
+\begin{arduino}[Modèle de départ]
+void clignote(int duree) {
+  digitalWrite(8, HIGH);
+  delay(duree);
+  digitalWrite(8, LOW);
+  delay(duree);
+}
+\end{arduino}
+
+\begin{enumerate}
+ \item Utilise \texttt{clignote(200)} et \texttt{clignote(600)} dans \texttt{loop} pour créer le SOS en moins de 10 lignes.\\ \lig
+ \item Crée un battement de c\oe ur (deux éclairs de 100 ms, pause de 800 ms) et explique l'intérêt d'une fonction.\\ \lig \lig
+\end{enumerate}
+
+\textbf{Défi bonus :} une variable \texttt{vitesse} qui double la fréquence quand on la change.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+1 Hz : 500 ms allumé et 500 ms éteint (ou 1000 et 1000 donne 0,5 Hz). 2 Hz : période 500 ms, soit 250 ms allumé et 250 ms éteint. Battement : deux éclairs (par exemple 100 ms allumé, 100 ms éteint, répété deux fois) puis 800 ms d'attente.
+
+\subsection*{Annexe C}
+Valeurs rapides : 200 ; lentes : 2000 ; la LED clignote vite pour 200, lentement pour 2000. Vrai, Faux.
+
+\subsection*{Annexe D}
+2 Hz : période 500 ms, 250 ms et 250 ms. SOS : court 200/200 ($\times$ 3), long 600/200 ($\times$ 3), court 200/200 ($\times$ 3), pause 1000 ms. Total d'au moins 18 \texttt{delay}.
+
+\subsection*{Annexe E}
+\texttt{loop} : appeler \texttt{clignote(200)} trois fois, \texttt{clignote(600)} trois fois, \texttt{clignote(200)} trois fois, \texttt{delay(1000)}. Une fonction évite de répéter et simplifie les corrections.\\
+\textbf{Critères de réussite :} fonction correcte, appel avec paramètre, code commenté.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : clignoter une LED}
+
+\begin{enumerate}
+ \item Quel est le rôle de l'instruction \texttt{delay(500)} ?\\ \lig
+ \item Une LED est allumée 300 ms et éteinte 700 ms : quelle est la période, quelle est la fréquence ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. Attendre 500 ms (0,5 s). 2. Période 1000 ms $=$ 1 s, fréquence 1 Hz.
+
+\bigskip
+\grille{Montage correct}{Programme fonctionnel}{Période calculée}
+
+\end{document}

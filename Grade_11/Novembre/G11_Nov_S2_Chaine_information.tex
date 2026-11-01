@@ -1,0 +1,293 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 11}
+\newcommand{\leconhdr}{La chaîne d'information}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{La chaîne d'information}{Semaine du 9 au 13 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & La chaîne d'information : acquérir, traiter, communiquer\\
+Classe / effectif & Grade 11, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec navigateur web.
+ \item \textbf{diagrams.net} (draw.io) ou Google Slides pour les schémas.
+ \item \textbf{Wokwi} (wokwi.com, gratuit) : un projet ESP32 modèle partagé, en lecture seule, avec un potentiomètre, une LED et le moniteur série. Le code est fourni, les élèves observent et modifient seulement des valeurs.
+ \item Vidéoprojecteur ou tableau interactif.
+\end{itemize}\\
+Pré-requis &
+Séance précédente : fonction globale, capteur, traitement, actionneur. Lecture d'un schéma de blocs.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 45 min)]
+\begin{enumerate}
+ \item Créer dans Wokwi le projet modèle (ESP32, potentiomètre sur GPIO 34, LED avec résistance sur GPIO 5) et vérifier qu'il s'ouvre depuis le lien partagé.
+ \item Préparer le code de démonstration de l'annexe A et le coller dans le projet.
+ \item Préparer trois systèmes pour les trois niveaux (distributeur de gel, thermostat, lampadaire automatique).
+ \item Préparer les fichiers des annexes C à E et le formulaire de sortie.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Identifier les fonctions acquérir, traiter, communiquer.
+ \item Analyser le parcours d'une information.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item de placer les composants d'un système dans les trois fonctions de la chaîne d'information\,;
+ \item de suivre le parcours d'une information de la grandeur mesurée jusqu'à l'ordre ou à l'affichage\,;
+ \item d'identifier, dans un code court, les lignes qui acquièrent, traitent et communiquent.
+\end{itemize}
+\textbf{Compétences numériques\,:} lire un code court, utiliser un simulateur, représenter un flux sur un schéma.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Le chemin d'un message dans une classe}{Acquérir, traiter, communiquer}{Le lampadaire automatique en collectif, puis le thermostat en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : le chemin d'un message}{0 -- 10 min}
+\begin{enumerate}
+ \item (6 min) Jeu de la chaîne : l'enseignant montre une carte à un élève A (observateur), qui doit l'expliquer à un élève B (décideur) sans parler, par gestes. B décide et donne un ordre écrit à un élève C (exécutant) qui agit. La classe observe qui fait quoi.
+ \item (4 min) Question-problème : \textbf{«~Quelles sont les trois étapes qu'une information traverse dans un système automatisé ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : acquérir, traiter, communiquer}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : trois fonctions.}
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=1.2cm,text width=3.4cm,align=center,font=\small},>={Stealth[length=3mm]},node distance=1cm]
+\node[box,fill=orange!20] (a) {\textbf{Acquérir}\\ mesurer, détecter};
+\node[box,fill=blue!15,right=of a] (b) {\textbf{Traiter}\\ comparer, décider};
+\node[box,fill=green!15,right=of b] (c) {\textbf{Communiquer}\\ ordonner, afficher};
+\draw[->,thick] (a)--(b); \draw[->,thick] (b)--(c);
+\end{tikzpicture}
+\end{center}
+
+\textbf{Temps 2 : les composants.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.8cm}Y Y}
+\toprule
+Fonction & Composants & Exemple (lampadaire)\\
+\midrule
+Acquérir & Capteurs, interface homme-machine (bouton) & Capteur de lumière\\
+Traiter & Microcontrôleur, programme & Carte ESP32 qui compare à un seuil\\
+Communiquer & Ordre vers l'actionneur, affichage, liaison & Ordre d'allumer la lampe\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 3 : suivre l'information.} Une grandeur physique (la lumière) devient un signal électrique, puis une valeur numérique, puis un résultat de comparaison, puis un ordre.
+
+\textbf{Temps 4 : lire un code.} Le même parcours se retrouve dans le programme.
+\begin{arduino}[Chaîne d'information dans un code (fourni)]
+int valeur = analogRead(34);     // ACQUERIR : lecture du capteur
+bool nuit = (valeur < 1000);     // TRAITER : comparaison a un seuil
+digitalWrite(5, nuit);           // COMMUNIQUER : ordre a la lampe
+Serial.println(valeur);          // COMMUNIQUER : affichage
+\end{arduino}
+
+\begin{astuce}
+Garder trois couleurs fixes pour les trois fonctions. Faire surligner les lignes du code dans ces trois couleurs. Lire les commentaires à voix haute.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B. Les élèves travaillent en binômes devant leur poste.
+
+\textbf{3a. Le lampadaire automatique en collectif (12 min).} Ouvrir le projet Wokwi. Tourner le potentiomètre : observer les valeurs dans le moniteur série et la LED. Repérer ensemble les trois lignes du code (acquérir, traiter, communiquer).
+
+\textbf{3b. Le thermostat en binômes (18 min).} Compléter le schéma de la chaîne d'information d'un thermostat (capteur de température, microcontrôleur, ordre au radiateur, affichage) et repérer l'information qui boucle (régulation).
+
+\aides{Le schéma du lampadaire et le code annoté}{Questions guides : \emph{Quelle grandeur est mesurée ? Qui compare à un seuil ? Quel ordre est produit ?}}{L'enseignant surligne une ligne du code avec le binôme, qui poursuit}
+
+\begin{astuce}
+Ne pas demander d'écrire du code : seulement de lire et de modifier une valeur (le seuil). Proposer une version imprimée du code annoté pour les élèves à fort besoin visuel.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Distributeur de gel : placer les composants (capteur de présence, microcontrôleur, pompe, voyant) dans les trois fonctions avec des étiquettes mobiles, puis suivre l'information avec des flèches.}{Analyser le thermostat d'un chauffage : schéma de la chaîne d'information, tableau des fonctions, et suivre le parcours d'une information (température mesurée à 17 °C, consigne 20 °C).}{Analyser le code fourni du lampadaire dans Wokwi, modifier le seuil, ajouter un second capteur imaginaire (une horloge ou un bouton manuel) et redessiner la chaîne d'information. Justifier où se situe la décision.}
+
+\medskip
+\textbf{Plan B si Wokwi est indisponible\,:} travailler sur le code imprimé de l'annexe A et sur les schémas.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève montre son schéma et suit l'information avec le doigt. Valoriser la correspondance entre le schéma et le système.}{un binôme explique l'information du thermostat (17 °C contre 20 °C). Valoriser le raisonnement.}{un élève présente son code modifié et son nouveau schéma. Valoriser l'esprit d'analyse.}{\textit{une chaîne d'information acquiert une grandeur, la traite pour décider, puis communique un ordre ou un affichage.}}
+
+\cloture{Dans quelle fonction de la chaîne d'information se trouve un microcontrôleur ?}{Dans la ligne \texttt{digitalWrite(5, nuit);}, quelle fonction est réalisée ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{La chaîne d'information}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{Acquérir} (mesurer) $\rightarrow$ \textbf{Traiter} (décider) $\rightarrow$ \textbf{Communiquer} (ordonner, afficher)
+\end{tcolorbox}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.8cm}Y Y}
+\toprule
+Fonction & Composants & Exemple\\
+\midrule
+Acquérir & Capteurs, bouton & Capteur de lumière\\
+Traiter & Microcontrôleur & ESP32 + programme\\
+Communiquer & Ordres, afficheurs, liaisons & Lampe, écran, message\\
+\bottomrule
+\end{tabularx}
+
+\begin{arduino}[Code fourni (Wokwi)]
+void setup() {
+  Serial.begin(115200);
+  pinMode(5, OUTPUT);
+}
+
+void loop() {
+  int valeur = analogRead(34);     // ACQUERIR
+  bool nuit = (valeur < 1000);     // TRAITER
+  digitalWrite(5, nuit);           // COMMUNIQUER (ordre)
+  Serial.println(valeur);          // COMMUNIQUER (affichage)
+  delay(200);
+}
+\end{arduino}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : suivre l'information}
+
+\subsection*{3a. Lampadaire automatique}
+Quand je tourne le potentiomètre vers le minimum, la valeur est \dotfill{} et la LED est \dotfill.\\
+Surligne dans le code : acquérir (orange), traiter (bleu), communiquer (vert).
+
+\subsection*{3b. Thermostat (binôme)}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Fonction & Élément du thermostat & Information qui circule\\
+\midrule
+Acquérir & & \\
+Traiter & & \\
+Communiquer (ordre) & & \\
+Communiquer (affichage) & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le schéma du lampadaire et le code annoté.\\
+\textbf{Aide 2 :} Quelle grandeur est mesurée ? Qui compare à un seuil ? Quel ordre est produit ?\\
+\textbf{Aide 3 :} demande à l'enseignant de surligner une ligne avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : le distributeur de gel}
+
+\textbf{Banque :} capteur de présence, microcontrôleur, pompe, voyant, piles.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y}
+\toprule
+Fonction & Composant du distributeur\\
+\midrule
+Acquérir & \\
+Traiter & \\
+Communiquer (ordre) & \\
+Communiquer (affichage) & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Suis l'information (numérote 1 à 4)}
+\dotfill{} la pompe se met en marche\\
+\dotfill{} la main est détectée\\
+\dotfill{} le microcontrôleur décide\\
+\dotfill{} le voyant s'allume
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : le thermostat}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Fonction & Composant & Information\\
+\midrule
+Acquérir & & \\
+Traiter & & \\
+Communiquer & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Suivre une information}
+La température mesurée est 17 °C et la consigne est 20 °C.\\
+Que décide le traitement ? \dotfill\\
+Quel ordre est envoyé ? \dotfill\\
+Que se passe-t-il quand la température atteint 20 °C ? \dotfill
+
+Dessine le schéma de la chaîne d'information du thermostat sur une diapositive.
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : analyser et modifier le code}
+
+\begin{enumerate}
+ \item Dans Wokwi, change le seuil 1000 en 2000. Que constates-tu ? \lig
+ \item Ajoute dans le schéma un bouton «~forcer l'allumage~». À quelle fonction appartient-il ? \dotfill
+ \item Où est prise la décision d'allumer ? Justifie. \lig
+ \item Quelle limite voit-on avec un seuil unique (la lampe clignote autour du seuil) ? Propose une solution. \lig
+\end{enumerate}
+
+\textbf{Défi bonus :} dessine la chaîne d'information du lampadaire avec une commande à distance.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+Potentiomètre au minimum : valeur proche de 0, LED allumée (nuit). 3b : acquérir : sonde de température ; traiter : microcontrôleur compare à la consigne ; communiquer : ordre au radiateur et affichage de la température.
+
+\subsection*{Annexe C}
+Capteur de présence ; microcontrôleur ; pompe ; voyant (les piles sont l'alimentation). Ordre : 2, 3, 1, 4 (main détectée, décision, pompe, voyant).
+
+\subsection*{Annexe D}
+17 °C $<$ 20 °C : le traitement décide de chauffer. Ordre : allumer le radiateur. À 20 °C : ordre d'arrêt.
+
+\subsection*{Annexe E}
+1. Avec 2000, la LED s'allume plus tôt (pour des valeurs plus élevées). 2. Bouton : acquérir (interface homme-machine). 3. Dans la ligne \texttt{bool nuit = \ldots} (traiter). 4. Hystérésis : deux seuils (allumer à 900, éteindre à 1100).\\
+\textbf{Critères de réussite :} trois fonctions correctement placées, parcours de l'information cohérent.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : chaîne d'information}
+
+\begin{enumerate}
+ \item Dans quelle fonction de la chaîne d'information se trouve un microcontrôleur ?\\ \lig
+ \item Dans la ligne \texttt{digitalWrite(5, nuit);}, quelle fonction est réalisée ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. Traiter. 2. Communiquer (envoi d'un ordre à la lampe).
+
+\bigskip
+\grille{Trois fonctions}{Parcours suivi}{Code lu}
+
+\end{document}

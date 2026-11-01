@@ -1,0 +1,13 @@
+void setup() {
+  Serial.begin(115200);
+}
+
+void loop() {
+  int temp = analogRead(34);    // thermistance
+  int lum  = analogRead(35);    // photoresistance
+  Serial.print("temp = ");
+  Serial.print(temp);
+  Serial.print("   lum = ");
+  Serial.println(lum);
+  delay(500);
+}

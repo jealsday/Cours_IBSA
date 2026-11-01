@@ -1,0 +1,436 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2cm,headheight=14pt]{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor,tabularx,booktabs,array,enumitem,fancyhdr,amssymb,tikz}
+\usetikzlibrary{arrows.meta,positioning}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small Robotique -- Grade 6 -- Novembre 2026}
+\rhead{\small Leçon 5 : Les différentes formes d'énergie}
+\cfoot{\thepage}
+\setlist{itemsep=1pt,topsep=2pt,leftmargin=*}
+\renewcommand{\arraystretch}{1.35}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\cb}{$\square$\,}
+\newcommand{\fl}{$\rightarrow$}
+\newcommand{\lig}{\noindent\rule{\linewidth}{0.3pt}\\[5mm]}
+
+\newtcolorbox{etape}[3]{enhanced,breakable,colback=#1!6,colframe=#1!70!black,
+  coltitle=white,fonttitle=\bfseries,title={#2\hfill #3},boxrule=0.8pt,arc=2mm,
+  before skip=8pt,after skip=8pt}
+\newtcolorbox{astuce}[1][Différenciation et besoins particuliers]{breakable,
+  colback=yellow!12,colframe=yellow!50!black,fonttitle=\bfseries\small,
+  title={#1},boxrule=0.5pt,arc=1mm,before skip=6pt,after skip=6pt}
+\newcommand{\entete}[2]{%
+  \begin{tcolorbox}[colback=#1!10,colframe=#1!70!black,boxrule=0.8pt,arc=2mm]
+  {\Large\bfseries #2}\hfill Nom : \rule{4cm}{0.3pt}\quad Date : \rule{2.2cm}{0.3pt}
+  \end{tcolorbox}}
+
+\begin{document}
+
+\begin{tcolorbox}[colback=teal!10,colframe=teal!70!black,arc=2mm,boxrule=1pt]
+\centering
+{\LARGE\bfseries Leçon 5 : Les différentes formes d'énergie}\\[2mm]
+{\large Robotique -- Grade 6 -- Plan de cours de 2 heures}\\[1mm]
+Enseignant : Francis Ki \quad|\quad Semaine du 16 au 20 novembre 2026
+\end{tcolorbox}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Leçon 5 : Les différentes formes d'énergie\\
+Classe / effectif & Grade 6, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec navigateur web à jour et accès internet.
+ \item Vidéoprojecteur ou tableau interactif pour l'enseignant.
+ \item Simulation PhET «~Formes et changements d'énergie~» (phet.colorado.edu, gratuite, en français). \textbf{À tester sur un poste élève avant la séance} ; à télécharger si la connexion est instable.
+ \item Fiches numériques partagées en lecture seule : chaque élève crée sa copie et la renomme avec son prénom.
+ \item Outil d'appariement par glisser-déposer (LearningApps.org ou Wordwall) ou étiquettes mobiles dans une diapositive, pour le niveau A.
+ \item Facultatif : une lampe de poche, un petit ventilateur à piles et un diffuseur de son pour l'accroche.
+\end{itemize}\\
+Pré-requis &
+Leçons 1 et 2 : objet technique, fonction d'usage. Pas de connaissance préalable de l'énergie.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 35 min)]
+\begin{enumerate}
+ \item Tester la simulation PhET sur un poste élève et noter l'intitulé exact de l'onglet utilisé. Prévoir un plan B sans simulation (tableaux de l'annexe B).
+ \item Préparer les fichiers numériques des annexes B à E et les images des objets (Wikimedia Commons).
+ \item Créer le formulaire de sortie (annexe G) dans Google Forms ou imprimer l'annexe.
+ \item Reconstituer les groupes A, B, C à partir de l'exit ticket de la leçon 4.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Identifier les formes d'énergie présentes dans l'environnement.
+ \item Associer une forme d'énergie à un objet technique.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item de nommer cinq formes d'énergie (électrique, chimique, lumineuse, thermique, mécanique) et la forme sonore\,;
+ \item de repérer la forme d'énergie utilisée par un objet courant et l'effet qu'elle produit (lumière, chaleur, mouvement, son)\,;
+ \item de rédiger : \textit{«~La\ldots{} utilise l'énergie\ldots{} pour produire\ldots~»}.
+\end{itemize}
+\textbf{Compétences numériques\,:} manipuler une simulation scientifique, glisser-déposer, remplir un tableau.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.2cm}p{2.6cm}Y p{2.8cm}}
+\toprule
+Minutes & Étape & Contenu & Organisation\\
+\midrule
+0 -- 10 & Accroche & Qu'est-ce qui fait marcher\ldots{} ? & Classe entière, sans écran\\
+10 -- 30 & Mini-leçon & Les formes d'énergie et leurs effets & Classe entière\\
+30 -- 60 & Pratique guidée & Un système dans la simulation, puis six objets en binômes & Collectif puis binômes\\
+60 -- 95 & Pratique autonome & Trois niveaux de besoin & Individuel\\
+95 -- 110 & Mise en commun & Valoriser chaque groupe & Classe entière\\
+110 -- 120 & Exit ticket & Trois questions sur poste & Individuel\\
+\bottomrule
+\end{tabularx}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : qu'est-ce qui fait marcher\ldots{} ?}{0 -- 10 min}
+\textbf{But\,:} faire émerger le mot «~énergie~» à partir du vécu.\\
+\textbf{Écrans éteints.}
+\begin{enumerate}
+ \item (4 min) Montrer ou projeter quatre objets : lampe de poche, ventilateur, enceinte, vélo. Pour chacun : \emph{Qu'est-ce qui le fait fonctionner ? Que se passe-t-il si on retire la pile ?}
+ \item (3 min) Question à la classe : \emph{Et toi, qu'est-ce qui te permet de courir ?} Faire arriver le mot «~manger~» pour arriver à l'idée que tout fonctionnement demande de l'énergie.
+ \item (3 min) Question-problème : \textbf{«~Y a-t-il une seule sorte d'énergie ?~»} Noter les hypothèses.
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : les formes d'énergie}{10 -- 30 min}
+\textbf{Support\,:} tableau construit au tableau ou projeté (annexe A). Quatre temps de 5 min.
+
+\medskip
+\textbf{Temps 1 : l'énergie, c'est quoi ?} On ne voit pas l'énergie, on voit ses \emph{effets}. Elle permet de produire de la lumière, de la chaleur, du mouvement ou du son.
+
+\textbf{Temps 2 : les formes d'énergie.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.6cm}Y Y}
+\toprule
+Forme & Où la trouve-t-on ? & Exemples d'objets\\
+\midrule
+Électrique & Dans les fils, les prises, les piles & Lampe, ordinateur, ventilateur\\
+Chimique & Stockée dans les aliments, les piles, l'essence, le bois & Pile, voiture à essence, corps humain\\
+Lumineuse & Dans la lumière du soleil ou d'une lampe & Soleil, lampe, panneau solaire\\
+Thermique & Dans la chaleur & Radiateur, grille-pain, feu\\
+Mécanique & Dans tout ce qui bouge & Vélo, vent, voiture en marche\\
+Sonore & Dans les sons & Enceinte, instrument de musique\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 3 : les quatre effets visibles.} Ce qu'on observe : \textbf{lumière}, \textbf{chaleur}, \textbf{mouvement}, \textbf{son}. Pour chaque objet, on se demande : \emph{que reçoit-il pour fonctionner ? que produit-il ?}
+
+\textbf{Temps 4 : source et forme.} Une source d'énergie est l'endroit d'où vient l'énergie (soleil, vent, eau, pétrole). Elle peut apporter plusieurs formes : le soleil donne de la lumière et de la chaleur. Phrase modèle : \textit{«~La\ldots{} utilise l'énergie\ldots{} pour produire\ldots~»}.
+
+\begin{astuce}
+Utiliser une couleur et un pictogramme par forme sur tous les supports (par exemple jaune pour la lumière, rouge pour la chaleur). Un geste par forme peut aider la mémorisation. Lire les tableaux à voix haute et autoriser le lecteur immersif.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B (version numérique : fichier «~L5\_Guidee~»).
+
+\medskip
+\textbf{3a. Exemple collectif sur poste : la simulation (12 min).} Tout le monde ouvre la simulation PhET «~Formes et changements d'énergie~». L'enseignant projette la sienne.
+\begin{enumerate}
+ \item Ouvrir l'onglet qui permet de construire un système (une source, un convertisseur, un utilisateur) et activer l'affichage des symboles d'énergie (vérifier l'intitulé exact dans la version utilisée).
+ \item Choisir une source (par exemple le robinet) et observer les symboles qui apparaissent. Les nommer à voix haute à l'aide de la légende.
+ \item Remplir ensemble la première ligne du tableau B1 : forme d'énergie observée, effet produit.
+\end{enumerate}
+
+\textbf{3b. Six objets de la classe en binômes (18 min).} Les binômes remplissent le tableau B2 (objets de la salle : lampe, ordinateur, ventilateur, enceinte, projecteur, radiateur). Alternance des rôles à mi-temps. Les élèves rapides peuvent revenir à la simulation pour vérifier leurs réponses.
+
+\textbf{Étayage progressif de l'aide.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.4cm}Y p{4.6cm}}
+\toprule
+Niveau d'aide & Contenu & Qui intervient\\
+\midrule
+Aide 1 & Tableau des formes d'énergie (annexe A) & Le binôme seul\\
+Aide 2 & Questions guides : \emph{Que reçoit l'objet ? Que produit-il ? Quel effet vois-tu ou entends-tu ?} & Le binôme avec la carte\\
+Aide 3 & L'enseignant remplit une ligne avec le binôme, qui termine & L'enseignant\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{astuce}
+Si la simulation pose un problème de langue ou de vitesse, projeter seulement le tableau B2 et travailler avec des photos. Prévoir un binôme de soutien pour les élèves qui manipulent peu l'ordinateur.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\textbf{Consigne commune\,:} chaque élève ouvre le fichier de son groupe, le renomme avec son prénom et travaille seul. L'enseignant passe d'abord auprès du groupe A pendant 10 min.
+
+\medskip
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y p{3.2cm}}
+\toprule
+Groupe & Tâche sur poste & Annexe\\
+\midrule
+A : en dessous du niveau &
+Appariement de six objets avec une forme d'énergie (banque de mots avec couleurs), puis deux phrases à trous. & Annexe C\\
+B : au niveau &
+Tableau de huit objets : forme d'énergie utilisée, effet produit, source possible. Puis trois objets trouvés dans la salle de classe. & Annexe D\\
+C : au-dessus du niveau &
+Mission «~La carte énergie d'une pièce~» : classer les objets d'une pièce, les sources renouvelables ou non, puis résoudre l'énigme de la lampe solaire de jardin (plusieurs formes d'énergie). & Annexe E\\
+\bottomrule
+\end{tabularx}
+
+\medskip
+\textbf{Plan B si un élève termine tôt\,:} retourner dans la simulation et décrire par écrit un système de son choix (source, utilisateur, effets).
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{teal}{5. Mise en commun}{95 -- 110 min}
+\begin{enumerate}
+ \item (2 min) Retour au calme, écrans en veille.
+ \item (9 min) Trois passages courts de 3 min :
+ \begin{itemize}
+  \item \textbf{Groupe A} : lecture d'une phrase complète. Valoriser le vocabulaire correct.
+  \item \textbf{Groupe B} : un élève présente un objet trouvé en classe et ses effets. Valoriser l'observation.
+  \item \textbf{Groupe C} : présentation de l'énigme de la lampe solaire. Valoriser le raisonnement par étapes.
+ \end{itemize}
+ \item (4 min) Retour à la question-problème : \textit{non, il existe plusieurs formes d'énergie.} Compléter ensemble le tableau de l'annexe A.
+\end{enumerate}
+\end{etape}
+
+\begin{etape}{gray}{6. Clôture : exit ticket}{110 -- 120 min}
+Formulaire en ligne ou papier (annexe G) :
+\begin{enumerate}
+ \item Quelle forme d'énergie utilise un grille-pain et quel est son effet ?
+ \item Cite une forme d'énergie stockée dans une pile.
+ \item Auto-évaluation : \emph{Je maîtrise / Je progresse / J'ai besoin d'aide.}
+\end{enumerate}
+\end{etape}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Les différentes formes d'énergie}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{L'énergie} permet de faire fonctionner un objet. On ne la voit pas, on voit ses \textbf{effets} : lumière, chaleur, mouvement, son.
+\end{tcolorbox}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.6cm}Y Y}
+\toprule
+Forme & Où la trouve-t-on ? & Exemples\\
+\midrule
+Électrique & Fils, prises, piles & Lampe, ordinateur\\
+Chimique & Aliments, piles, essence, bois & Pile, voiture à essence\\
+Lumineuse & Soleil, lampes & Panneau solaire\\
+Thermique & Chaleur & Radiateur, grille-pain\\
+Mécanique & Tout ce qui bouge & Vélo, vent\\
+Sonore & Sons & Enceinte\\
+\bottomrule
+\end{tabularx}
+
+\medskip
+\begin{tcolorbox}[colback=green!8,colframe=green!50!black]
+\textbf{Phrase modèle :} La \underline{\hspace{2.5cm}} utilise l'énergie \underline{\hspace{2.5cm}} pour produire \underline{\hspace{2.5cm}}.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : les formes d'énergie}
+
+\subsection*{B1. Exemple collectif dans la simulation}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Source choisie & Formes d'énergie observées & Effet produit\\
+\midrule
+ & & \\ & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{B2. En binôme : six objets de la classe}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y Y}
+\toprule
+Objet & Il reçoit (forme d'énergie) & Il produit (effet) & Phrase\\
+\midrule
+La lampe & & & \\
+L'ordinateur & & & \\
+Le ventilateur & & & \\
+L'enceinte & & & \\
+Le projecteur & & & \\
+Le radiateur & & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le tableau de l'annexe A.\\
+\textbf{Aide 2 :} Que reçoit l'objet ? Que produit-il ? Quel effet vois-tu ou entends-tu ?\\
+\textbf{Aide 3 :} demande à l'enseignant de remplir une ligne avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je relie et je complète}
+
+\textbf{Banque de mots :} \textcolor{orange!80!black}{électrique}, \textcolor{green!50!black}{chimique}, \textcolor{yellow!60!black}{lumineuse}, \textcolor{red!70!black}{thermique}, \textcolor{blue!70!black}{mécanique}, \textcolor{violet!70!black}{sonore}.
+
+\subsection*{Activité 1 : relie l'objet à l'énergie qu'il utilise (glisse les étiquettes)}
+\begin{tabularx}{\linewidth}{Y Y}
+\toprule
+\textbf{Objet ou situation} & \textbf{Forme d'énergie}\\
+\midrule
+1. La lampe allumée (la lumière qu'elle donne) & \\
+2. Le soleil qui brille & \\
+3. Le radiateur qui chauffe & \\
+4. Le vélo qui roule & \\
+5. L'enceinte qui joue de la musique & \\
+6. Une pile neuve (ce qu'elle contient) & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Activité 2 : complète les phrases}
+\begin{enumerate}
+ \item La lampe utilise l'énergie \dotfill{} pour produire de la \dotfill.
+ \item Le ventilateur utilise l'énergie \dotfill{} pour produire du \dotfill.
+\end{enumerate}
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : j'identifie et je justifie}
+
+\subsection*{Activité 1 : complète le tableau}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y Y}
+\toprule
+Objet & Il reçoit (forme) & Il produit (effet) & Source possible\\
+\midrule
+Grille-pain & & & \\
+Voiture à essence & & & \\
+Panneau solaire & & & \\
+Lampe de poche & & & \\
+Éolienne & & & \\
+Enceinte & & & \\
+Bouilloire électrique & & & \\
+Moto électrique & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Activité 2 : trois objets de la salle de classe}
+Choisis trois objets de la salle et rédige une phrase pour chacun avec le modèle \textit{«~La\ldots{} utilise l'énergie\ldots{} pour produire\ldots~»}.\\
+\lig \lig \lig
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : la carte énergie d'une pièce}
+
+\subsection*{Étape 1 : choisis une pièce}
+\cb La cuisine \quad \cb La salle de bain \quad \cb La salle de classe
+
+Liste six objets de cette pièce et classe-les :
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y Y}
+\toprule
+Objet & Forme reçue & Effet produit & Peut-il fonctionner sans prise ?\\
+\midrule
+ & & & \\ & & & \\ & & & \\ & & & \\ & & & \\ & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Étape 2 : les sources}
+Classe les sources suivantes en \emph{renouvelables} (qui se renouvellent) ou \emph{non renouvelables} : soleil, vent, eau, pétrole, charbon, bois.\\
+Renouvelables : \dotfill\\
+Non renouvelables : \dotfill
+
+\subsection*{Étape 3 : énigme de la lampe solaire de jardin}
+Dans la journée, la lampe reçoit du soleil. La nuit, elle éclaire. Quelles formes d'énergie rencontre-t-elle ? Écris-les dans l'ordre.\\
+\lig \lig
+
+\textbf{Défi bonus :} dans la simulation, construis un système avec une source et un utilisateur, et explique ce que tu observes en trois phrases.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B : pratique guidée}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Objet & Reçoit & Produit\\
+\midrule
+Lampe & Électrique & Lumière (et un peu de chaleur)\\
+Ordinateur & Électrique & Lumière (écran), son, chaleur\\
+Ventilateur & Électrique & Mouvement\\
+Enceinte & Électrique & Son\\
+Projecteur & Électrique & Lumière (et chaleur)\\
+Radiateur & Électrique & Chaleur\\
+\bottomrule
+\end{tabularx}
+Simulation : par exemple, un robinet donne de l'énergie mécanique (eau en mouvement) puis un effet de rotation ; un panneau solaire reçoit de la lumière et produit de l'électricité.
+
+\subsection*{Annexe C : niveau A}
+1 lumineuse ; 2 lumineuse (et thermique) ; 3 thermique ; 4 mécanique ; 5 sonore ; 6 chimique. Activité 2 : électrique, lumière ; électrique, mouvement.
+
+\subsection*{Annexe D : niveau B}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.8cm}Y Y Y}
+\toprule
+Objet & Reçoit & Produit & Source\\
+\midrule
+Grille-pain & Électrique & Chaleur & Prise\\
+Voiture à essence & Chimique & Mouvement & Pétrole\\
+Panneau solaire & Lumineuse & Électricité & Soleil\\
+Lampe de poche & Électrique (pile) & Lumière & Pile\\
+Éolienne & Mécanique (vent) & Électricité & Vent\\
+Enceinte & Électrique & Son & Prise ou batterie\\
+Bouilloire & Électrique & Chaleur & Prise\\
+Moto électrique & Électrique (batterie) & Mouvement & Batterie\\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Annexe E : niveau C}
+Renouvelables : soleil, vent, eau, bois (si les forêts sont replantées). Non renouvelables : pétrole, charbon.\\
+Énigme : lumineuse (soleil), électrique (panneau), chimique (stockée dans la batterie), électrique, puis lumineuse (éclairage).\\
+\textbf{Critères de réussite :} six objets bien classés, des sources correctes, une énigme avec au moins trois formes dans le bon ordre.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : les formes d'énergie}
+
+\begin{enumerate}
+ \item Quelle forme d'énergie utilise un grille-pain et quel est son effet ?\\ \lig
+ \item Cite une forme d'énergie stockée dans une pile.\\ \lig
+ \item Je me sens : \cb Je maîtrise \quad \cb Je progresse \quad \cb J'ai besoin d'aide
+\end{enumerate}
+
+\textbf{Attendus :} 1. Électrique, il produit de la chaleur. 2. Chimique.
+
+\bigskip
+\subsection*{Grille d'observation (enseignant)}
+\begin{tabularx}{\linewidth}{Y p{2.4cm} p{2.4cm} p{2.4cm} Y}
+\toprule
+Élève & Formes nommées & Effet reconnu & Phrase modèle & Groupe suivant\\
+\midrule
+ & & & & \\ & & & & \\ & & & & \\ & & & & \\ & & & & \\
+\bottomrule
+\end{tabularx}
+
+\end{document}

@@ -1,0 +1,315 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 9}
+\newcommand{\leconhdr}{Feu tricolore automatisé}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Feu tricolore automatisé}{Semaine du 16 au 20 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Feu tricolore automatisé\\
+Classe / effectif & Grade 9, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec navigateur web : \textbf{Tinkercad Circuits} (simulation).
+ \item Arduino IDE sur les postes pour vérifier le code.
+ \item Facultatif : une carte Arduino, trois LEDs (rouge, orange, verte) et trois résistances de 220~$\Omega$ par binôme.
+ \item Un outil de dessin d'algorigramme (diapositives, ou papier et crayon).
+\end{itemize}\\
+Pré-requis &
+Séances précédentes : \texttt{pinMode}, \texttt{digitalWrite}, \texttt{delay}, chenillard de trois LEDs.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 40 min)]
+\begin{enumerate}
+ \item Préparer un circuit modèle partagé avec trois LEDs sur les broches 8 (rouge), 9 (orange), 10 (verte).
+ \item Préparer un second circuit à six LEDs (deux feux) pour les groupes B et C.
+ \item Préparer les fichiers des annexes C à E et le formulaire de sortie.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Concevoir un système automatisé simple.
+ \item Utiliser des séquences de temporisation.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item de décrire le cycle d'un feu tricolore (états et durées) dans un tableau ou un algorigramme\,;
+ \item de traduire ce cycle en programme Arduino avec des temporisations\,;
+ \item de tester le programme en simulation et de corriger une durée ou un ordre.
+\end{itemize}
+\textbf{Compétences numériques\,:} représenter un cycle, tester en simulation, comparer le comportement attendu et observé.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Observation d'un carrefour et de son feu}{Cycle, états et algorigramme}{Un feu à trois LEDs en collectif, puis un feu piéton en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : le carrefour}{0 -- 10 min}
+\begin{enumerate}
+ \item (5 min) Projeter la photo d'un carrefour à deux feux. \emph{Quelles couleurs et dans quel ordre ? Pourquoi un moment où tous les feux sont rouges ?}
+ \item (5 min) Les élèves miment le cycle d'un feu avec trois cartes colorées. Question-problème : \textbf{«~Comment faire fonctionner un feu tout seul, sans personne pour changer les couleurs ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : un cycle d'états}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : le besoin et le cycle.} Un système automatisé répète un cycle. Le feu passe par trois états :
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=1cm,text width=2.4cm,align=center,font=\small},>={Stealth[length=3mm]},node distance=0.9cm]
+\node[box,fill=green!25] (v) {Vert\\ 5 s};
+\node[box,fill=orange!30,right=of v] (o) {Orange\\ 2 s};
+\node[box,fill=red!25,right=of o] (r) {Rouge\\ 5 s};
+\draw[->,thick] (v)--(o); \draw[->,thick] (o)--(r);
+\draw[->,thick] (r) to[bend left=35] (v);
+\end{tikzpicture}
+\end{center}
+
+\textbf{Temps 2 : le tableau des états.}
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2cm}c c c Y}
+\toprule
+État & Rouge (8) & Orange (9) & Vert (10) & Durée\\
+\midrule
+1 & éteinte & éteinte & allumée & 5000 ms\\
+2 & éteinte & allumée & éteinte & 2000 ms\\
+3 & allumée & éteinte & éteinte & 5000 ms\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 3 : le programme.}
+\begin{arduino}[Feu tricolore]
+void setup() {
+  pinMode(8, OUTPUT);   // rouge
+  pinMode(9, OUTPUT);   // orange
+  pinMode(10, OUTPUT);  // vert
+}
+void loop() {
+  digitalWrite(8, LOW);  digitalWrite(9, LOW);  digitalWrite(10, HIGH);
+  delay(5000);
+  digitalWrite(10, LOW); digitalWrite(9, HIGH);
+  delay(2000);
+  digitalWrite(9, LOW);  digitalWrite(8, HIGH);
+  delay(5000);
+}
+\end{arduino}
+
+\textbf{Temps 4 : de l'état au code.} Chaque ligne du tableau devient un bloc d'instructions suivi d'un \texttt{delay}. En classe on peut réduire les durées (3, 1, 3 s) pour tester plus vite.
+
+\begin{astuce}
+Utiliser les couleurs réelles dans le tableau. Pour les élèves qui ont du mal à lire le code, fournir le tableau des états avec les lignes du programme associées. Autoriser des durées réduites pour les essais.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B.
+
+\textbf{3a. Un feu à trois LEDs en collectif (12 min).} Compléter ensemble le tableau des états, puis écrire le programme et le simuler.
+
+\textbf{3b. Un feu piéton en binômes (18 min).} Ajouter un feu piéton (rouge et vert) synchronisé avec le feu des voitures : quand les voitures ont le vert, le piéton a le rouge, et inversement. Alternance des rôles.
+
+\aides{Le tableau des états du 3a et le programme du feu}{Questions guides : \emph{Dans quel état le piéton peut-il traverser ? Quelles LEDs doivent être allumées ?}}{L'enseignant remplit une ligne du tableau avec le binôme, qui poursuit}
+
+\begin{astuce}
+Écrire en commentaire ce que fait chaque bloc d'instructions. Tester état par état avant d'assembler le cycle complet.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Programme du feu tricolore à compléter : instructions manquantes signalées par des tirets, tableau des états déjà rempli, banque de valeurs. Simuler et comparer avec le tableau.}{Programmer un carrefour à deux feux croisés (six LEDs) avec un état où tous les feux sont rouges pendant 1 s, après avoir rempli le tableau des états.}{Concevoir et programmer un carrefour avec feux voitures et feux piétons, en structurant le code avec des fonctions (\texttt{void feuAvert()}, \texttt{void feuRouge()}), et ajouter un mode nuit (orange clignotant).}
+
+\medskip
+\textbf{Plan B si la simulation ne fonctionne pas\,:} vérifier le tableau des états sur papier et le programme avec l'outil de vérification de l'IDE.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève présente son feu et lit son tableau des états. Valoriser la correspondance entre le tableau et le programme.}{un binôme montre le carrefour à deux feux et explique l'état «~tout rouge~». Valoriser la sécurité.}{un élève présente son code structuré en fonctions. Valoriser la lisibilité.}{\textit{un système automatisé est un cycle d'états avec des durées ; on le décrit avant de le programmer.}}
+
+\cloture{Dans quel ordre s'allument les couleurs d'un feu tricolore ?}{Pourquoi prévoit-on un court moment où tous les feux sont rouges dans un carrefour ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Feu tricolore automatisé}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+Un système automatisé répète un \textbf{cycle d'états}. On décrit chaque état (LEDs allumées) et sa \textbf{durée}.
+\end{tcolorbox}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2cm}c c c Y}
+\toprule
+État & Rouge (8) & Orange (9) & Vert (10) & Durée\\
+\midrule
+1 & éteinte & éteinte & allumée & 5000 ms\\
+2 & éteinte & allumée & éteinte & 2000 ms\\
+3 & allumée & éteinte & éteinte & 5000 ms\\
+\bottomrule
+\end{tabularx}
+
+\begin{arduino}[Structure du programme]
+void loop() {
+  // etat 1 : vert
+  // etat 2 : orange
+  // etat 3 : rouge
+}
+\end{arduino}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : le feu tricolore}
+
+\subsection*{3a. Tableau des états des voitures}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2cm}c c c Y}
+\toprule
+État & Rouge (8) & Orange (9) & Vert (10) & Durée (ms)\\
+\midrule
+1 & & & & \\ 2 & & & & \\ 3 & & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{3b. Feu piéton (rouge broche 11, vert broche 12)}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2cm}Y Y Y}
+\toprule
+État voiture & Piéton rouge (11) & Piéton vert (12) & Pourquoi ?\\
+\midrule
+Vert & & & \\ Orange & & & \\ Rouge & & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le tableau des états du 3a.\\
+\textbf{Aide 2 :} Dans quel état le piéton peut-il traverser ? Quelles LEDs doivent être allumées ?\\
+\textbf{Aide 3 :} demande à l'enseignant de remplir une ligne avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je complète le feu}
+
+\textbf{Banque :} HIGH, LOW, 5000, 2000.
+
+\begin{arduino}[Programme à compléter]
+void setup() {
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+}
+void loop() {
+  digitalWrite(8, LOW);  digitalWrite(9, LOW);  digitalWrite(10, _____);
+  delay(_____);
+  digitalWrite(10, LOW); digitalWrite(9, _____);
+  delay(_____);
+  digitalWrite(9, LOW);  digitalWrite(8, _____);
+  delay(5000);
+}
+\end{arduino}
+
+\subsection*{Activité : vérifie avec le tableau}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2cm}Y Y}
+\toprule
+État & LED allumée & Durée\\
+\midrule
+1 & & \\ 2 & & \\ 3 & & \\
+\bottomrule
+\end{tabularx}
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : carrefour à deux feux}
+
+\textbf{Feu A :} rouge 8, orange 9, vert 10. \textbf{Feu B :} rouge 11, orange 12, vert 13.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{1.4cm}c c c c c c Y}
+\toprule
+État & A rouge & A orange & A vert & B rouge & B orange & B vert & Durée (ms)\\
+\midrule
+1 & & & & & & & \\ 2 & & & & & & & \\ 3 & & & & & & & \\ 4 & & & & & & & \\ 5 & & & & & & & \\ 6 & & & & & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Questions}
+\begin{enumerate}
+ \item Pourquoi prévoit-on un état où A et B sont rouges ensemble ? \dotfill
+ \item Combien de secondes dure un cycle complet ? \dotfill
+\end{enumerate}
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : carrefour structuré avec mode nuit}
+
+\textbf{Mission :} programme un carrefour avec des fonctions.
+
+\begin{arduino}[Aide : structure]
+void feuVert()   { /* instructions */ }
+void feuOrange() { /* instructions */ }
+void feuRouge()  { /* instructions */ }
+
+void loop() {
+  feuVert();
+  feuOrange();
+  feuRouge();
+}
+\end{arduino}
+
+\begin{enumerate}
+ \item Écris le programme complet avec un mode nuit (orange clignotant, 500 ms) déclenché par une variable \texttt{nuit} : \lig \lig \lig
+ \item Pourquoi les fonctions rendent-elles le programme plus facile à modifier ? \dotfill
+\end{enumerate}
+
+\textbf{Défi bonus :} ajoute un compteur de cycles (\texttt{int cycle}) et affiche-le avec \texttt{Serial.println} dans le moniteur série.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+États : vert (rouge 0, orange 0, vert 1, 5000 ms) ; orange (0, 1, 0, 2000) ; rouge (1, 0, 0, 5000). Piéton : voiture verte $\to$ piéton rouge ; voiture orange $\to$ piéton rouge ; voiture rouge $\to$ piéton vert.
+
+\subsection*{Annexe C}
+HIGH, 5000, HIGH, 2000, HIGH. États : vert, orange, rouge.
+
+\subsection*{Annexe D}
+Six états : A vert / B rouge ; A orange / B rouge ; tout rouge (1 s) ; A rouge / B vert ; A rouge / B orange ; tout rouge (1 s). L'état «~tout rouge~» laisse le temps aux véhicules de dégager le carrefour. Durée d'un cycle : somme des durées (par exemple 5 + 2 + 1 + 5 + 2 + 1 = 16 s).
+
+\subsection*{Annexe E}
+Mode nuit : \texttt{if (nuit) \{ digitalWrite(9, HIGH); delay(500); digitalWrite(9, LOW); delay(500); \} else \{ feuVert(); feuOrange(); feuRouge(); \}}. Les fonctions regroupent les instructions et évitent de recopier.\\
+\textbf{Critères de réussite :} trois fonctions appelées dans le bon ordre, mode nuit fonctionnel.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : feu tricolore}
+
+\begin{enumerate}
+ \item Dans quel ordre s'allument les couleurs d'un feu tricolore ?\\ \lig
+ \item Pourquoi prévoit-on un court moment où tous les feux sont rouges dans un carrefour ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. Vert, orange, rouge. 2. Pour laisser les véhicules finir de traverser avant le vert de l'autre feu.
+
+\bigskip
+\grille{Tableau des états}{Programme fonctionnel}{Simulation réussie}
+
+\end{document}

@@ -1,0 +1,492 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage[french]{babel}
+\usepackage[margin=2cm,headheight=14pt]{geometry}
+\usepackage[most]{tcolorbox}
+\usepackage{xcolor,tabularx,booktabs,array,enumitem,fancyhdr,amssymb,tikz}
+\usetikzlibrary{arrows.meta,positioning}
+
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small Robotique -- Grade 6 -- Novembre 2026}
+\rhead{\small Leçon 3 : Les matériaux des objets techniques}
+\cfoot{\thepage}
+\setlist{itemsep=1pt,topsep=2pt,leftmargin=*}
+\renewcommand{\arraystretch}{1.35}
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+\newcommand{\cb}{$\square$\,}
+\newcommand{\fl}{$\rightarrow$}
+\newcommand{\lig}{\noindent\rule{\linewidth}{0.3pt}\\[5mm]}
+
+\newtcolorbox{etape}[3]{enhanced,breakable,colback=#1!6,colframe=#1!70!black,
+  coltitle=white,fonttitle=\bfseries,title={#2\hfill #3},boxrule=0.8pt,arc=2mm,
+  before skip=8pt,after skip=8pt}
+\newtcolorbox{astuce}[1][Différenciation et besoins particuliers]{breakable,
+  colback=yellow!12,colframe=yellow!50!black,fonttitle=\bfseries\small,
+  title={#1},boxrule=0.5pt,arc=1mm,before skip=6pt,after skip=6pt}
+\newcommand{\entete}[2]{%
+  \begin{tcolorbox}[colback=#1!10,colframe=#1!70!black,boxrule=0.8pt,arc=2mm]
+  {\Large\bfseries #2}\hfill Nom : \rule{4cm}{0.3pt}\quad Date : \rule{2.2cm}{0.3pt}
+  \end{tcolorbox}}
+
+\begin{document}
+
+\begin{tcolorbox}[colback=teal!10,colframe=teal!70!black,arc=2mm,boxrule=1pt]
+\centering
+{\LARGE\bfseries Leçon 3 : Les matériaux des objets techniques}\\[2mm]
+{\large Robotique -- Grade 6 -- Plan de cours de 2 heures}\\[1mm]
+Enseignant : Francis Ki \quad|\quad Semaine du 2 au 6 novembre 2026
+\end{tcolorbox}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Leçon 3 : Les matériaux des objets techniques\\
+Classe / effectif & Grade 6, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec navigateur web à jour et accès internet.
+ \item Vidéoprojecteur ou tableau interactif pour l'enseignant.
+ \item Traitement de texte ou diapositives (Google Docs/Slides ou LibreOffice) : les fiches numériques sont des fichiers partagés en lecture seule, que chaque élève copie.
+ \item Un outil d'appariement par glisser-déposer (LearningApps.org ou Wordwall, gratuits) pour le niveau A, ou des étiquettes mobiles dans une diapositive.
+ \item Facultatif : sac opaque et 6 objets réels (cuillère en métal, règle en plastique, crayon en bois, pot en verre, aimant).
+\end{itemize}\\
+Pré-requis &
+Leçons 1 et 2 : distinguer objet technique et objet naturel, identifier la fonction d'usage et les parties d'un objet. Savoir ouvrir un fichier partagé, en faire une copie et la renommer avec son prénom.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 30 min)]
+\begin{enumerate}
+ \item Préparer les fichiers numériques à partir des annexes B à E (une copie par élève) et ajouter une photo libre de droits (Wikimedia Commons) pour chaque objet cité.
+ \item Créer le formulaire de sortie (annexe G) dans Google Forms, ou imprimer l'annexe.
+ \item Constituer les trois groupes de besoin (A, B, C) à partir du Map Test d'octobre et des observations de classe. Les groupes restent souples d'une séance à l'autre.
+ \item Afficher la progression du cours en trois étapes sur le tableau : Je regarde, Je classe, Je justifie.
+\end{enumerate}
+\end{astuce}
+
+\begin{astuce}[Cette leçon est répartie sur deux semaines]
+Dans la progression, la leçon 3 figure aussi du 19 au 23 octobre. Si les quatre familles de matériaux ont déjà été vues, réduire l'accroche à 5 min et la partie 2 de la mini-leçon, puis consacrer le temps gagné aux propriétés (pratique guidée).
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Identifier les principales familles de matériaux (bois, métal, plastique, verre).
+ \item Reconnaître les propriétés de chaque matériau.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item de nommer le matériau principal de cinq objets courants et de le classer dans sa famille\,;
+ \item d'associer à chaque famille au moins deux propriétés (dur, léger, transparent, conducteur, isolant, fragile, rouille, flotte\ldots)\,;
+ \item de justifier oralement ou par écrit avec la phrase modèle \textit{«~La\ldots{} est en\ldots{} car elle est\ldots~»}.
+\end{itemize}
+\textbf{Compétences numériques\,:} ouvrir et copier un fichier partagé, glisser-déposer, remplir un tableau, rendre son travail.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.2cm}p{2.6cm}Y p{2.8cm}}
+\toprule
+Minutes & Étape & Contenu & Organisation\\
+\midrule
+0 -- 10 & Accroche & La boîte mystère & Classe entière, sans écran\\
+10 -- 30 & Mini-leçon & Familles et propriétés & Classe entière\\
+30 -- 60 & Pratique guidée & Un objet collectif, puis trois objets en binômes & Collectif puis binômes\\
+60 -- 95 & Pratique autonome & Trois niveaux de besoin & Individuel\\
+95 -- 110 & Mise en commun & Valoriser chaque groupe & Classe entière\\
+110 -- 120 & Exit ticket & Trois questions sur poste & Individuel\\
+\bottomrule
+\end{tabularx}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : la boîte mystère}{0 -- 10 min}
+\textbf{But\,:} faire émerger les mots de propriétés avant tout vocabulaire.\\
+\textbf{Écrans éteints ou rabattus.}
+\begin{enumerate}
+ \item (3 min) Passer le sac opaque : chaque élève touche un objet sans le voir et dit un mot (froid, dur, léger\ldots). L'enseignant note les mots au tableau en nuage de mots.
+ \item (3 min) Révéler les objets. Question : \emph{De quelle matière sont-ils faits ? Comment le sais-tu ?}
+ \item (4 min) Question-problème, écrite au tableau : \textbf{«~Pourquoi la fenêtre de la classe est-elle en verre et pas en bois ?~»} Recueillir deux ou trois hypothèses sans les valider.
+\end{enumerate}
+\textit{Sans objets réels, projeter six photos d'objets et poser les mêmes questions.}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : les familles de matériaux}{10 -- 30 min}
+\textbf{Support\,:} tableau construit pas à pas au tableau ou projeté (support élève : annexe A). Quatre temps de 5 min, avec une question de vérification à la fin de chacun.
+
+\medskip
+\textbf{Temps 1 : objet et matériau.} Un matériau est la matière choisie pour fabriquer un objet. Exemple : une chaise est un objet, le bois est un matériau.
+
+\textbf{Temps 2 : les quatre familles et leur origine.}
+
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2cm}Y Y}
+\toprule
+Famille & Origine & Exemples d'objets\\
+\midrule
+Bois & Naturelle, issue des arbres & Crayon, table, cadre\\
+Métal & Extrait de minerais (fer, aluminium, cuivre) & Cuillère, clé, câble électrique\\
+Plastique & Fabriqué par l'homme, à partir du pétrole & Règle, bouteille, jouet\\
+Verre & Fabriqué à partir de sable chauffé & Fenêtre, bocal, ampoule\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 3 : les propriétés.} On construit le tableau en demandant à la classe de choisir parmi les mots de l'accroche.
+
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2cm}Y}
+\toprule
+Famille & Propriétés caractéristiques\\
+\midrule
+Bois & Léger, flotte, isolant (il ne conduit pas l'électricité), brûle, craint l'humidité\\
+Métal & Dur et résistant, lourd, conduit l'électricité et la chaleur, brillant. Le fer et l'acier rouillent et sont attirés par un aimant.\\
+Plastique & Léger, souple ou rigide, isolant, imperméable, ne rouille pas, fond à la chaleur\\
+Verre & Transparent, dur mais fragile (il casse), imperméable, isolant\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 4 : de la propriété au choix.} Revenir à la question-problème : la fenêtre est en verre car il est transparent. Introduire la phrase modèle \textit{«~La\ldots{} est en\ldots{} car elle est\ldots~»} et la faire répéter par trois élèves.
+
+\begin{astuce}
+Écrire chaque famille avec une couleur constante (bois marron, métal gris, plastique bleu, verre vert) sur tous les supports. Lire à voix haute chaque consigne. Autoriser le lecteur immersif du navigateur pour les consignes numériques.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B (version numérique : fichier «~L3\_Guidee~»).
+
+\medskip
+\textbf{3a. Exemple traité collectivement sur poste (12 min).} Chaque élève ouvre son fichier et suit l'enseignant, qui projette le sien. Objet étudié : \textbf{une paire de ciseaux}.
+\begin{enumerate}
+ \item Décomposer l'objet en parties (lames, manches, vis).
+ \item Pour chaque partie, remplir le tableau : matériau, famille, propriété qui justifie le choix.
+ \item Faire dire la phrase modèle à voix haute, puis la taper dans la case «~Je justifie~».
+\end{enumerate}
+
+\textbf{3b. Trois objets en binômes (18 min).} Objets : gourde, lunettes, chaise d'école. Les binômes alternent les rôles (une personne tient la souris, l'autre dicte), avec un changement de rôles au bout de 9 min.
+
+\textbf{Étayage progressif de l'aide.} Chaque binôme dispose de trois cartes d'aide à utiliser dans l'ordre.
+
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.4cm}Y p{4.6cm}}
+\toprule
+Niveau d'aide & Contenu & Qui intervient\\
+\midrule
+Aide 1 & Banque de mots des propriétés (diapositive d'aide) & Le binôme seul\\
+Aide 2 & Question guide : \emph{À quoi sert cette partie ? Quelle propriété lui faut-il ?} & Le binôme avec la carte\\
+Aide 3 & L'enseignant montre un seul exemple dans le tableau, puis le binôme termine & L'enseignant\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textit{Pendant ce temps, l'enseignant circule et note dans la grille d'observation les élèves à placer en niveau A, B ou C.}
+
+\begin{astuce}
+Placer un élève en difficulté avec un pair à l'aise. Prévoir un pictogramme par famille. Autoriser une réponse orale enregistrée ou par glisser-déposer pour les élèves qui écrivent peu.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\textbf{Consigne commune\,:} chaque élève ouvre le fichier de son groupe, le renomme avec son prénom et travaille seul. Les trois niveaux traitent la même notion avec une exigence différente. L'enseignant passe d'abord auprès du groupe A pendant 10 min.
+
+\medskip
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y p{3.2cm}}
+\toprule
+Groupe & Tâche sur poste & Annexe\\
+\midrule
+A : en dessous du niveau &
+Appariement objet--matériau (banque de mots, glisser-déposer), puis relier propriétés et familles, puis compléter trois phrases à trous. Guidage visuel fort : couleurs par famille et pictogrammes. & Annexe C\\
+B : au niveau &
+Remplir seul le tableau de huit objets (matériau, famille, propriété) puis répondre à trois questions de justification. & Annexe D\\
+C : au-dessus du niveau &
+Mission «~Détective des matériaux~» : analyser un objet composé de plusieurs matériaux, imaginer un changement de matériau et créer une carte devinette «~Qui suis-je ?~» pour la classe. & Annexe E\\
+\bottomrule
+\end{tabularx}
+
+\medskip
+\textbf{Plan B si un élève termine tôt\,:} proposer la fiche du niveau supérieur ou le défi «~Trouve trois objets de la classe faits de deux matériaux~».
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{teal}{5. Mise en commun}{95 -- 110 min}
+\begin{enumerate}
+ \item (2 min) Retour au calme, écrans mis en veille.
+ \item (9 min) Trois passages courts de 3 min, où chaque groupe est valorisé pour une réussite précise :
+ \begin{itemize}
+  \item \textbf{Groupe A} : un élève lit une phrase terminée à voix haute et la classe applaudit l'effort.
+  \item \textbf{Groupe B} : un binôme projette son tableau et explique un choix. Valoriser la justification, pas seulement la bonne réponse.
+  \item \textbf{Groupe C} : un élève lit sa devinette, la classe cherche, puis on montre comment il a justifié un changement de matériau.
+ \end{itemize}
+ \item (4 min) Reprendre la question-problème : \textit{Pourquoi la fenêtre est-elle en verre ?} Compléter collectivement le tableau de l'annexe A.
+\end{enumerate}
+\end{etape}
+
+\begin{etape}{gray}{6. Clôture : exit ticket}{110 -- 120 min}
+Formulaire en ligne ou papier (annexe G) :
+\begin{enumerate}
+ \item De quel matériau est faite la fenêtre ? Pourquoi ?
+ \item Donne deux propriétés du métal.
+ \item Auto-évaluation : \emph{Je maîtrise / Je progresse / J'ai besoin d'aide.}
+\end{enumerate}
+Lire les résultats avant la séance suivante pour constituer les groupes de besoin de la leçon 4.
+\end{etape}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Les matériaux des objets techniques}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{Un matériau} est la matière choisie pour fabriquer un objet.\\
+Un objet technique est souvent fabriqué avec \textbf{plusieurs} matériaux.
+\end{tcolorbox}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2cm}Y Y Y}
+\toprule
+Famille & Origine & Propriétés & Exemples\\
+\midrule
+\textcolor{brown!70!black}{Bois} & Arbres & Léger, flotte, isolant, brûle & Crayon, table\\
+\textcolor{gray!70!black}{Métal} & Minerais & Dur, lourd, conduit l'électricité, rouille (fer) & Cuillère, clé\\
+\textcolor{blue!70!black}{Plastique} & Pétrole & Léger, souple ou rigide, isolant, ne rouille pas & Règle, bouteille\\
+\textcolor{green!50!black}{Verre} & Sable & Transparent, dur, fragile & Fenêtre, bocal\\
+\bottomrule
+\end{tabularx}
+
+\medskip
+\begin{tcolorbox}[colback=green!8,colframe=green!50!black]
+\textbf{Phrase modèle :} La \underline{\hspace{2.5cm}} est en \underline{\hspace{2.5cm}} car elle est \underline{\hspace{2.5cm}}.
+\end{tcolorbox}
+
+\textbf{Mots utiles :} dur, souple, léger, lourd, transparent, opaque, fragile, résistant, conducteur, isolant, rouille, flotte.
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : les matériaux}
+
+\subsection*{3a. Exemple collectif : une paire de ciseaux}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.6cm}Y p{2.4cm}Y}
+\toprule
+Partie & Matériau & Famille & Propriété qui justifie\\
+\midrule
+Lames & Acier & Métal & \\
+Manches & & & \\
+Vis & & & \\
+\bottomrule
+\end{tabularx}
+
+\medskip
+\textbf{Je justifie :} La \dotfill{} est en \dotfill{} car elle est \dotfill.
+
+\subsection*{3b. En binôme : trois objets}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.4cm}p{2.6cm}Y p{2cm}Y}
+\toprule
+Objet & Partie & Matériau & Famille & Propriété\\
+\midrule
+Gourde & Corps & & & \\
+ & Bouchon & & & \\
+\midrule
+Lunettes & Verres & & & \\
+ & Monture & & & \\
+\midrule
+Chaise d'école & Pieds & & & \\
+ & Assise & & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} dur, souple, léger, lourd, transparent, fragile, résistant, conducteur, isolant, rouille, flotte.\\
+\textbf{Aide 2 :} À quoi sert cette partie ? Quelle propriété lui faut-il ?\\
+\textbf{Aide 3 :} Demande à l'enseignant de remplir une ligne avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je relie et je complète}
+
+\textbf{Banque de mots :} \textcolor{brown!70!black}{bois}, \textcolor{gray!70!black}{métal}, \textcolor{blue!70!black}{plastique}, \textcolor{green!50!black}{verre}, transparent, léger, dur, conduit l'électricité, fragile, flotte.
+
+\subsection*{Activité 1 : de quel matériau est fait cet objet ? (relie ou glisse)}
+\begin{tabularx}{\linewidth}{Y Y}
+\toprule
+\textbf{Objet} & \textbf{Matériau}\\
+\midrule
+1. La fenêtre de la classe & \\
+2. La cuillère de cuisine & \\
+3. La règle de ta trousse & \\
+4. Le corps d'un crayon & \\
+5. Un bocal de confiture & \\
+6. Une bouteille d'eau en plastique & \\
+7. Le plateau d'une table d'école & \\
+8. Une casserole & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Activité 2 : relie chaque propriété à sa famille}
+\begin{tabularx}{\linewidth}{Y Y}
+\toprule
+\textbf{Propriété} & \textbf{Famille}\\
+\midrule
+Il est transparent & \\
+Il flotte et il brûle & \\
+Il conduit l'électricité & \\
+Il est léger et ne rouille pas & \\
+Il est fragile, il casse facilement & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Activité 3 : complète avec la banque de mots}
+\begin{enumerate}
+ \item La fenêtre est en \dotfill{} car elle est \dotfill.
+ \item La cuillère est en \dotfill{} car elle est \dotfill.
+ \item La règle est en \dotfill{} car elle est \dotfill.
+\end{enumerate}
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : je classe et je justifie}
+
+\subsection*{Activité 1 : complète le tableau}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y p{2.4cm}Y}
+\toprule
+Objet (partie) & Matériau & Famille & Propriété qui justifie\\
+\midrule
+Cadre photo (bord) & & & \\
+Cadre photo (vitre) & & & \\
+Clé de porte & & & \\
+Ampoule (globe) & & & \\
+Seau de plage & & & \\
+Câble de chargeur (gaine) & & & \\
+Câble de chargeur (fils) & & & \\
+Banc du jardin & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Activité 2 : explique avec une phrase complète}
+\begin{enumerate}
+ \item Pourquoi les fils d'un câble électrique sont-ils en métal et la gaine en plastique ?\\ \lig \lig
+ \item Pourquoi ne fait-on pas de casserole en bois ?\\ \lig \lig
+ \item Comment savoir si une clé est en fer ? (indice : un outil de la boîte d'expériences)\\ \lig \lig
+\end{enumerate}
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : détective des matériaux}
+
+\textbf{Mission :} choisis \emph{un} objet parmi une lampe de poche, un casque de vélo, une trottinette.
+
+\subsection*{Étape 1 : fiche d'identité (au moins quatre parties)}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.2cm}Y Y}
+\toprule
+Partie & Matériau & Pourquoi ce matériau ?\\
+\midrule
+ & & \\ & & \\ & & \\ & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Étape 2 : et si on changeait ?}
+Choisis une pièce et remplace son matériau par un matériau d'une autre famille.\\
+Pièce : \dotfill{} \quad Nouveau matériau : \dotfill\\
+Ce qui devient mieux : \dotfill\\
+Ce qui devient moins bien : \dotfill
+
+\subsection*{Étape 3 : carte devinette «~Qui suis-je ?~»}
+Écris trois indices sur les propriétés du matériau, sans le nommer. La classe devra le deviner.\\
+Indice 1 : \dotfill\\
+Indice 2 : \dotfill\\
+Indice 3 : \dotfill\\
+Je suis le \dotfill{} (réponse cachée).
+
+\textbf{Défi bonus :} trouve un objet de la classe fait de deux matériaux qui ont des propriétés opposées, et explique pourquoi on les a associés.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B : pratique guidée}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3cm}Y Y}
+\toprule
+Objet / partie & Réponse attendue & Propriété\\
+\midrule
+Ciseaux, lames & Acier (métal) & Dur, résistant, coupe\\
+Ciseaux, manches & Plastique & Léger, confortable, ne rouille pas\\
+Ciseaux, vis & Métal & Résistant, solide\\
+Gourde, corps & Inox (métal) ou plastique & Résistant, ne rouille pas / léger\\
+Gourde, bouchon & Plastique & Léger, imperméable\\
+Lunettes, verres & Verre ou plastique transparent & Transparent\\
+Lunettes, monture & Plastique ou métal & Léger, souple ou résistant\\
+Chaise, pieds & Métal ou bois & Solide, rigide\\
+Chaise, assise & Plastique ou bois & Léger, résistant\\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Annexe C : niveau A}
+Activité 1 : 1 verre ; 2 métal ; 3 plastique ; 4 bois ; 5 verre ; 6 plastique ; 7 bois ; 8 métal.\\
+Activité 2 : transparent \fl{} verre ; flotte et brûle \fl{} bois ; conduit l'électricité \fl{} métal ; léger et ne rouille pas \fl{} plastique ; fragile \fl{} verre.\\
+Activité 3 : verre / transparent ; métal / dur (ou conduit la chaleur) ; plastique / léger.
+
+\subsection*{Annexe D : niveau B}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{4.2cm}Y Y}
+\toprule
+Objet (partie) & Matériau / famille & Propriété\\
+\midrule
+Cadre photo, bord & Bois ou plastique & Rigide, léger\\
+Cadre photo, vitre & Verre & Transparent\\
+Clé & Métal (laiton, acier) & Dur, résistant\\
+Ampoule, globe & Verre & Transparent, isolant\\
+Seau de plage & Plastique & Léger, imperméable\\
+Câble, gaine & Plastique & Isolant\\
+Câble, fils & Métal (cuivre) & Conduit l'électricité\\
+Banc & Bois ou métal & Résistant à l'extérieur\\
+\bottomrule
+\end{tabularx}
+
+\medskip
+Questions : 1. Le métal conduit l'électricité et le plastique est isolant, donc la gaine protège. 2. Le bois brûle, il ne supporte pas la chaleur d'une plaque. 3. Avec un aimant, car le fer est attiré.
+
+\subsection*{Annexe E : niveau C}
+Exemple (lampe de poche) : boîtier en plastique ou aluminium (léger, isolant ou résistant) ; lentille en verre ou plastique transparent ; ressort et contacts en métal (conduisent l'électricité) ; bouton en plastique (isolant, souple).\\
+\textbf{Critères de réussite :} au moins quatre parties avec une justification par propriété ; un changement de matériau avec un avantage et un inconvénient ; trois indices corrects et dans l'ordre du plus difficile au plus facile.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : les matériaux}
+
+\begin{enumerate}
+ \item De quel matériau est faite la fenêtre de la classe ? Pourquoi ?\\ \lig
+ \item Donne deux propriétés du métal.\\ \lig
+ \item Je me sens : \cb Je maîtrise \quad \cb Je progresse \quad \cb J'ai besoin d'aide
+\end{enumerate}
+
+\textbf{Attendus :} 1. Verre, car il est transparent. 2. Par exemple dur, conduit l'électricité, lourd, rouille (fer).
+
+\bigskip
+\subsection*{Grille d'observation (enseignant)}
+\begin{tabularx}{\linewidth}{Y p{2.4cm} p{2.4cm} p{2.4cm} Y}
+\toprule
+Élève & Familles identifiées & Propriétés citées & Justification & Groupe suivant\\
+\midrule
+ & & & & \\ & & & & \\ & & & & \\ & & & & \\ & & & & \\
+\bottomrule
+\end{tabularx}
+
+\end{document}

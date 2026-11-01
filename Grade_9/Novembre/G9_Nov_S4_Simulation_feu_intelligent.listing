@@ -1,0 +1,10 @@
+bool nuit = _____;
+
+void loop() {
+  if (_____) {
+    digitalWrite(9, HIGH); delay(_____);
+    digitalWrite(9, _____); delay(500);
+  } else {
+    // cycle normal
+  }
+}

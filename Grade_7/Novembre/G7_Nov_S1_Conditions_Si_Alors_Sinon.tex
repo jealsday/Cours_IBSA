@@ -1,0 +1,294 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 7}
+\newcommand{\leconhdr}{Les conditions Si / Alors / Sinon}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Les conditions Si / Alors / Sinon}{Semaine du 2 au 6 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Les conditions Si / Alors / Sinon (Scratch)\\
+Classe / effectif & Grade 7, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec Scratch 3 (éditeur en ligne scratch.mit.edu ou version hors ligne).
+ \item Vidéoprojecteur ou tableau interactif.
+ \item Des projets de départ «~à compléter~» préparés par l'enseignant (un fichier \texttt{.sb3} par niveau), à placer dans un dossier partagé.
+ \item Facultatif : un compte Scratch par élève pour enregistrer en ligne. Sinon, enregistrer en \texttt{.sb3} sur le poste.
+\end{itemize}\\
+Pré-requis &
+Blocs de mouvement et d'apparence, création d'une animation simple, notion de variable (septembre). Le bloc \texttt{si\ldots{} alors} a été découvert du 19 au 23 octobre.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 40 min)]
+\begin{enumerate}
+ \item Préparer trois projets de départ : A (chat qui change de couleur, avec blocs à compléter), B (jeu «~plus grand ou plus petit~» sans la condition), C (jeu de devinette vide).
+ \item Tester les projets dans la version utilisée par les élèves.
+ \item Créer le formulaire de sortie (annexe G) dans Google Forms ou imprimer l'annexe.
+ \item Constituer les groupes A, B, C à partir du Map Test d'octobre et des observations.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Utiliser plusieurs choix dans un programme.
+ \item Développer la logique algorithmique.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item d'écrire une condition avec un test (égal, plus grand, plus petit)\,;
+ \item d'utiliser les blocs \texttt{si\ldots{} alors} et \texttt{si\ldots{} alors\ldots{} sinon} pour obtenir deux comportements différents\,;
+ \item de prédire le résultat d'un programme avant de l'exécuter et d'expliquer l'écart si besoin.
+\end{itemize}
+\textbf{Compétences numériques\,:} ouvrir et enregistrer un projet, tester et corriger, nommer ses fichiers.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Le jeu «~Si\ldots{} alors\ldots~» sans écran}{Condition, test et sinon}{Un jeu «~plus grand ou plus petit~» collectif, puis un deuxième en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : le jeu «~Si\ldots{} alors\ldots~»}{0 -- 10 min}
+\textbf{But\,:} faire sentir qu'un programme choisit selon une situation.\\
+\textbf{Écrans éteints.}
+\begin{enumerate}
+ \item (5 min) L'enseignant joue le robot. Il annonce des règles : \emph{Si je lève la main, alors vous vous levez. Sinon vous restez assis.} Faire jouer trois règles, dont une avec deux conditions (\emph{si la carte est rouge}).
+ \item (5 min) Question-problème : \textbf{«~Comment un programme sait-il quoi faire quand il y a deux possibilités ?~»} Recueillir des exemples de la vie courante (feu rouge ou vert, porte automatique).
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : condition, test, sinon}{10 -- 30 min}
+\textbf{Support\,:} schéma construit au tableau (annexe A). Quatre temps de 5 min.
+
+\textbf{Temps 1 : une condition.} Une condition est une question dont la réponse est \emph{vrai} ou \emph{faux}. Exemples : \texttt{touche la couleur rouge ?}, \texttt{score > 5}.
+
+\textbf{Temps 2 : le bloc si\ldots{} alors.} Si la condition est vraie, on exécute les blocs à l'intérieur. Sinon, on les saute.
+
+\textbf{Temps 3 : le bloc sinon.} Deux chemins, un seul est exécuté.
+
+\begin{center}
+\begin{tikzpicture}[box/.style={draw,rounded corners,thick,minimum height=1cm,text width=3cm,align=center,font=\small},>={Stealth[length=3mm]}]
+\node[box,fill=blue!15] (c) {Condition vraie ou fausse ?};
+\node[box,fill=green!15,below left=0.8cm and 0.5cm of c] (v) {Vrai : \\ blocs du \texttt{alors}};
+\node[box,fill=red!10,below right=0.8cm and 0.5cm of c] (f) {Faux : \\ blocs du \texttt{sinon}};
+\draw[->,thick] (c)--(v); \draw[->,thick] (c)--(f);
+\end{tikzpicture}
+\end{center}
+
+\textbf{Temps 4 : prédire avant d'exécuter.} Écrire au tableau trois petits programmes. Pour chacun, la classe lève 1, 2 ou 3 doigts pour son résultat prévu, puis on teste.
+
+\begin{astuce}
+Donner une couleur à chaque bloc (condition en bleu, alors en vert, sinon en rouge) sur tous les supports. Lire chaque programme à voix haute en disant «~si~», «~alors~», «~sinon~».
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B.
+
+\textbf{3a. Exemple collectif sur poste (12 min).} Ouvrir le projet de départ B. Objectif : le chat dit «~Gagné~» si le nombre secret est égal au nombre tapé, «~Perdu~» sinon.
+\begin{enumerate}
+ \item Lire le programme existant et prédire ce qu'il fait.
+ \item Ajouter ensemble le bloc \texttt{si\ldots{} alors\ldots{} sinon} avec le test \texttt{réponse = nombre secret}.
+ \item Tester avec une bonne et une mauvaise réponse.
+\end{enumerate}
+
+\textbf{3b. Second exemple en binômes (18 min).} Programmer un chat qui dit «~plus petit~» ou «~plus grand~» selon le nombre tapé. Alternance des rôles à mi-temps.
+
+\aides{Projet B corrigé du 3a affiché au tableau et schéma de l'annexe A}{Questions guides : \emph{Quelle est la condition ? Que se passe-t-il si elle est vraie ? Et si elle est fausse ?}}{L'enseignant place le bloc \texttt{si} dans le programme, le binôme complète}
+
+\begin{astuce}
+Proposer un projet où les blocs sont déjà présents mais mélangés pour les élèves qui ont peur d'un écran vide. Laisser le temps de tester plusieurs fois.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Projet à compléter : les blocs sont donnés, il faut les ranger dans l'ordre dans un \texttt{si\ldots{} alors\ldots{} sinon}, avec des étiquettes de couleur (chat qui change de couleur selon la touche pressée).}{Programmer seul un jeu de devinette : un nombre secret, trois essais, des messages «~plus grand~», «~plus petit~», «~gagné~» avec des conditions imbriquées.}{Concevoir un jeu avec deux conditions combinées (\texttt{et}, \texttt{ou}) : par exemple un personnage qui évite un obstacle seulement si la touche flèche est pressée \emph{et} la couleur est rouge. Documenter le programme avec des commentaires.}
+
+\medskip
+\textbf{Plan B si un élève termine tôt\,:} corriger le projet d'un camarade dont l'erreur a été préparée par l'enseignant.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève lit à voix haute son programme avec «~si~», «~alors~», «~sinon~». Valoriser la lecture dans le bon ordre.}{un binôme projette son jeu et explique ses conditions. Valoriser la clarté.}{un élève présente sa condition combinée. Valoriser la complexité maîtrisée.}{\textit{une condition donne deux chemins, un seul est exécuté.} Annoncer que la leçon suivante utilisera des boucles.}
+
+\cloture{Quel bloc faut-il utiliser pour obtenir deux comportements différents selon une condition ?}{Que fait ce programme : si 3 > 5 alors dire «~A~» sinon dire «~B~» ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Les conditions Si / Alors / Sinon}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{Condition} : une question dont la réponse est \emph{vrai} ou \emph{faux}.\\
+\textbf{Si\ldots{} alors} : exécute des blocs seulement si la condition est vraie.\\
+\textbf{Si\ldots{} alors\ldots{} sinon} : choisit entre deux chemins.
+\end{tcolorbox}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.4cm}Y Y}
+\toprule
+Test & Exemple Scratch & Vrai quand\ldots\\
+\midrule
+Égal & \texttt{réponse = 7} & la réponse vaut 7\\
+Plus grand & \texttt{score > 5} & le score dépasse 5\\
+Plus petit & \texttt{vie < 3} & la vie est inférieure à 3\\
+Touche & \texttt{touche espace pressée ?} & on appuie sur espace\\
+\bottomrule
+\end{tabularx}
+
+\begin{code}[Modèle]
+si <condition> alors\\
+\hspace*{1cm}blocs si vrai\\
+sinon\\
+\hspace*{1cm}blocs si faux
+\end{code}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : si / alors / sinon}
+
+\subsection*{3a. Exemple collectif : gagné ou perdu}
+Condition choisie : \dotfill\\
+Si vrai, le chat dit : \dotfill\\
+Si faux, le chat dit : \dotfill
+
+\textbf{Test 1} (bonne réponse) : résultat \dotfill\quad \textbf{Test 2} (mauvaise réponse) : résultat \dotfill
+
+\subsection*{3b. En binôme : plus grand ou plus petit}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{4cm}Y Y}
+\toprule
+Étape & Ce que je fais & Mon test\\
+\midrule
+1. Nombre secret & & \\
+2. Demander un nombre & & \\
+3. Condition & & \\
+4. Messages & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le programme du 3a.\\
+\textbf{Aide 2 :} Quelle est la condition ? Que se passe-t-il si elle est vraie ? Et si elle est fausse ?\\
+\textbf{Aide 3 :} demande à l'enseignant de placer le bloc \texttt{si} avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je range les blocs}
+
+\textbf{Projet de départ :} «~Chat qui change de couleur~» (blocs donnés, à ranger).
+
+\subsection*{Activité 1 : relie chaque situation à sa condition}
+\begin{tabularx}{\linewidth}{Y Y}
+\toprule
+\textbf{Situation} & \textbf{Condition à utiliser}\\
+\midrule
+Le chat change de couleur si on appuie sur espace & \texttt{touche espace pressée ?}\\
+Le chat dit «~Gagné~» si le score est plus grand que 10 & \texttt{score > 10}\\
+Le chat avance si la réponse est 5 & \texttt{réponse = 5}\\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Activité 2 : mets les blocs dans l'ordre (numérote)}
+\dotfill{} \texttt{sinon : dire «~Perdu~»}\\
+\dotfill{} \texttt{si réponse = 7 alors : dire «~Gagné~»}\\
+\dotfill{} \texttt{demander «~Quel nombre ?~»}
+
+\subsection*{Activité 3 : prédis puis teste}
+Que se passe-t-il si la réponse est 7 ? \dotfill\quad Si elle est 4 ? \dotfill
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : je programme un jeu de devinette}
+
+\textbf{Cahier des charges :} le programme choisit un nombre secret entre 1 et 10, laisse trois essais et répond «~plus grand~», «~plus petit~» ou «~gagné~».
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{4cm}Y}
+\toprule
+Étape & Mon programme (blocs principaux)\\
+\midrule
+Nombre secret & \\
+Essai 1 & \\
+Essai 2 & \\
+Essai 3 & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Questions}
+\begin{enumerate}
+ \item Combien de conditions as-tu utilisées ? \dotfill
+ \item Quel cas n'est pas géré dans ton programme ? \dotfill
+\end{enumerate}
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : conditions combinées}
+
+\textbf{Mission :} crée un jeu où un personnage doit éviter un obstacle.
+
+\begin{enumerate}
+ \item Le personnage saute seulement si la touche flèche est pressée \textbf{et} qu'il touche le sol.
+ \item Si l'obstacle touche le personnage, alors le score diminue, sinon le score augmente.
+ \item Ajoute des commentaires (blocs de commentaire) qui expliquent chaque condition.
+\end{enumerate}
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{4cm}Y}
+\toprule
+Condition & Rôle dans le jeu\\
+\midrule
+ & \\ & \\ & \\
+\bottomrule
+\end{tabularx}
+
+\textbf{Défi bonus :} ajoute un niveau de difficulté : l'obstacle accélère si le score dépasse 10.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+3a : condition \texttt{réponse = nombre secret} ; vrai : «~Gagné~» ; faux : «~Perdu~». 3b : \texttt{si réponse = nombre secret alors dire «~gagné~» sinon} (puis, \emph{à l'intérieur du sinon}) \texttt{si réponse < nombre secret alors dire «~plus grand~» sinon dire «~plus petit~»}. Scratch n'a pas de bloc «~sinon si~» : on imbrique un deuxième \texttt{si}.
+
+\subsection*{Annexe C}
+Activité 1 : relier dans l'ordre du tableau. Activité 2 : 1 demander ; 2 si réponse = 7 ; 3 sinon. Activité 3 : «~Gagné~» ; «~Perdu~».
+
+\subsection*{Annexe D}
+Programme attendu : nombre secret aléatoire, boucle de trois essais (ou trois blocs), trois cas gérés (plus petit, plus grand, égal). Cas oublié courant : réponse non numérique.
+
+\subsection*{Annexe E}
+Conditions attendues : \texttt{touche flèche pressée} \textbf{et} \texttt{touche le sol}, \texttt{touche l'obstacle ?} avec sinon.\\
+\textbf{Critères de réussite :} deux conditions correctes, un comportement différent selon le résultat, des commentaires utiles.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : si / alors / sinon}
+
+\begin{enumerate}
+ \item Quel bloc faut-il utiliser pour obtenir deux comportements différents selon une condition ?\\ \lig
+ \item Que fait ce programme : si 3 > 5 alors dire «~A~» sinon dire «~B~» ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. \texttt{si\ldots{} alors\ldots{} sinon}. 2. Il dit «~B~» car 3 n'est pas plus grand que 5.
+
+\bigskip
+\grille{Condition écrite}{Sinon utilisé}{Test réalisé}
+
+\end{document}

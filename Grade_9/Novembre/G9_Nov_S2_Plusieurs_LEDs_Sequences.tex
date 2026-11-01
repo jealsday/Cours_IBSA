@@ -1,0 +1,317 @@
+\documentclass[11pt,a4paper]{article}
+\newcommand{\gradelabel}{Grade 9}
+\newcommand{\leconhdr}{Plusieurs LEDs et séquences lumineuses}
+\input{../../preambule_robotique.tex}
+
+\begin{document}
+\titreblock{Plusieurs LEDs et séquences lumineuses}{Semaine du 9 au 13 novembre 2026}
+
+%==================================================================
+\section{Informations générales}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{3.6cm}Y}
+\toprule
+Titre & Plusieurs LEDs et séquences lumineuses\\
+Classe / effectif & Grade 9, 11 à 20 élèves, niveaux hétérogènes, élèves à besoins particuliers\\
+Durée & 2 heures (120 min)\\
+Lieu & Salle informatique, un poste par élève\\
+Matériel et logiciels &
+\begin{itemize}
+ \item Un poste par élève avec navigateur web : \textbf{Tinkercad Circuits} pour construire et simuler le montage.
+ \item Arduino IDE installé sur les postes pour vérifier et copier le code.
+ \item Facultatif : une carte Arduino Uno, trois LEDs et trois résistances de 220~$\Omega$ par binôme.
+ \item Vidéoprojecteur ou tableau interactif.
+\end{itemize}\\
+Pré-requis &
+Séance précédente : \texttt{pinMode}, \texttt{digitalWrite}, \texttt{delay}, période et fréquence.\\
+\bottomrule
+\end{tabularx}
+
+\begin{astuce}[Préparation avant le cours (environ 40 min)]
+\begin{enumerate}
+ \item Préparer un circuit modèle partagé avec trois LEDs (rouge, jaune, verte) sur les broches 8, 9 et 10, chacune avec sa résistance.
+ \item Préparer les fichiers des annexes C à E et le formulaire de sortie.
+ \item Vérifier que tous les élèves peuvent dupliquer le circuit modèle.
+\end{enumerate}
+\end{astuce}
+
+%==================================================================
+\section{Objectifs d'apprentissage}
+\begin{tcolorbox}[colback=gray!8,colframe=gray!60!black,arc=1mm,boxrule=0.5pt]
+\textbf{Objectifs du programme}
+\begin{itemize}
+ \item Contrôler plusieurs sorties numériques.
+ \item Créer des effets lumineux programmés.
+\end{itemize}
+\textbf{À la fin de la séance, l'élève est capable\,:}
+\begin{itemize}
+ \item de câbler et déclarer plusieurs LEDs sur des broches différentes\,;
+ \item d'écrire une séquence (chenillard) en ordonnant les instructions dans le temps\,;
+ \item de simplifier un programme répétitif avec une boucle \texttt{for} (niveau C).
+\end{itemize}
+\textbf{Compétences numériques\,:} dupliquer et modifier un circuit, lire un message d'erreur, tester par étapes.
+\end{tcolorbox}
+
+%==================================================================
+\section{Déroulé minuté (120 min)}
+\minutage{Les guirlandes et les phares qui s'enchaînent}{Plusieurs sorties et séquence}{Deux LEDs en collectif, puis un chenillard de trois LEDs en binômes}{Trois niveaux de besoin}{Valoriser chaque groupe}{Trois questions sur poste}
+
+%------------------------------------------------------------------
+\begin{etape}{orange}{1. Accroche : guirlandes et phares}{0 -- 10 min}
+\begin{enumerate}
+ \item (5 min) Projeter des images d'une guirlande de Noël, d'un panneau lumineux de chantier et de l'avant d'une voiture de patrouille. \emph{Combien de lumières ? Dans quel ordre s'allument-elles ?}
+ \item (5 min) Les élèves miment une séquence : trois élèves se lèvent un par un, dans l'ordre. Question-problème : \textbf{«~Comment écrire un programme pour que plusieurs lumières s'allument l'une après l'autre ?~»}
+\end{enumerate}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{blue}{2. Mini-leçon : plusieurs sorties et séquences}{10 -- 30 min}
+\textbf{Support\,:} annexe A. Quatre temps de 5 min.
+
+\textbf{Temps 1 : une broche par LED.} Chaque LED a sa broche et sa résistance. Toutes partagent la masse (GND).
+
+\begin{center}
+\begin{tabularx}{0.9\linewidth}{>{\bfseries}c c c}
+\toprule
+LED & Broche & Couleur\\
+\midrule
+L1 & 8 & rouge\\
+L2 & 9 & jaune\\
+L3 & 10 & verte\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\textbf{Temps 2 : déclarer chaque broche.}
+\begin{arduino}[Déclarations]
+void setup() {
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+}
+\end{arduino}
+
+\textbf{Temps 3 : une séquence est un ordre dans le temps.}
+\begin{arduino}[Chenillard de trois LEDs]
+void loop() {
+  digitalWrite(8, HIGH);  delay(300);  digitalWrite(8, LOW);
+  digitalWrite(9, HIGH);  delay(300);  digitalWrite(9, LOW);
+  digitalWrite(10, HIGH); delay(300);  digitalWrite(10, LOW);
+}
+\end{arduino}
+
+\textbf{Temps 4 : prédire avant de simuler.} Au tableau, présenter une variante (ordre 10, 9, 8) et demander ce que la classe voit. Introduire l'idée de «~chronogramme~» : un tableau de quand chaque LED est allumée.
+
+\begin{center}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2cm}c c c c}
+\toprule
+Temps (ms) & 0--300 & 300--600 & 600--900 & 900--\ldots\\
+\midrule
+L1 (8) & allumée & éteinte & éteinte & allumée\\
+L2 (9) & éteinte & allumée & éteinte & éteinte\\
+L3 (10) & éteinte & éteinte & allumée & éteinte\\
+\bottomrule
+\end{tabularx}
+\end{center}
+
+\begin{astuce}
+Utiliser le même code couleur pour les LEDs sur le schéma, dans le tableau et dans le code. Écrire une instruction par ligne pour faciliter la lecture, même si le code semble long.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{green}{3. Pratique guidée}{30 -- 60 min}
+\textbf{Fiche\,:} annexe B.
+
+\textbf{3a. Deux LEDs en alternance en collectif (12 min).} Dupliquer le circuit, programmer ensemble l'alternance de L1 et L2 (une allumée pendant que l'autre est éteinte), et simuler.
+
+\textbf{3b. Chenillard de trois LEDs en binômes (18 min).} Programmer le chenillard, puis l'aller-retour (8, 9, 10, 9, 8). Remplir le chronogramme. Alternance des rôles.
+
+\aides{Le programme à deux LEDs du 3a et le chronogramme à compléter}{Questions guides : \emph{Quelle LED est allumée pendant les 300 premières millisecondes ? Quelle instruction l'éteint ?}}{L'enseignant écrit la première ligne de la séquence avec le binôme}
+
+\begin{astuce}
+Faire tester la séquence LED par LED avant de l'assembler. Si le montage ne s'allume pas, vérifier le sens de la LED (patte longue vers la broche) et la résistance.
+\end{astuce}
+\end{etape}
+
+%------------------------------------------------------------------
+\begin{etape}{violet}{4. Pratique autonome différenciée}{60 -- 95 min}
+\groupes{Programme du chenillard à compléter (lignes manquantes signalées par des tirets) et chronogramme à remplir. Banque de mots : \texttt{HIGH}, \texttt{LOW}, \texttt{delay}, \texttt{8}, \texttt{9}, \texttt{10}.}{Chenillard aller-retour de trois LEDs avec un effet d'alternance (L1 et L3 allumées, puis L2), et chronogramme complet.}{Créer un chenillard de cinq LEDs (broches 8 à 12) en utilisant une boucle \texttt{for} pour la déclaration et pour la séquence, avec un aller-retour. Expliquer par écrit pourquoi la boucle est plus courte.}
+
+\medskip
+\textbf{Plan B si un élève termine tôt\,:} inventer un effet original (par exemple «~feux de détresse~» ou «~vagues~») et le décrire dans un chronogramme.
+\end{etape}
+
+%------------------------------------------------------------------
+\miseencommun{un élève présente son chenillard en simulation et lit son chronogramme. Valoriser le lien entre le code et le tableau.}{un binôme montre son effet d'alternance et explique sa logique. Valoriser la créativité maîtrisée.}{un élève montre le code à boucle \texttt{for} et le compare au code sans boucle. Valoriser l'économie de code.}{\textit{une séquence est un ordre dans le temps ; un chronogramme l'écrit avant de programmer.} Annoncer le feu tricolore pour la semaine suivante.}
+
+\cloture{Quelles instructions faut-il pour allumer la broche 9 pendant 500 ms puis l'éteindre ?}{Dans le chenillard 8, 9, 10, quelle LED est allumée en dernier ?}
+
+%==================================================================
+% ANNEXES
+%==================================================================
+\newpage
+\section*{Annexe A : Support résumé de la mini-leçon}
+\entete{blue}{Plusieurs LEDs et séquences}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black]
+\textbf{Chaque LED a sa broche et sa résistance.} Il faut déclarer chaque broche avec \texttt{pinMode} dans \texttt{setup}. Une \textbf{séquence} est un ordre d'actions dans le temps.
+\end{tcolorbox}
+
+\begin{arduino}[Modèle de chenillard]
+void setup() {
+  pinMode(8, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(10, OUTPUT);
+}
+void loop() {
+  digitalWrite(8, HIGH);  delay(300);  digitalWrite(8, LOW);
+  digitalWrite(9, HIGH);  delay(300);  digitalWrite(9, LOW);
+  digitalWrite(10, HIGH); delay(300);  digitalWrite(10, LOW);
+}
+\end{arduino}
+
+\begin{arduino}[Version avec boucle for (niveau C)]
+void setup() {
+  for (int pin = 8; pin <= 12; pin++) {
+    pinMode(pin, OUTPUT);
+  }
+}
+void loop() {
+  for (int pin = 8; pin <= 12; pin++) {
+    digitalWrite(pin, HIGH);
+    delay(150);
+    digitalWrite(pin, LOW);
+  }
+}
+\end{arduino}
+
+%==================================================================
+\newpage
+\section*{Annexe B : Fiche de pratique guidée}
+\entete{green}{Pratique guidée : plusieurs LEDs}
+
+\subsection*{3a. Alternance de deux LEDs}
+Quelle LED est allumée en premier ? \dotfill\quad Pendant combien de temps ? \dotfill
+
+\subsection*{3b. Chenillard (chronogramme à compléter)}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.4cm}Y Y Y Y}
+\toprule
+Temps (ms) & 0--300 & 300--600 & 600--900 & 900--1200\\
+\midrule
+L1 (8) & & & & \\
+L2 (9) & & & & \\
+L3 (10) & & & & \\
+\bottomrule
+\end{tabularx}
+
+\begin{tcolorbox}[colback=yellow!10,colframe=yellow!50!black,title={Cartes d'aide à utiliser dans l'ordre},fonttitle=\bfseries\small]
+\textbf{Aide 1 :} regarde le programme à deux LEDs et le chronogramme du tableau.\\
+\textbf{Aide 2 :} Quelle LED est allumée pendant les 300 premières millisecondes ? Quelle instruction l'éteint ?\\
+\textbf{Aide 3 :} demande à l'enseignant d'écrire la première ligne de la séquence avec toi.
+\end{tcolorbox}
+
+%==================================================================
+\newpage
+\section*{Annexe C : Niveau A (en dessous du niveau)}
+\entete{orange}{Niveau A : je complète le chenillard}
+
+\begin{arduino}[Programme à compléter]
+void setup() {
+  pinMode(8, OUTPUT);
+  pinMode(__, OUTPUT);
+  pinMode(__, OUTPUT);
+}
+void loop() {
+  digitalWrite(8, _____);  delay(300);  digitalWrite(8, _____);
+  digitalWrite(9, HIGH);   delay(____); digitalWrite(9, LOW);
+  digitalWrite(__, HIGH);  delay(300);  digitalWrite(__, LOW);
+}
+\end{arduino}
+
+\textbf{Banque :} HIGH, LOW, 9, 10, 300.
+
+\subsection*{Activité : chronogramme}
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2cm}Y Y Y}
+\toprule
+Temps (ms) & 0--300 & 300--600 & 600--900\\
+\midrule
+L1 (8) & & & \\
+L2 (9) & & & \\
+L3 (10) & & & \\
+\bottomrule
+\end{tabularx}
+
+%==================================================================
+\newpage
+\section*{Annexe D : Niveau B (au niveau)}
+\entete{blue}{Niveau B : aller-retour et alternance}
+
+\textbf{Mission 1 :} chenillard aller-retour : 8, 9, 10, 9, 8, puis on recommence.\\
+\textbf{Mission 2 :} effet d'alternance : L1 et L3 allumées ensemble, puis L2 seule.
+
+\begin{tabularx}{\linewidth}{>{\bfseries}p{2.4cm}Y Y Y Y}
+\toprule
+Temps (ms) & 0--300 & 300--600 & 600--900 & 900--1200\\
+\midrule
+L1 (8) & & & & \\
+L2 (9) & & & & \\
+L3 (10) & & & & \\
+\bottomrule
+\end{tabularx}
+
+\subsection*{Question}
+Combien de lignes \texttt{digitalWrite} dans ton aller-retour ? \dotfill
+
+%==================================================================
+\newpage
+\section*{Annexe E : Niveau C (au-dessus du niveau)}
+\entete{violet}{Niveau C : chenillard de cinq LEDs avec for}
+
+\textbf{Mission :} cinq LEDs sur les broches 8 à 12. Un aller puis un retour avec des boucles \texttt{for}.
+
+\begin{arduino}[Aide : aller et retour]
+for (int pin = 8; pin <= 12; pin++) { /* aller */ }
+for (int pin = 11; pin >= 9; pin--) { /* retour */ }
+\end{arduino}
+
+\begin{enumerate}
+ \item Écris le programme complet.\\ \lig \lig \lig
+ \item Pourquoi la boucle de retour commence-t-elle à 11 et finit-elle à 9 ? \dotfill
+ \item Compare le nombre de lignes avec une version sans boucle : \dotfill
+\end{enumerate}
+
+\textbf{Défi bonus :} une variable \texttt{vitesse} qui règle le \texttt{delay} pour accélérer le chenillard.
+
+%==================================================================
+\newpage
+\section*{Annexe F : Corrections et attendus (enseignant)}
+
+\subsection*{Annexe B}
+Chronogramme : une seule LED allumée à la fois, dans l'ordre L1, L2, L3, puis L1 revient à 900 ms.
+
+\subsection*{Annexe C}
+Lignes à compléter : \texttt{HIGH} et \texttt{LOW}, \texttt{300}, broches 9 et 10. Chronogramme : L1 puis L2 puis L3.
+
+\subsection*{Annexe D}
+Aller-retour : \texttt{8, 9, 10, 9} puis boucle (8 recommence). Alternance : \texttt{digitalWrite(8,HIGH); digitalWrite(10,HIGH);} puis \texttt{delay}, extinction, puis 9. Au moins 12 lignes \texttt{digitalWrite} pour l'aller-retour.
+
+\subsection*{Annexe E}
+Retour : on part de 11 pour ne pas rallumer 12 deux fois, et on finit à 9 pour que 8 démarre l'aller suivant (pas de double allumage aux extrémités). Version avec boucle : environ 10 lignes, sans boucle : environ 20.\\
+\textbf{Critères de réussite :} déclaration par boucle, aller-retour correct, explication des bornes.
+
+%==================================================================
+\newpage
+\section*{Annexe G : Exit ticket et grille d'observation}
+\entete{gray}{Exit ticket : plusieurs LEDs}
+
+\begin{enumerate}
+ \item Quelles instructions faut-il pour allumer la broche 9 pendant 500 ms puis l'éteindre ?\\ \lig
+ \item Dans le chenillard 8, 9, 10, quelle LED est allumée en dernier ?\\ \lig
+ \item \autoeval
+\end{enumerate}
+\textbf{Attendus :} 1. \texttt{digitalWrite(9, HIGH); delay(500); digitalWrite(9, LOW);} 2. La LED de la broche 10.
+
+\bigskip
+\grille{Chronogramme}{Programme fonctionnel}{Simulation réussie}
+
+\end{document}

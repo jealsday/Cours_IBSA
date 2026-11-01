@@ -1,0 +1,14 @@
+void setup() {
+  Serial.begin(115200);
+  pinMode(4, INPUT_PULLUP);       // bouton
+}
+
+void loop() {
+  int bouton = digitalRead(4);    // numerique : 0 ou 1
+  int pot = analogRead(34);       // analogique : 0 a 4095
+  Serial.print("bouton = ");
+  Serial.print(bouton);
+  Serial.print("   pot = ");
+  Serial.println(pot);
+  delay(300);
+}
